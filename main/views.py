@@ -3,6 +3,7 @@ import random
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
@@ -76,4 +77,18 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def main(request: HttpRequest):
-    return render(request, "views/main.html")
+    if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        projects_count = Project.objects.all().count()
+        rated_projects_count = Project.rated_objects.all().count()
+        unrated_projects_count = Project.unrated_objects.all().count()
+        return render(
+            request,
+            "views/main/moderator.html",
+            {
+                "projects_count": projects_count,
+                "rated_projects_count": rated_projects_count,
+                "unrated_projects_count": unrated_projects_count,
+            },
+        )
+
+    return render(request, "views/main/jury.html")
