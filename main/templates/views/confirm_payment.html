@@ -1,0 +1,40 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Tölegi tassyklamak
+{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/floating_input.css' %}">
+{% endblock head %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="m-2">Emailyňyza gelen kody giriziň:</div>
+            <div class="floating-label my-3">
+                <input class="floating-label__input"
+                       type="number"
+                       id="code"
+                       name="code"
+                       autocomplete="off"
+                       required
+                       placeholder=" " />
+                <div class="floating-label__outline">
+                    <div class="floating-label__leading"></div>
+                    <div class="floating-label__notch">
+                        <label class="floating-label__label" for="code">Kod</label>
+                    </div>
+                    <div class="floating-label__trailing"></div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center w-100">
+                <button class="btn disabled button w-50" id="accept-btn">Tassyklamak</button>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    {{ confirmation_code|json_script:"confirmation-code" }}
+    {{ history_pk|json_script:"history-pk" }}
+    <script src="{% static 'js/alert.js' %}"></script>
+    <script src="{% static 'js/confirm_payment.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    text-align: center;
+    background: #eee;
+}
+
+.credit-card {
+    width: 10em;
+    height: 6.5em;
+    margin: 1em 0.5em 0 0.5em;
+    display: inline-block !important;
+    position: relative;
+    display: block;
+    font-size: 32px;
+    color: #fff;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 0.25em;
+    background-color: #424242;
+    background-position: center, bottom 0.5em right 0.5em;
+    background-size: cover, 4em auto;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(255, 255, 255, 0.1) 5.00000001%, rgba(255, 255, 255, 0) 100%);
+    transition: all 0.2s;
+}
+
+.credit-card:hover {
+    box-shadow: 0 1px 16px rgba(0, 0, 0, 0.25);
+}
+
+.credit-card:last-child {
+    margin-bottom: 1em;
+}
+
+.credit-card.halkbank {
+    background-color: #00a6ea;
+}
+
+.credit-card input {
+    font-size: 0.5em;
+    background: rgba(0, 0, 0, 0.1);
+    border: 0;
+    outline: 0;
+    color: #fff;
+    position: absolute;
+    transform: translate(-50%, 0);
+    text-align: center;
+}
+
+.credit-card input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.credit-card #number {
+    font-size: 0.8em;
+    top: 40%;
+    left: 50%;
+}
+
+.credit-card #expiration-date {
+    width: 3.5em;
+    bottom: 3em;
+    right: 7.5em;
+}
+
+.credit-card #cardholder {
+    width: 9.5em;
+    bottom: 1em;
+    left: 6em;
+    text-align: left;
+}
+
+.credit-card label {
+    font-size: 0.25em;
+    position: absolute;
+}
+
+.credit-card .expires {
+    width: 1em;
+    bottom: 6em;
+    left: 12em;
+}

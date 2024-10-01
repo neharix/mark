@@ -1,0 +1,42 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Täze kart goşmak
+{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/add_card.css' %}">
+{% endblock head %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <form method="post">
+                {% csrf_token %}
+                <div class="credit-card halkbank"
+                     style="background-image: linear-gradient(-45deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 50%, rgba(255,255,255,0.1) 5.00000001%, rgba(255,255,255,0) 100%), url({% static 'img/halkbank.png' %})">
+                    <input class="cardnumber"
+                           id="number"
+                           name="number"
+                           placeholder="---- ---- ---- ----"
+                           required />
+                    <label class="expires" for="expiration-date">Sene</label>
+                    <input class="expiration-date"
+                           id="expiration-date"
+                           placeholder="00/00"
+                           name="expiration-date"
+                           required />
+                    <input id="cardholder" name="cardholder" placeholder="AMANOW AMAN" required />
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="mx-auto">
+                        <button type="submit" id="accept-btn" class="btn disabled button">
+                            <i class="bi bi-plus"></i>Goşmak
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    <script src="{% static 'js/add_card.js' %}"></script>
+{% endblock scripts %}

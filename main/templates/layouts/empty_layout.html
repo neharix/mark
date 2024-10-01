@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+            {% endblock title %}
+        | Altyn Töleg</title>
+        <link rel="shortcut icon" href="{% static 'ico/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet"
+              href="{% static 'bootstrap-icons/font/bootstrap-icons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/global.css' %}">
+        <style>
+      @font-face {
+        font-family: 'Quicksand';
+        src: url("{% static 'fonts/quicksand/Quicksand-VariableFont_wght.ttf' %}");
+      }
+        </style>
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        {% if message %}
+            <div class="alert warning-alert d-flex align-items-center justify-content-between">
+                <div>{{ message }}</div>
+                <div>
+                    <a class="close align-items-center justify-content-center">
+                        <div>&times;</div>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        <div class="container h-80vh d-flex justify-content-center my-auto">
+            {% block body %}
+            {% endblock body %}
+        </div>
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/empty_layout.js' %}"></script>
+        {% block scripts %}
+        {% endblock scripts %}
+    </body>
+</html>
