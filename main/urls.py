@@ -7,4 +7,5 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("add_project/", add_project, name="add_project"),
+    path("add_project_using_excel/", add_project, name="add_project_using_excel"),
 ]

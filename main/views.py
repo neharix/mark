@@ -98,13 +98,62 @@ def add_project(request: HttpRequest):
     if request.method == "POST":
         if request.POST["personality_type"] == "1":
             personality_type = Project.PersonalityType.INDIVIDUAL
-        elif request.POST["personality_type"] == '2':
+        elif request.POST["personality_type"] == "2":
             personality_type = Project.PersonalityType.LEGAL
         else:
-            return render(request, "views/add_project.html", {"directions": directions, "error": "Şahsyýet görnüşini dogry giriziň!"})
-        project = Project.objects.create(
-            personality_type=
-        )
+            return render(
+                request,
+                "views/add_project.html",
+                {
+                    "directions": directions,
+                    "message": "Şahsyýet görnüşini dogry giriziň!",
+                },
+            )
+        try:
+            direction = Direction.objects.get(pk=int(request.POST["direction"]))
+        except:
+            return render(
+                request,
+                "views/add_project.html",
+                {
+                    "directions": directions,
+                    "message": "Ugry dogry giriziň!",
+                },
+            )
+        try:
+            project = Project.objects.create(
+                personality_type=personality_type,
+                agency=request.POST["agency"],
+                direction=direction,
+                place_of_residence=request.POST["place_of_residence"],
+                full_name_of_manager=request.POST["manager_full_name"],
+                phone_number=request.POST["phone_number"],
+                additional_phone_number=request.POST["additional_phone_number"],
+                email=request.POST["email"],
+                description=request.POST["description"],
+                p_copy_page1=request.FILES["page1"],
+                p_copy_page2_3=request.FILES["page2_3"],
+                p_copy_page5_6=request.FILES["page5_6"],
+                p_copy_page32=request.FILES["page32"],
+            )
+            if request.POST.get("second_member_full_name", False):
+                if request.POST["second_member_full_name"] != "ýok":
+                    project.full_name_of_second_participant = request.POST[
+                        "second_member_full_name"
+                    ]
+            if request.POST.get("third_member_full_name", False):
+                if request.POST["third_member_full_name"] != "ýok":
+                    project.full_name_of_third_participant = request.POST[
+                        "third_member_full_name"
+                    ]
+            project.save()
+        except:
+            return render(
+                request,
+                "views/add_project.html",
+                {"message": "Ýalňyşlyk döredi!", "directions": directions},
+            )
+
         print(request.POST)
         print(request.FILES)
     return render(request, "views/add_project.html", {"directions": directions})

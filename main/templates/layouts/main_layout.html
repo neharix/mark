@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand-lg sticky-top">
                 <div class="container-fluid px-5 py-2">
                     <a class="navbar-brand" href="{% url 'home' %}"><?xml version="1.0" encoding="utf-8"?>
-                        {% comment %} add some svg for logo {% endcomment %}
+                        <i class="bi bi-house" style="font-size: 1.8rem;"></i>
                     </a>
                     <div class="justify-content-end">
                         <ul class="nav-list mb-2 mb-lg-0">
@@ -54,6 +54,16 @@
                     </div>
                 </div>
             </nav>
+            {% if message %}
+                <div class="alert warning-alert d-flex align-items-center justify-content-between">
+                    <div>{{ message }}</div>
+                    <div>
+                        <a class="close align-items-center justify-content-center">
+                            <div>&times;</div>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
             {% block body %}
             {% endblock body %}
         </div>

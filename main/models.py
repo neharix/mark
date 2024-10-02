@@ -44,7 +44,8 @@ class Project(models.Model):
     additional_phone_number = models.CharField(
         verbose_name="Telefon belgi", max_length=8
     )
-    directions = models.ForeignKey(
+    email = models.EmailField("Email")
+    direction = models.ForeignKey(
         "Direction", verbose_name="Ugry", on_delete=models.PROTECT
     )
     description = models.TextField(

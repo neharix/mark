@@ -1,3 +1,7 @@
+# Environment and editor parameters
 .venv
 .vscode
 __pycache__
+
+# Media Files
+media
