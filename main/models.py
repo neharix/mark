@@ -14,8 +14,8 @@ class UnratedManager(models.Manager):
 
 class Project(models.Model):
     class PersonalityType(models.TextChoices):
-        INDIVIDUAL = "Fiziki", "fiziki"
-        LEGAL = "Ýuridiki", "ýuridiki"
+        INDIVIDUAL = "Fiziki", "Fiziki"
+        LEGAL = "Ýuridiki", "Ýuridiki"
 
     personality_type = models.CharField(
         verbose_name="Şahs görnüşi",

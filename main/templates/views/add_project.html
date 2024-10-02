@@ -1,0 +1,320 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Taslama goşmak
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="m-2">Taslama maglumatlary</div>
+            <form method="post" class="m-2" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <select class="floating-label__input"
+                                    type="text"
+                                    id="personality-type"
+                                    name="personality_type"
+                                    autocomplete="off"
+                                    required
+                                    placeholder=" ">
+                                <option value="1" selected>Fiziki şahs</option>
+                                <option value="2">Ýuridiki şahs</option>
+                            </select>
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="personality-type">Şahs</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   id="agency"
+                                   name="agency"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="agency">Edaranyň ady</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <select class="floating-label__input"
+                                    type="text"
+                                    id="direction"
+                                    name="direction"
+                                    autocomplete="off"
+                                    required
+                                    placeholder=" ">
+                                {% for direction in directions %}
+                                    <option value="{{ direction.pk }}"
+                                            {% if forloop.counter == 0 %}selected{% endif %}>
+                                        {{ direction.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="direction">Ugur</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   name="place_of_residence"
+                                   id="place-of-residence"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="place-of-residence">Ýaşaýan ýeri</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   id="manager-full-name"
+                                   name="manager_full_name"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="manager-full-name">Ýolbaşçynyň F.A.A</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   name="second_member_full_name"
+                                   id="second-member-full-name"
+                                   value="ýok"
+                                   autocomplete="off"
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="second-member-full-name">Ikinji agzanyň F.A.A</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   name="third_member_full_name"
+                                   id="third-member-full-name"
+                                   autocomplete="off"
+                                   value="ýok"
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="third-member-full-name">Üçünji agzanyň F.A.A</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="number"
+                                   id="phone-number"
+                                   name="phone_number"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="phone-number">Ýolbaşçynyň telefon belgisi</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="text"
+                                   name="additional_phone_number"
+                                   id="additional-phone-number"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="additional-phone-number">Goşmaça telefon belgisi</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <input class="floating-label__input"
+                                   type="email"
+                                   name="email"
+                                   id="email"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="email">Email</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-2">Ýolbaşçynyň pasportynyň</div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="f-08">1-nji sahypasy:</div>
+                        <div class="floating-label mb-3">
+                            <input class="floating-label__input"
+                                   type="file"
+                                   id="page1"
+                                   name="page1"
+                                   accept="image/*"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="page1"></label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="f-08">2-3-nji sahypalary:</div>
+                        <div class="floating-label mb-3">
+                            <input class="floating-label__input"
+                                   type="file"
+                                   name="page2_3"
+                                   id="page2-3"
+                                   accept="image/*"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="page2-3"></label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="f-08">5-6-njy sahypalary:</div>
+                        <div class="floating-label mb-3">
+                            <input class="floating-label__input"
+                                   type="file"
+                                   name="page5_6"
+                                   id="page5-6"
+                                   accept="image/*"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="page5-6"></label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="f-08">32-nji sahypasy:</div>
+                        <div class="floating-label mb-3">
+                            <input class="floating-label__input"
+                                   type="file"
+                                   accept="image/*"
+                                   name="page32"
+                                   id="page32"
+                                   autocomplete="off"
+                                   required
+                                   placeholder=" " />
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="page32"></label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="floating-label my-3">
+                            <textarea class="floating-label__input"
+                                      id="description"
+                                      name="description"
+                                      autocomplete="off"
+                                      required
+                                      placeholder=" "></textarea>
+                            <div class="floating-label__outline">
+                                <div class="floating-label__leading"></div>
+                                <div class="floating-label__notch">
+                                    <label class="floating-label__label" for="description">Taslamanyň beýany</label>
+                                </div>
+                                <div class="floating-label__trailing"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button class="btn button px-4">TASSYKLAMAK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+{% endblock scripts %}

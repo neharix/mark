@@ -90,5 +90,21 @@ def main(request: HttpRequest):
                 "unrated_projects_count": unrated_projects_count,
             },
         )
-
     return render(request, "views/main/jury.html")
+
+
+def add_project(request: HttpRequest):
+    directions = Direction.objects.all()
+    if request.method == "POST":
+        if request.POST["personality_type"] == "1":
+            personality_type = Project.PersonalityType.INDIVIDUAL
+        elif request.POST["personality_type"] == '2':
+            personality_type = Project.PersonalityType.LEGAL
+        else:
+            return render(request, "views/add_project.html", {"directions": directions, "error": "Şahsyýet görnüşini dogry giriziň!"})
+        project = Project.objects.create(
+            personality_type=
+        )
+        print(request.POST)
+        print(request.FILES)
+    return render(request, "views/add_project.html", {"directions": directions})
