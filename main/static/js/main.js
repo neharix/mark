@@ -6,8 +6,7 @@ function set_borders(node_list) {
     }
 }
 
-let cards = document.querySelectorAll("#cards .my-card");
-let histories = document.querySelectorAll("#history .my-card");
+let cards = document.querySelectorAll("#quenes .my-card");
 
 set_borders(cards);
 set_borders(histories);

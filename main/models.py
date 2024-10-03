@@ -74,6 +74,10 @@ class Project(models.Model):
     rated_objects = RatedManager()
     unrated_objects = UnratedManager()
 
+    class Meta:
+        verbose_name = "taslama"
+        verbose_name_plural = "taslamalar"
+
     def __str__(self) -> str:
         return f"{self.full_name_of_manager} taslamasy"
 
@@ -81,8 +85,37 @@ class Project(models.Model):
 class Direction(models.Model):
     name = models.CharField(verbose_name="Ugur", max_length=100)
 
+    class Meta:
+        verbose_name = "ugur"
+        verbose_name_plural = "ugurlar"
+
     def __str__(self) -> str:
         return self.name
+
+
+class Criteria(models.Model):
+    expression = models.CharField("Kriteriýa aňlatmalary", max_length=400)
+    max_value = models.IntegerField("Göterimi")
+
+    class Meta:
+        verbose_name = "kriteriýa"
+        verbose_name_plural = "kriteriýalar"
+
+    def __str__(self):
+        return self.expression
+
+
+class Quene(models.Model):
+    quene_json = models.TextField("Reje JSON-y")
+    juries = models.ManyToManyField("User", verbose_name="Emin agzalar")
+    date = models.DateField("Senesi")
+
+    class Meta:
+        verbose_name = "reje"
+        verbose_name_plural = "rejeler"
+
+    def __str__(self):
+        return self.date.strftime("%d.%m.%Y")
 
 
 class User(AbstractUser):

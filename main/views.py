@@ -1,4 +1,5 @@
 import datetime
+import os
 import random
 import zipfile
 from io import BytesIO
@@ -8,6 +9,7 @@ import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.core.files.base import ContentFile
 from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
@@ -85,6 +87,9 @@ def main(request: HttpRequest):
         projects_count = Project.objects.all().count()
         rated_projects_count = Project.rated_objects.all().count()
         unrated_projects_count = Project.unrated_objects.all().count()
+        quenes = [
+            QueneContainer(quene) for quene in Quene.objects.all().order_by("-date")[:5]
+        ]
         return render(
             request,
             "views/main/moderator.html",
@@ -92,6 +97,7 @@ def main(request: HttpRequest):
                 "projects_count": projects_count,
                 "rated_projects_count": rated_projects_count,
                 "unrated_projects_count": unrated_projects_count,
+                "quenes": quenes,
             },
         )
     return render(request, "views/main/jury.html")
@@ -165,178 +171,107 @@ def add_project(request: HttpRequest):
 
 def add_project_using_xlsx(request: HttpRequest):
     if request.method == "POST":
-        dataframe = pd.read_excel(request.FILES.get("xlsx"))
-        for index in range(len(dataframe["Ýolbaşçynyň F.A.A"])):
-            print("")
-            print(dataframe["Şahs"][index])
-            print(dataframe["Ýolbaşçynyň F.A.A"][index])
-            print(dataframe["Ikinji agzanyň F.A.A"][index])
-            print(type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.float64)
-            print(dataframe["Edaranyň ady"][index])
-            print(dataframe["Ugry"][index])
-            print(dataframe["Taslamanyň beýany"][index])
-            print(dataframe["Ýolbaşçynyň telefon belgisi"][index])
-            print(dataframe["Goşmaça telefon belgisi"][index])
-            print(dataframe["Email"][index])
-            print(dataframe["Pasportyň 1-nji sahypasy"][index])
-            print(dataframe["Pasportyň 2-3-nji sahypalary"][index])
-            print(dataframe["Pasportyň 5-6-nji sahypalary"][index])
-            print(dataframe["Pasportyň 32-nji sahypasy"][index])
-
-            if dataframe["Şahs"][index].lower() == "fiziki":
-                personality_type = Project.PersonalityType.INDIVIDUAL
-            elif dataframe["Şahs"][index].lower() == "ýuridiki":
-                personality_type = Project.PersonalityType.LEGAL
-
         zip_file_memory = request.FILES.get("zipfile", None)
         if zip_file_memory is not None:
             zip_file = BytesIO(zip_file_memory.read())
             with zipfile.ZipFile(zip_file, "r") as file:
                 images = file.namelist()
+            print(images)
+        else:
+            return render(
+                request,
+                "views/add_project_using_xlsx.html",
+                {"message": "ZIP arhiw tapylmady"},
+            )
 
-    #               question_text[0:2] == "{{"
-    #                 and question_text[len(question_text) - 2 : len(question_text)] == "}}"
-    #             ):
-    #                 filename = question_text.split('"')[1]
-    #                 if filename in images:
-    #                     is_image = True
-    #                     with zipfile.ZipFile(zip_file, "r") as file:
-    #                         file.extract(filename, f"temp/{filename}")
-    #                     with open(f"temp/{filename}/{filename}", "rb") as file:
-    #                         image = file.read()
-    #                     os.remove(f"temp/{filename}/{filename}")
-    #                     os.rmdir(f"temp/{filename}")
+        dataframe = pd.read_excel(request.FILES.get("xlsx"))
+        for index in range(len(dataframe["Ýolbaşçynyň F.A.A"])):
+            if f'page1/{dataframe["Pasportyň 1-nji sahypasy"][index]}' in images:
+                filename = f'page1/{dataframe["Pasportyň 1-nji sahypasy"][index]}'
+                try:
+                    os.mkdir(f"temp/page1/")
+                except:
+                    pass
+                with zipfile.ZipFile(zip_file, "r") as file:
+                    file.extract(filename, "temp")
+                with open(f"temp/{filename}", "rb") as file:
+                    image1 = ContentFile(file.read(), filename.split("/")[1])
+                os.remove(f"temp/{filename}")
+                os.rmdir(f"temp/{filename.split('/')[0]}/")
+
+            if f'page2_3/{dataframe["Pasportyň 2-3-nji sahypalary"][index]}' in images:
+                filename = f'page2_3/{dataframe["Pasportyň 2-3-nji sahypalary"][index]}'
+                try:
+                    os.mkdir(f"temp/page2_3/")
+                except:
+                    pass
+                with zipfile.ZipFile(zip_file, "r") as file:
+                    file.extract(filename, "temp")
+                with open(f"temp/{filename}", "rb") as file:
+                    image2_3 = ContentFile(file.read(), filename.split("/")[1])
+                os.remove(f"temp/{filename}")
+                os.rmdir(f"temp/{filename.split('/')[0]}/")
+
+            if f'page5_6/{dataframe["Pasportyň 5-6-njy sahypalary"][index]}' in images:
+                filename = f'page5_6/{dataframe["Pasportyň 5-6-njy sahypalary"][index]}'
+                try:
+                    os.mkdir(f"temp/page5_6/")
+                except:
+                    pass
+                with zipfile.ZipFile(zip_file, "r") as file:
+                    file.extract(filename, "temp")
+                with open(f"temp/{filename}", "rb") as file:
+                    image5_6 = ContentFile(file.read(), filename.split("/")[1])
+                os.remove(f"temp/{filename}")
+                os.rmdir(f"temp/{filename.split('/')[0]}/")
+
+            if f'page32/{dataframe["Pasportyň 32-nji sahypasy"][index]}' in images:
+                filename = f'page32/{dataframe["Pasportyň 32-nji sahypasy"][index]}'
+                try:
+                    os.mkdir(f"temp/page32/")
+                except:
+                    pass
+                with zipfile.ZipFile(zip_file, "r") as file:
+                    file.extract(filename, "temp")
+                with open(f"temp/{filename}", "rb") as file:
+                    image32 = ContentFile(file.read(), filename.split("/")[1])
+                os.remove(f"temp/{filename}")
+                os.rmdir(f"temp/{filename.split('/')[0]}/")
+
+            if dataframe["Şahs"][index].lower() == "fiziki":
+                personality_type = Project.PersonalityType.INDIVIDUAL
+            elif dataframe["Şahs"][index].lower() == "ýuridiki":
+                personality_type = Project.PersonalityType.LEGAL
+            try:
+                direction = Direction.objects.get(name=dataframe["Ugry"][index])
+            except:
+                direction = Direction.objects.create(name=dataframe["Ugry"][index])
+
+            project = Project.objects.create(
+                personality_type=personality_type,
+                agency=dataframe["Edaranyň ady"][index],
+                direction=direction,
+                place_of_residence=dataframe["Ýaşaýan ýeri"][index],
+                full_name_of_manager=dataframe["Ýolbaşçynyň F.A.A"][index],
+                phone_number=dataframe["Ýolbaşçynyň telefon belgisi"][index],
+                additional_phone_number=dataframe["Goşmaça telefon belgisi"][index],
+                email=dataframe["Email"][index],
+                description=dataframe["Taslamanyň beýany"][index],
+                p_copy_page1=image1,
+                p_copy_page2_3=image2_3,
+                p_copy_page5_6=image5_6,
+                p_copy_page32=image32,
+            )
+
+            if not type(dataframe["Ikinji agzanyň F.A.A"][index]) == np.float64:
+                project.full_name_of_second_participant = dataframe[
+                    "Ikinji agzanyň F.A.A"
+                ][index]
+
+            if not type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.float64:
+                project.full_name_of_third_participant = dataframe[
+                    "Üçünji agzanyň F.A.A"
+                ][index]
+            project.save()
 
     return render(request, "views/add_project_using_xlsx.html")
-
-
-# def import_from_xlsx(request: HttpRequest, challenge_id: int):
-#     if request.method == "POST":
-#         dataframe = pd.read_excel(request.FILES.get("excel"))
-
-#         easy_question_count = 0
-#         medium_question_count = 0
-#         hard_question_count = 0
-
-#         for index in range(len(dataframe["Sorag"])):
-#             if dataframe["Derejesi"][index] == "Ýeňil":
-#                 easy_question_count += 1
-#             elif dataframe["Derejesi"][index] == "Ortaça":
-#                 medium_question_count += 1
-#             elif dataframe["Derejesi"][index] == "Kyn":
-#                 hard_question_count += 1
-
-#         default_question_count = min(
-#             [
-#                 easy_question_count if easy_question_count != 0 else 1,
-#                 medium_question_count if medium_question_count != 0 else 1,
-#                 hard_question_count if hard_question_count != 0 else 1,
-#             ]
-#         )
-
-#         question_complexity_counts = {
-#             "Ýeňil": 0,
-#             "Ortaça": 0,
-#             "Kyn": 0,
-#         }
-
-#         zip_file_memory = request.FILES.get("zip", None)
-#         if zip_file_memory is not None:
-#             zip_file = BytesIO(zip_file_memory.read())
-#             with zipfile.ZipFile(zip_file, "r") as file:
-#                 images = file.namelist()
-#         challenge = Challenge.objects.get(pk=challenge_id)
-
-#         for index in range(len(dataframe["Sorag"])):
-#             is_image = False
-#             question_text = str(dataframe["Sorag"][index])
-#             if (
-#                 question_text[0:2] == "{{"
-#                 and question_text[len(question_text) - 2 : len(question_text)] == "}}"
-#             ):
-#                 filename = question_text.split('"')[1]
-#                 if filename in images:
-#                     is_image = True
-#                     with zipfile.ZipFile(zip_file, "r") as file:
-#                         file.extract(filename, f"temp/{filename}")
-#                     with open(f"temp/{filename}/{filename}", "rb") as file:
-#                         image = file.read()
-#                     os.remove(f"temp/{filename}/{filename}")
-#                     os.rmdir(f"temp/{filename}")
-
-#             complexity = Complexity.objects.get(level=dataframe["Derejesi"][index])
-#             if question_complexity_counts[complexity.level] < default_question_count:
-#                 question_complexity_counts[complexity.level] += 1
-#                 question = (
-#                     Question.objects.create(
-#                         question=question_text,
-#                         challenge=challenge,
-#                         point=1,
-#                         complexity=complexity,
-#                     )
-#                     if is_image == False
-#                     else Question.objects.create(
-#                         challenge=challenge,
-#                         point=1,
-#                         complexity=complexity,
-#                         is_image=is_image,
-#                         image=ContentFile(image, filename),
-#                     )
-#                 )
-#                 true_answer = (
-#                     dataframe["Dogry jogap"][index]
-#                     if type(dataframe["Dogry jogap"][index]) == int
-#                     else int(dataframe["Dogry jogap"][index])
-#                 )
-#                 for i in range(1, 5):
-#                     if type(dataframe[f"{i}-nji jogap"][index]) != float:
-#                         is_image = False
-#                         answer_text = str(dataframe[f"{i}-nji jogap"][index])
-#                         if (
-#                             answer_text[0:2] == "{{"
-#                             and answer_text[len(answer_text) - 2 : len(answer_text)]
-#                             == "}}"
-#                         ):
-#                             filename = answer_text.split('"')[1]
-#                             if filename in images:
-#                                 is_image = True
-#                                 with zipfile.ZipFile(zip_file, "r") as file:
-#                                     file.extract(filename, f"temp/{filename}")
-#                                 with open(f"temp/{filename}/{filename}", "rb") as file:
-#                                     image = file.read()
-#                                 os.remove(f"temp/{filename}/{filename}")
-#                                 os.rmdir(f"temp/{filename}")
-#                         if is_image:
-#                             answer = (
-#                                 Answer.objects.create(
-#                                     image=ContentFile(image, filename),
-#                                     question=question,
-#                                     is_true=True,
-#                                     is_image=is_image,
-#                                 )
-#                                 if true_answer == i
-#                                 else Answer.objects.create(
-#                                     image=ContentFile(image, filename),
-#                                     question=question,
-#                                     is_image=is_image,
-#                                 )
-#                             )
-#                         else:
-#                             answer = (
-#                                 Answer.objects.create(
-#                                     answer=answer_text, question=question, is_true=True
-#                                 )
-#                                 if true_answer == i
-#                                 else Answer.objects.create(
-#                                     answer=answer_text, question=question
-#                                 )
-#                             )
-#             else:
-#                 continue
-
-#         return render(
-#             request,
-#             "import_from_xlsx.html",
-#             {"type": "success", "message": "Maglumat gorunda üstünlikli girizildi!"},
-#         )
-#     return render(request, "import_from_xlsx.html")
