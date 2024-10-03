@@ -14,7 +14,6 @@ from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
-from . import utils
 from .containers import *
 from .models import *
 
@@ -88,7 +87,8 @@ def main(request: HttpRequest):
         rated_projects_count = Project.rated_objects.all().count()
         unrated_projects_count = Project.unrated_objects.all().count()
         quenes = [
-            QueneContainer(quene) for quene in Quene.objects.all().order_by("-date")[:5]
+            ScheduleContainer(quene)
+            for quene in Schedule.objects.all().order_by("-date")[:5]
         ]
         return render(
             request,
@@ -275,3 +275,7 @@ def add_project_using_xlsx(request: HttpRequest):
             project.save()
 
     return render(request, "views/add_project_using_xlsx.html")
+
+
+def add_schedule(request: HttpRequest):
+    return render(request, "views/add_schedule.html")

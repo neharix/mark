@@ -1,0 +1,35 @@
+.table thead tr th {
+    vertical-align: middle;
+}
+
+#back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9000;
+    background-color: #000;
+    display: none;
+}
+
+#projects a {
+    color: #000;
+    text-decoration: none;
+}
+
+#projects .window {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    z-index: 99999;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+}
+
+#projects #dialog {
+    width: 50%;
+    background-color: #ffffff;
+}

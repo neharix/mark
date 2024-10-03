@@ -105,7 +105,7 @@ class Criteria(models.Model):
         return self.expression
 
 
-class Quene(models.Model):
+class Schedule(models.Model):
     quene_json = models.TextField("Reje JSON-y")
     juries = models.ManyToManyField("User", verbose_name="Emin agzalar")
     date = models.DateField("Senesi")

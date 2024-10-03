@@ -1,0 +1,151 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_schedule.css' %}">
+{% endblock head %}
+{% block title %}
+    Taslama goşmak
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="d-flex justify-content-center">
+                <div class="sideb">
+                    <div class="header">
+                        <i class="bi bi-chevron-left" aria-hidden="true"></i><span><span class="month"></span><span class="year"></span></span><i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </div>
+                    <div class="calender">
+                        <table>
+                            <thead>
+                                <tr class="weedays">
+                                    <th data-weekday="sun" data-column="0">Ýek</th>
+                                    <th data-weekday="mon" data-column="1">Duş</th>
+                                    <th data-weekday="tue" data-column="2">Siş</th>
+                                    <th data-weekday="wed" data-column="3">Çar</th>
+                                    <th data-weekday="thu" data-column="4">Pen</th>
+                                    <th data-weekday="fri" data-column="5">Ann</th>
+                                    <th data-weekday="sat" data-column="6">Şen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="days" data-row="0">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                                <tr class="days" data-row="1">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                                <tr class="days" data-row="2">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                                <tr class="days" data-row="3">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                                <tr class="days" data-row="4">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                                <tr class="days" data-row="5">
+                                    <td data-column="0"></td>
+                                    <td data-column="1"></td>
+                                    <td data-column="2"></td>
+                                    <td data-column="3"></td>
+                                    <td data-column="4"></td>
+                                    <td data-column="5"></td>
+                                    <td data-column="6"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <button class="btn button mx-2" id="add-project-btn">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </th>
+                            <th scope="col">№</th>
+                            <th scope="col">Taslamanyň ady</th>
+                            <th scope="col">Ýolbaşçy</th>
+                            <th scope="col">Edara</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="projects">
+        <div id="dialog" class="window p-4">
+            <h4 class="fw-bolder my-2 text-align-start">Taslamany saýlan:</h4>
+            <div id="projects-list">
+                {% comment %} {% for card in cards %}
+                    <button class="btn-none my-card" onclick="select_card({{ forloop.counter0 }})" data="{{ card.pk }}">
+                        <div class="my-3 ">
+                            <div class="d-flex align-items-center">
+                                <div style="margin-right: 1rem;">
+                                    <div class="d-flex justify-content-center align-items-center ico" style="">
+                                        <i class="bi bi-credit-card"></i>
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <div>{{ card.holder }}</div>
+                                        <div>{{ card.expiration_date }}</div>
+                                    </div>
+                                    <div class="text-align-start">
+                                        <span class="fw-bolder dots">&#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022;</span> <span>{{ card.number }}</span>
+                                    </div>
+                                    <div class="text-align-start">Altyn asyr kart (beýleki)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                {% endfor %} {% endcomment %}
+            </div>
+            <div class="d-flex mt-3 mb-1 justify-content-end align-items-center">
+                <a class="mx-4 txt-btn close-btn" href="#">AÝYR</a>
+                <a class="mx-4 txt-btn" href="#">TÄZE KART GOŞMAK</a>
+            </div>
+        </div>
+        <div id="back"></div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    <script src="{% static 'js/calendar.js' %}"></script>
+    <script src="{% static 'js/add_schedule.js' %}"></script>
+{% endblock scripts %}
