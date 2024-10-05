@@ -11,12 +11,12 @@
     display: none;
 }
 
-#projects a {
+.modal-window a {
     color: #000;
     text-decoration: none;
 }
 
-#projects .window {
+.modal-window .window {
     position: absolute;
     left: 0;
     top: 0;
@@ -29,12 +29,12 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
 }
 
-#projects #dialog {
+.modal-window .window {
     width: 50%;
     background-color: #ffffff;
 }
 
-#projects-list {
+.list {
     height: 35vh;
     overflow-y: scroll;
 }
