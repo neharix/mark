@@ -32,7 +32,11 @@ var weekdayShort = [
 ];
 var monthDirection = 0;
  
-var selected_date = null;
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+var selected_date =  dd + "/" + mm +'/' + yyyy;
 
 function getNextMonth() {
 	monthDirection++;
@@ -92,13 +96,13 @@ function getMonth(currentDay) {
 }
  
 function clearCalender() {
-	$("table tbody tr").each(function () {
+	$("#calendar tbody tr").each(function () {
 		$(this).find("td").removeClass("active selectable currentDay between hover").html("");
 	});
-	$("td").each(function () {
+	$("#calendar tr td").each(function () {
 		$(this).unbind('mouseenter').unbind('mouseleave');
 	});
-	$("td").each(function () {
+	$("#calendar tr td").each(function () {
 		$(this).unbind('click');
 	});
 	clickCounter = 0;

@@ -1,14 +1,27 @@
+let projects = null;
+
 function success(data) {
     let projects_list = document.querySelector("#projects-list");
+    projects_list.innerHTML = "";
+    let pks = [];
+    for (let i=0; i<data.length; i++){
+        pks.push(data[i].pk);
+    }
+    let table = document.querySelector("#schedule-table");
+    for (let i=0; i < table.children.length; i++) {
+        if (pks.includes(Number(table.children[i].getAttribute("data")))) {
+            data.splice(data.findIndex(project => project.pk == Number(table.children[i].getAttribute("data"))), 1);
+        }
+    }
     for (var i=0; i < data.length; i++) {
         let btn = document.createElement("button");
-        btn.setAttribute('class', "btn-none my-card")
-        btn.setAttribute("onclick", `console.log(${data[i].pk})`);
-        btn.innerHTML = `<div class="my-3 "><div class="d-flex align-items-center"><div style="margin-right: 1rem;"><div class="d-flex justify-content-center align-items-center ico" style=""><i class="bi bi-credit-card"></i></div></div><div class="w-100"><div class="text-align-start">${ data[i].description }</div><div class="text-align-start">${data[i].full_name_of_manager}</div><div class="text-align-start">${data[i].agency}</div></div></div></div>`;
+        btn.setAttribute('class', "btn-none my-card");
+        btn.setAttribute("onclick", `select_project(${i})`);
+        btn.innerHTML = `<div class="my-3 "><div class="d-flex align-items-center"><div style="margin-right: 1rem;"><div class="d-flex justify-content-center align-items-center ico" style=""><i class="bi bi-box"></i></div></div><div class="w-100"><div class="text-align-start">${ data[i].description }</div><div class="text-align-start">${data[i].full_name_of_manager}</div><div class="text-align-start">${data[i].agency}</div><div class="d-none">${data[i].pk}</div></div></div></div>`;
         projects_list.appendChild(btn);
     }
 
-    let projects = document.querySelectorAll("#projects-list .my-card");
+    projects = document.querySelectorAll("#projects-list .my-card");
 
     set_borders(projects);
 }
@@ -54,3 +67,100 @@ function set_borders(node_list) {
         }
     }
 }
+
+
+
+function select_project(project_index) {
+    let table_row = document.createElement("tr");
+
+    table_row.setAttribute("data", projects[project_index].children[0].children[0].children[1].children[3].innerHTML);
+    table_row.innerHTML = `
+        <td class="text-center drag-handle">☰</td>
+        <td class="text-center">${table.children.length + 1}</td>
+        <td>${projects[project_index].children[0].children[0].children[1].children[0].innerHTML}</td>
+        <td>${projects[project_index].children[0].children[0].children[1].children[1].innerHTML}</td>
+        <td>${projects[project_index].children[0].children[0].children[1].children[2].innerHTML}</td>
+        <td><button onclick="delete_row(${table.children.length})" class="btn btn-danger"><i class="bi bi-trash"></i></button></td>`;
+
+    table_row.setAttribute("draggable", "true");
+    table_row.addEventListener('dragstart', () => {
+        table_row.classList.add('dragging');
+    });
+    
+    table_row.addEventListener('dragend', () => {
+        table_row.classList.remove('dragging');
+    });
+    table.appendChild(table_row);
+    $('#back, .window').hide();
+
+}
+
+const table = document.querySelector('#schedule-table');
+const draggables = document.querySelectorAll('tr[draggable="true"]');
+
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging');
+    });
+
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging');
+    });
+});
+
+table.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    const afterElement = getDragAfterElement(table, event.clientY);
+    const draggable = document.querySelector('.dragging');
+    if (afterElement == null) {
+    table.appendChild(draggable);
+    } else {
+    table.insertBefore(draggable, afterElement);
+    }
+
+    for (let i=0; i < table.children.length; i++) {
+        table.children[i].children[1].innerHTML = i + 1;
+        table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_row(${i})`);
+    }
+});
+
+function getDragAfterElement(table, y) {
+    const draggableElements = [...table.querySelectorAll('tr:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+
+    if (offset < 0 && closest === null) {
+        return child;
+    } else if (offset < 0) {
+        return offset > closest.offset ? child : closest;
+    } else {
+        return closest;
+    }
+    }, null);
+}
+
+function delete_row(row_index) {
+    $("#schedule-table tr").eq(row_index).remove();
+    let table = document.querySelector("#schedule-table");
+
+    for (let i=0; i < table.children.length; i++) {
+        table.children[i].children[1].innerHTML = i + 1;
+        table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_row(${i})`);
+    }
+
+}
+
+let accept_btn = document.querySelector("#accept-btn");
+
+function save_schedule(){
+    let table = document.querySelector("#schedule-table");
+    let pks = [];
+    for (let i=0; i < table.children.length; i++) {
+        pks.push(Number(table.children[i].getAttribute("data")));
+    }
+    console.log(pks)
+}
+
+accept_btn.onclick = save_schedule;

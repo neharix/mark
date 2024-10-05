@@ -10,13 +10,14 @@
 {% block body %}
     <div class="px-3">
         <div class="block p-3">
+            <div class="m-2">Güni saýlaň:</div>
             <div class="d-flex justify-content-center">
                 <div class="sideb">
                     <div class="header">
                         <i class="bi bi-chevron-left" aria-hidden="true"></i><span><span class="month"></span><span class="year"></span></span><i class="bi bi-chevron-right" aria-hidden="true"></i>
                     </div>
                     <div class="calender">
-                        <table>
+                        <table id="calendar">
                             <thead>
                                 <tr class="weedays">
                                     <th data-weekday="sun" data-column="0">Ýek</th>
@@ -28,7 +29,7 @@
                                     <th data-weekday="sat" data-column="6">Şen</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="calendar-body">
                                 <tr class="days" data-row="0">
                                     <td data-column="0"></td>
                                     <td data-column="1"></td>
@@ -88,58 +89,50 @@
                     </div>
                 </div>
             </div>
+            <div class="m-2">Gün tertibini düzüň:</div>
             <div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">
-                                <button class="btn button mx-2" id="add-project-btn">
+                            <th scope="col" class="d-flex justify-content-center">
+                                <button class="btn button" id="add-project-btn">
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </th>
-                            <th scope="col">№</th>
+                            <th scope="col" class="text-center">№</th>
                             <th scope="col">Taslamanyň ady</th>
                             <th scope="col">Ýolbaşçy</th>
                             <th scope="col">Edara</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="schedule-table">
                     </tbody>
                 </table>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn button mx-2" id="accept-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-floppy"
+                         viewBox="0 0 16 16">
+                        <path d="M11 2H9v3h2z" />
+                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                    </svg>
+                    Ýatda saklamak
+                </button>
             </div>
         </div>
     </div>
     <div id="projects">
         <div id="dialog" class="window p-4">
             <h4 class="fw-bolder my-2 text-align-start">Taslamany saýlan:</h4>
-            <div id="projects-list">
-                {% comment %} {% for card in cards %}
-                    <button class="btn-none my-card" onclick="select_card({{ forloop.counter0 }})" data="{{ card.pk }}">
-                        <div class="my-3 ">
-                            <div class="d-flex align-items-center">
-                                <div style="margin-right: 1rem;">
-                                    <div class="d-flex justify-content-center align-items-center ico" style="">
-                                        <i class="bi bi-credit-card"></i>
-                                    </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <div>{{ card.holder }}</div>
-                                        <div>{{ card.expiration_date }}</div>
-                                    </div>
-                                    <div class="text-align-start">
-                                        <span class="fw-bolder dots">&#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022;</span> <span>{{ card.number }}</span>
-                                    </div>
-                                    <div class="text-align-start">Altyn asyr kart (beýleki)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                {% endfor %} {% endcomment %}
-            </div>
+            <div id="projects-list"></div>
             <div class="d-flex mt-3 mb-1 justify-content-end align-items-center">
                 <a class="mx-4 txt-btn close-btn" href="#">AÝYR</a>
-                <a class="mx-4 txt-btn" href="#">TÄZE KART GOŞMAK</a>
+                <a class="mx-4 txt-btn" href="{% url 'add_project' %}">TÄZE TASLAMA GOŞMAK</a>
             </div>
         </div>
         <div id="back"></div>

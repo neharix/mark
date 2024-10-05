@@ -33,3 +33,8 @@
     width: 50%;
     background-color: #ffffff;
 }
+
+#projects-list {
+    height: 35vh;
+    overflow-y: scroll;
+}

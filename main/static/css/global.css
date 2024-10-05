@@ -388,3 +388,31 @@ body {
 .f-08 {
     font-size: 0.8rem;
 }
+
+.drag-handle {
+    cursor: move;
+    user-select: none;
+}
+
+.dragging {
+    opacity: 0.5;
+}
+
+#main {
+    height: 95vh;
+    overflow-y: auto;
+}
+
+#main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#main::-webkit-scrollbar-track {
+    background-color: transparent;
+
+}
+
+#main::-webkit-scrollbar-thumb {
+    background: transparent;
+}
