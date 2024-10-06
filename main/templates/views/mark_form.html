@@ -1,0 +1,83 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Baha berme
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="h3 m-2">Taslama barada giňişleýin maglumat:</div>
+            <div class="row mx-2 my-3">
+                <div class="col-sm">
+                    <div>Ýolbaşçy: {{ project.full_name_of_manager }}</div>
+                    {% if project.full_name_of_second_participant %}
+                        <div>Ikinji agza: {{ project.full_name_of_second_participant }}</div>
+                    {% endif %}
+                    {% if project.full_name_of_third_participant %}
+                        <div>Üçünji agza: {{ project.full_name_of_third_participant }}</div>
+                    {% endif %}
+                    <div>Ugry: {{ project.direction.name }}</div>
+                </div>
+                <div class="col-sm">
+                    <div>Edara: {{ project.agency }}</div>
+                    <div>Taslamanyň beýany: {{ project.description }}</div>
+                    <div>Şahs: {{ project.personality_type }}</div>
+                </div>
+            </div>
+            <div class="m-2 h3">Bahalandyrma:</div>
+            <form class="m-2" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{ project.pk }}" name="project-pk" />
+                {% for criteria in criteries %}
+                    <div>{{ criteria.expression }}:</div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="floating-label my-3">
+                                <input class="floating-label__input"
+                                       type="number"
+                                       maxvalue="{{ criteria.max_value }}"
+                                       name="mark-{{ criteria.pk }}"
+                                       id="mark-{{ criteria.pk }}"
+                                       autocomplete="off"
+                                       required
+                                       value="0"
+                                       placeholder=" " />
+                                <div class="floating-label__outline">
+                                    <div class="floating-label__leading"></div>
+                                    <div class="floating-label__notch">
+                                        <label class="floating-label__label" for="mark-{{ criteria.pk }}">Baha</label>
+                                    </div>
+                                    <div class="floating-label__trailing"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="floating-label my-3">
+                                <textarea class="floating-label__input"
+                                          type="number"
+                                          name="description-{{ criteria.pk }}"
+                                          id="description-{{ criteria.pk }}"
+                                          autocomplete="off"
+                                          placeholder=" "
+                                          rows="1"></textarea>
+                                <div class="floating-label__outline">
+                                    <div class="floating-label__leading"></div>
+                                    <div class="floating-label__notch">
+                                        <label class="floating-label__label" for="description-{{ criteria.pk }}">Düşündiriş</label>
+                                    </div>
+                                    <div class="floating-label__trailing"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="d-flex justify-content-center w-100">
+                    <button class="btn button w-50" type="submit" id="accept-btn">TASSYKLAMAK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    <script src="{% static 'js/mark_form.js' %}"></script>
+{% endblock scripts %}

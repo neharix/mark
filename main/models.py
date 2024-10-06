@@ -118,5 +118,21 @@ class Schedule(models.Model):
         return self.date.strftime("%d.%m.%Y")
 
 
+class Mark(models.Model):
+    criteria = models.ForeignKey("Criteria", on_delete=models.SET_NULL, null=True)
+    jury = models.ForeignKey("User", on_delete=models.SET_NULL, null=True)
+    project = models.ForeignKey("Project", on_delete=models.CASCADE)
+    mark = models.IntegerField()
+    description = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "baha"
+        verbose_name_plural = "bahalar"
+
+    def __str__(self):
+        return f"{self.date} {self.project}"
+
+
 class User(AbstractUser):
     pass

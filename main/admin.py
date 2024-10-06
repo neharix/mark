@@ -18,6 +18,16 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ["pk", "full_name_of_manager", "personality_type", "description"]
 
 
+@admin.register(Criteria)
+class CriteriaAdmin(admin.ModelAdmin):
+    list_display = ["pk", "expression", "max_value"]
+
+
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
     list_display = ["pk", "name"]
+
+
+@admin.register(Mark)
+class MarkAdmin(admin.ModelAdmin):
+    list_display = ["pk", "criteria", "project", "mark", "jury", "date"]

@@ -5,8 +5,15 @@ function set_borders(node_list) {
         }
     }
 }
+try{
+    let schedules = document.querySelectorAll("#quenes .my-card");
+    set_borders(schedules);
+} catch {}
 
-let cards = document.querySelectorAll("#quenes .my-card");
+try{
+    let projects = document.querySelectorAll("#projects .my-card");
+    let juries = document.querySelectorAll("#juries .my-card");
+    set_borders(projects);
+    set_borders(juries);
+} catch {}
 
-set_borders(cards);
-set_borders(histories);

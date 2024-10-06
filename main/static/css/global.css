@@ -416,3 +416,7 @@ body {
 #main::-webkit-scrollbar-thumb {
     background: transparent;
 }
+
+.fs-7 {
+    font-size: 0.85rem;
+}

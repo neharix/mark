@@ -4,8 +4,52 @@
     Baş sahypa
 {% endblock title %}
 {% block body %}
-    <div class="px-3">
-        <div class="block p-3">jury</div>
+    <div class="h-75 d-flex align-items-center justify-content-center">
+        <div class="block p-3 w-75">
+            <div class="m-2 h3">Bugünki rejede:</div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="m-2">Taslamalaryň sany</div>
+                    <div class="m-2">
+                        <div class="fw-bold fs-bg">{{ projects_count }}</div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="m-2">Gatnaşýan emin agzalaryň sany</div>
+                    <div class="m-2">
+                        <div class="fw-bold fs-bg">{{ juries_count }}</div>
+                    </div>
+                </div>
+            </div>
+            {% if projects %}
+                <div class="m-2 h3">Giňişleýin maglumat:</div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="m-2">Taslamalar:</div>
+                        <div class="projects">
+                            {% for project in projects %}
+                                <div class="m-2 fs-7">{{ forloop.counter }}. {{ project.full_name_of_manager }}-yň taslamasy</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="m-2">Emin agzalar:</div>
+                        <div class="juries">
+                            {% for jury in juries %}
+                                <div class="m-2 fs-7">{{ forloop.counter }}. {{ jury.last_name }} {{ jury.first_name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn button mx-2"
+                        onclick="location.href='{% url "mark_form" %}'">
+                    <i class="bi bi-plus"></i>
+                    Bahalandyrma başlamak
+                </button>
+            </div>
+        </div>
     </div>
 {% endblock body %}
 {% block scripts %}
