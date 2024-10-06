@@ -2,10 +2,10 @@
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
-    <link rel="stylesheet" href="{% static 'css/add_schedule.css' %}">
+    <link rel="stylesheet" href="{% static 'css/edit_schedule.css' %}">
 {% endblock head %}
 {% block title %}
-    Reje goşmak
+    Rejäni üýtgetmek
 {% endblock title %}
 {% block body %}
     <div class="px-3">
@@ -107,6 +107,21 @@
                         </tr>
                     </thead>
                     <tbody id="schedule-table">
+                        {% for project in projects %}
+                            <tr data="{{ project.id }}" draggable="true">
+                                <td class="text-center drag-handle">☰</td>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td>{{ project.description }}</td>
+                                <td>{{ project.full_name_of_manager }}</td>
+                                <td>{{ project.agency }}</td>
+                                <td>
+                                    <button onclick="delete_schedule_row({{ forloop.counter0 }})"
+                                            class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -126,6 +141,19 @@
                         </tr>
                     </thead>
                     <tbody id="juries-table">
+                        {% for jury in juries %}
+                            <tr data="{{ jury.id }}">
+                                <td scope="col"></td>
+                                <td scope="col" class="text-center">{{ forloop.counter }}</td>
+                                <td scope="col">{{ jury.last_name }} {{ jury.first_name }}</td>
+                                <td scope="col">
+                                    <button onclick="delete_jury_row({{ forloop.counter0 }})"
+                                            class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -168,7 +196,9 @@
     </div>
 {% endblock body %}
 {% block scripts %}
+    {{ schedule.pk|json_script:"schedule-pk" }}
+    {{ schedule.date|date:"d/m/Y"|json_script:"date" }}
     <script src="{% static 'js/csrftoken.js' %}"></script>
-    <script src="{% static 'js/calendar.js' %}"></script>
-    <script src="{% static 'js/add_schedule.js' %}"></script>
+    <script src="{% static 'js/calendar_edit.js' %}"></script>
+    <script src="{% static 'js/edit_schedule.js' %}"></script>
 {% endblock scripts %}

@@ -42,8 +42,7 @@
         <div class="block p-3">
             <div class="m-2">Rejeler</div>
             <div class="m-3 fw-bolder" id="quenes">
-                {% comment %} #FIXME sequence error {% endcomment %}
-                {% for quene in quenes %}
+                {% for schedule in schedules %}
                     <div class="my-3 my-card">
                         <div class="d-flex align-items-center">
                             <div style="margin-right: 1rem;">
@@ -52,20 +51,21 @@
                                 </div>
                             </div>
                             <div class="w-100">
-                                <div class="d-flex justify-content-between">
-                                    <div>{{ card.holder }}</div>
-                                    <div>{{ card.expiration_date }}</div>
-                                </div>
                                 <div>
-                                    <span class="fw-bolder dots">&#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022; &#x2022;&#x2022;&#x2022;&#x2022;</span> {{ card.number }}
+                                    <div>{{ schedule.date }}</div>
                                 </div>
-                                <div class="mb-2">Altyn asyr kart (beýleki)</div>
+                                <div>{{ schedule.projects_count }}</div>
+                                <div class="mb-2">{{ schedule.juries_count }}</div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
             <div class="d-flex justify-content-end mt-3">
+                <button class="btn button mx-2"
+                        onclick="location.href='{% url "schedules" %}'">
+                    <i class="bi bi-list-task"></i></i> Ähli rejeleri görmek
+                </button>
                 <button class="btn button mx-2"
                         onclick="location.href='{% url "add_schedule" %}'">
                     <i class="bi bi-plus"></i> Reje goşmak

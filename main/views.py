@@ -86,9 +86,9 @@ def main(request: HttpRequest):
         projects_count = Project.objects.all().count()
         rated_projects_count = Project.rated_objects.all().count()
         unrated_projects_count = Project.unrated_objects.all().count()
-        quenes = [
-            ScheduleContainer(quene)
-            for quene in Schedule.objects.all().order_by("-date")[:5]
+        schedules = [
+            ScheduleContainer(schedule)
+            for schedule in Schedule.objects.all().order_by("date")[:5]
         ]
         return render(
             request,
@@ -97,7 +97,24 @@ def main(request: HttpRequest):
                 "projects_count": projects_count,
                 "rated_projects_count": rated_projects_count,
                 "unrated_projects_count": unrated_projects_count,
-                "quenes": quenes,
+                "schedules": schedules,
+            },
+        )
+    return render(request, "views/main/jury.html")
+
+
+@login_required(login_url="/login/")
+def schedules(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        schedules = [
+            ScheduleContainer(schedule)
+            for schedule in Schedule.objects.all().order_by("date")
+        ]
+        return render(
+            request,
+            "views/schedules.html",
+            {
+                "schedules": schedules,
             },
         )
     return render(request, "views/main/jury.html")
@@ -279,3 +296,22 @@ def add_project_using_xlsx(request: HttpRequest):
 
 def add_schedule(request: HttpRequest):
     return render(request, "views/add_schedule.html")
+
+
+def edit_schedule(request: HttpRequest, schedule_pk: int):
+    schedule = Schedule.objects.get(pk=schedule_pk)
+    juries = schedule.juries.all()
+    project_pks = json.loads(schedule.quene_json)
+    projects = []
+    for project_pk in project_pks:
+        projects.append(Project.objects.get(pk=project_pk))
+    return render(
+        request,
+        "views/edit_schedule.html",
+        {"schedule": schedule, "projects": projects, "juries": juries},
+    )
+
+
+def delete_schedule(request: HttpRequest, schedule_pk: int):
+    Schedule.objects.get(pk=schedule_pk).delete()
+    return redirect("schedules")

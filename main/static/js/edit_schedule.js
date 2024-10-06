@@ -1,3 +1,50 @@
+const s_table = document.querySelector('#schedule-table');
+const schedule_pk = JSON.parse(document.getElementById('schedule-pk').textContent);
+
+const s_draggables = document.querySelectorAll('tr[draggable="true"]');
+
+s_draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+    draggable.classList.add('dragging');
+    });
+
+    draggable.addEventListener('dragend', () => {
+    draggable.classList.remove('dragging');
+    });
+});
+
+s_table.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    const afterElement = getDragAfterElement(table, event.clientY);
+    const draggable = document.querySelector('.dragging');
+    if (afterElement == null) {
+    s_table.appendChild(draggable);
+    } else {
+    s_table.insertBefore(draggable, afterElement);
+    }
+    for (let i=0; i < s_table.children.length; i++) {
+        s_table.children[i].children[1].innerHTML = i + 1;
+        s_table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_schedule_row(${i})`);
+    }
+});
+
+function getDragAfterElement(table, y) {
+    const draggableElements = [...table.querySelectorAll('tr:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+
+    if (offset < 0 && closest === null) {
+        return child;
+    } else if (offset < 0) {
+        return offset > closest.offset ? child : closest;
+    } else {
+        return closest;
+    }
+    }, null);
+}
+
 let projects = null;
 let juries = null;
 
@@ -181,7 +228,7 @@ table.addEventListener('dragover', (event) => {
 
     for (let i=0; i < table.children.length; i++) {
         table.children[i].children[1].innerHTML = i + 1;
-        table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_row(${i})`);
+        table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_schedule_row(${i})`);
     }
 });
 
@@ -203,18 +250,30 @@ function getDragAfterElement(table, y) {
 }
 
 function delete_schedule_row(row_index) {
-    $("#schedule-table tr").eq(row_index).remove();
     let table = document.querySelector("#schedule-table");
-
+    let project_id = Number(table.children[row_index].getAttribute("data"));
+    $.post("/api/v1/delete_project_from_schedule/", {schedule_pk: schedule_pk, project_id: project_id}, (data) => 
+        {
+            console.log(data);
+        }
+    );
+    $("#schedule-table tr").eq(row_index).remove();
     for (let i=0; i < table.children.length; i++) {
+        
         table.children[i].children[1].innerHTML = i + 1;
         table.children[i].children[5].querySelector("button").setAttribute("onclick", `delete_schedule_row(${i})`);
     }
 }
 function delete_jury_row(row_index) {
-    $("#juries-table tr").eq(row_index).remove();
     let table = document.querySelector("#juries-table");
-
+    let jury_id = Number(table.children[row_index].getAttribute("data"));
+    $.post("/api/v1/delete_jury_from_schedule/", {schedule_pk: schedule_pk, jury_id: jury_id}, (data) => 
+        {
+            console.log(data);
+        }
+        
+    );
+    $("#juries-table tr").eq(row_index).remove();
     for (let i=0; i < table.children.length; i++) {
         table.children[i].children[1].innerHTML = i + 1;
         table.children[i].children[3].querySelector("button").setAttribute("onclick", `delete_jury_row(${i})`);
@@ -235,9 +294,9 @@ function save_schedule(){
     for (let i=0; i < juries_table.children.length; i++) {
         juries_ids.push(Number(juries_table.children[i].getAttribute("data")));
     }
-    $.post("/api/v1/add_schedule/", {date: selected_date, schedule: JSON.stringify(pks), juries: JSON.stringify(juries_ids)}, (data) => 
+    $.post("/api/v1/edit_schedule/", {schedule_pk: schedule_pk, date: selected_date, schedule: JSON.stringify(pks), juries: JSON.stringify(juries_ids)}, (data) => 
         {
-            console.log(data)
+            console.log(data);
             let alert_box = document.querySelector("#alert-box");
             if (data.detail == "fail") {
                 alert_box.classList.remove("d-none");
