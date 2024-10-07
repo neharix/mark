@@ -79,7 +79,7 @@ class Project(models.Model):
         verbose_name_plural = "taslamalar"
 
     def __str__(self) -> str:
-        return f"{self.full_name_of_manager} taslamasy"
+        return f"{self.full_name_of_manager} {self.description} taslamasy"
 
 
 class Direction(models.Model):

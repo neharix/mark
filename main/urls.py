@@ -8,6 +8,8 @@ urlpatterns = [
     path("mark_form/", mark_form, name="mark_form"),
     path("schedules/edit/<int:schedule_pk>/", edit_schedule),
     path("schedules/delete/<int:schedule_pk>/", delete_schedule),
+    path("export_to_pdf/", export_to_pdf, name="export_to_pdf"),
+    path("export_to_xlsx/", export_to_xlsx, name="export_to_xlsx"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("add_project/", add_project, name="add_project"),

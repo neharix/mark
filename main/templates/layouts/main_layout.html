@@ -30,6 +30,20 @@
                     </a>
                     <div class="justify-content-end">
                         <ul class="nav-list mb-2 mb-lg-0">
+                            {% if exporter %}
+                                <li class="nav-item mx-5">
+                                    <div class="btn-group" role="group">
+                                        <button onclick="location.href='{% url 'export_to_xlsx' %}'"
+                                                class="btn btn-success">
+                                            <i class="bi bi-filetype-xlsx"></i>
+                                        </button>
+                                        <button onclick="location.href='{% url 'export_to_pdf' %}'"
+                                                class="btn btn-danger">
+                                            <i class="bi bi-filetype-pdf"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            {% endif %}
                             <li class="nav-item mx-2">
                                 <div class="dropdown">
                                     <a class="nav-link"

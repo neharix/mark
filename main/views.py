@@ -10,11 +10,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.core.files.base import ContentFile
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 from .containers import *
 from .models import *
+from .utils import *
 
 
 def login_view(request):
@@ -120,6 +121,27 @@ def main(request: HttpRequest):
             "views/main/jury.html",
             context,
         )
+    elif request.user.groups.contains(Group.objects.get(name="Spectator")):
+        rated_projects_count = Project.rated_objects.all().count()
+        rated_projects = [
+            ProjectMarkContainer(project) for project in Project.rated_objects.all()
+        ]
+        unrated_projects_count = Project.unrated_objects.all().count()
+        directions = [
+            DirectionContainer(direction) for direction in Direction.objects.all()
+        ]
+        return render(
+            request,
+            "views/main/spectator.html",
+            {
+                "rated_projects_count": rated_projects_count,
+                "rated_projects": rated_projects,
+                "unrated_projects_count": unrated_projects_count,
+                "directions": directions,
+                "exporter": True,
+            },
+        )
+    return render(request, "views/main/default.html")
 
 
 @login_required(login_url="/login/")
@@ -420,4 +442,43 @@ def mark_form(request: HttpRequest):
         else:
             return redirect("home")
         return render(request, "views/mark_form.html", context)
+    return redirect("home")
+
+
+def export_to_pdf(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        sort_by_marks = lambda e: e.percent
+        rated_projects = [
+            ProjectMarkContainer(project) for project in Project.rated_objects.all()
+        ]
+        rated_projects.sort(key=sort_by_marks)
+        rated_projects.reverse()
+        data = {
+            "rated_projects": rated_projects,
+            "current_year": datetime.datetime.now().year,
+        }
+        pdf = render_to_pdf("results_pdf.html", data)
+        return HttpResponse(pdf, content_type="application/pdf")
+    return redirect("home")
+
+
+def export_to_xlsx(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        rated_projects = [
+            ProjectMarkContainer(project) for project in Project.rated_objects.all()
+        ]
+        dataframe_dict = {"Taslama": [], "Bal": []}
+
+        for project in rated_projects:
+            dataframe_dict["Taslama"].append(project.name)
+            dataframe_dict["Bal"].append(f"{project.percent}%")
+
+        dataframe = pd.DataFrame(dataframe_dict)
+        response = HttpResponse(
+            content_type="application/xlsx",
+        )
+        response["Content-Disposition"] = f'attachment; filename="results.xlsx"'
+        with pd.ExcelWriter(response) as writer:
+            dataframe.to_excel(writer, sheet_name="sheet1")
+        return response
     return redirect("home")
