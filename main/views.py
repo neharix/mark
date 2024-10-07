@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.core.files.base import ContentFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -139,6 +139,7 @@ def main(request: HttpRequest):
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
                 "exporter": True,
+                "spectate_btn": True,
             },
         )
     return render(request, "views/main/default.html")
@@ -334,12 +335,18 @@ def add_project_using_xlsx(request: HttpRequest):
                     p_copy_page32=image32,
                 )
 
-                if not type(dataframe["Ikinji agzanyň F.A.A"][index]) == np.float64:
+                if (
+                    not type(dataframe["Ikinji agzanyň F.A.A"][index]) == np.float64
+                    or not type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.nan
+                ):
                     project.full_name_of_second_participant = dataframe[
                         "Ikinji agzanyň F.A.A"
                     ][index]
 
-                if not type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.float64:
+                if (
+                    not type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.float64
+                    or not type(dataframe["Üçünji agzanyň F.A.A"][index]) == np.nan
+                ):
                     project.full_name_of_third_participant = dataframe[
                         "Üçünji agzanyň F.A.A"
                     ][index]
@@ -482,3 +489,29 @@ def export_to_xlsx(request: HttpRequest):
             dataframe.to_excel(writer, sheet_name="sheet1")
         return response
     return redirect("home")
+
+
+def projects_list(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        rated_projects = Project.rated_objects.all()
+        return render(request, "views/projects_list.html", {"projects": rated_projects})
+    return redirect("home")
+
+
+def project_result(request: HttpRequest, project_pk: int):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        project = Project.objects.get(pk=project_pk)
+        marks = [
+            MarkContainer(mark)
+            for mark in Mark.objects.filter(project=project).order_by("-date")
+        ]
+        project_mark_container = ProjectMarkContainer(project)
+        return render(
+            request,
+            "views/project_result.html",
+            {
+                "project": project,
+                "marks": marks,
+                "project_mark_container": project_mark_container,
+            },
+        )

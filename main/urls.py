@@ -5,6 +5,8 @@ from .views import *
 urlpatterns = [
     path("", main, name="home"),
     path("schedules/", schedules, name="schedules"),
+    path("projects_list/", projects_list, name="projects_list"),
+    path("project_result/<int:project_pk>/", project_result),
     path("mark_form/", mark_form, name="mark_form"),
     path("schedules/edit/<int:schedule_pk>/", edit_schedule),
     path("schedules/delete/<int:schedule_pk>/", delete_schedule),

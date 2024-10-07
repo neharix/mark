@@ -1,5 +1,8 @@
 import json
 
+import pytz
+from django.contrib.auth.models import User
+
 from .models import *
 
 
@@ -29,3 +32,14 @@ class ProjectMarkContainer:
                 marks_list.append(total)
             print(jury.first_name + f"{total}")
         self.percent = int(sum(marks_list) / len(marks_list))
+
+
+class MarkContainer:
+    def __init__(self, mark: Mark) -> None:
+        self.criteria = mark.criteria
+        self.jury = mark.jury
+        self.mark = mark.mark
+        self.description = mark.description
+        self.date = mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime(
+            "%d.%m.%Y %H:%M:%S"
+        )

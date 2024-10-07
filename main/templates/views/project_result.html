@@ -1,0 +1,65 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_schedule.css' %}">
+{% endblock head %}
+{% block title %}
+    Taslama barada maglumat
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="h3 m-2">Taslama barada giňişleýin maglumat:</div>
+            <div class="row mx-2 my-3">
+                <div class="col-sm">
+                    <div>Ýolbaşçy: {{ project.full_name_of_manager }}</div>
+                    {% if project.full_name_of_second_participant %}
+                        <div>Ikinji agza: {{ project.full_name_of_second_participant }}</div>
+                    {% endif %}
+                    {% if project.full_name_of_third_participant %}
+                        <div>Üçünji agza: {{ project.full_name_of_third_participant }}</div>
+                    {% endif %}
+                    <div>Ugry: {{ project.direction.name }}</div>
+                </div>
+                <div class="col-sm">
+                    <div>Edara: {{ project.agency }}</div>
+                    <div>Taslamanyň beýany: {{ project.description }}</div>
+                    <div>Şahs: {{ project.personality_type }}</div>
+                    <div>Umumy baly: {{ project_mark_container.percent }}%</div>
+                </div>
+            </div>
+            <div class="m-2 h3">Taslama berlen bahalar:</div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">№</th>
+                            <th scope="col">Kriteriýa</th>
+                            <th scope="col">Emin agza</th>
+                            <th scope="col">Bal</th>
+                            <th scope="col">Düşündiriş</th>
+                            <th scope="col">Senesi we wagty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mark in marks %}
+                            <tr>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td>{{ mark.criteria.expression }}</td>
+                                <td>{{ mark.jury.last_name }} {{ mark.jury.first_name }}</td>
+                                <td>{{ mark.mark }}</td>
+                                <td>
+                                    {% if mark.description %}{{ mark.description }}{% endif %}
+                                </td>
+                                <td>{{ mark.date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+{% endblock scripts %}

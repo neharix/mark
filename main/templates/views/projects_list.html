@@ -1,0 +1,53 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Taslamalar
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="m-2">Rejeler</div>
+            <div class="m-3 fw-bolder" id="projects">
+                {% for project in projects %}
+                    <div class="my-3 my-card">
+                        <div class="d-flex align-items-center">
+                            <div style="margin-right: 1rem;">
+                                <div class="d-flex justify-content-center align-items-center ico" style="">
+                                    <i class="bi bi-box"></i>
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between">
+                                <div>
+                                    <div>
+                                        <div>{{ project.description }}</div>
+                                    </div>
+                                    <div>{{ project.full_name_of_manager }}</div>
+                                    <div class="mb-2">{{ project.agency }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn button mx-2"
+                                            onclick='location.href="/project_result/{{ project.pk }}/"'>
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    <script>
+        function set_borders(node_list) {
+            for (var i = 0; i < node_list.length; i++) {
+                if (i != node_list.length - 1) {
+                    node_list[i].classList.add("border-bottom");
+                }
+            }
+        }
+        let projects = document.querySelectorAll("#projects .my-card");
+        set_borders(projects);
+    </script>
+{% endblock scripts %}

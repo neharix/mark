@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 
@@ -107,7 +107,7 @@ class Criteria(models.Model):
 
 class Schedule(models.Model):
     quene_json = models.TextField("Reje JSON-y")
-    juries = models.ManyToManyField("User", verbose_name="Emin agzalar")
+    juries = models.ManyToManyField(User, verbose_name="Emin agzalar")
     date = models.DateField("Senesi")
 
     class Meta:
@@ -120,7 +120,7 @@ class Schedule(models.Model):
 
 class Mark(models.Model):
     criteria = models.ForeignKey("Criteria", on_delete=models.SET_NULL, null=True)
-    jury = models.ForeignKey("User", on_delete=models.SET_NULL, null=True)
+    jury = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     mark = models.IntegerField()
     description = models.TextField(null=True, blank=True)
@@ -132,7 +132,3 @@ class Mark(models.Model):
 
     def __str__(self):
         return f"{self.date} {self.project}"
-
-
-class User(AbstractUser):
-    pass

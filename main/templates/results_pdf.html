@@ -92,12 +92,6 @@
                 <!--<img src="{% static 'img/icon_logo.png' %}" width="45%">-->
                 IT Meýdança
             </div>
-            <div class="col header" style="width: 33%;">
-                <span style="margin: auto 0 auto auto;">{{ challenge.name }}</span>
-            </div>
-            <div class="col header" style="width: 33%; text-align: right;">
-                <span style="margin: auto 0 auto auto;">{{ challenge.date_start }}</span>
-            </div>
         </nav>
         <hr style="height: 3px;
                    border: 0;
@@ -115,7 +109,7 @@
                         <tr class="{% if forloop.counter|divisibleby:2 %}tr-odd{% else %}tr-even{% endif %}">
                             <td style="width: 20%; padding-left: 20px;">{{ forloop.counter }}</td>
                             <td style="width: 35%; padding-left: 20px;">{{ project.name }}</td>
-                            <td style="width: 35%; padding-left: 20px;">{{ project.percent }}</td>
+                            <td style="width: 35%; padding-left: 20px;">{{ project.percent }}%</td>
                         </tr>
                     {% endfor %}
                 </table>
