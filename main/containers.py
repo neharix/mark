@@ -30,7 +30,6 @@ class ProjectMarkContainer:
                 total += mark.mark
             if total != 0:
                 marks_list.append(total)
-            print(jury.first_name + f"{total}")
         self.percent = int(sum(marks_list) / len(marks_list))
 
 
