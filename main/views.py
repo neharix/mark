@@ -162,6 +162,7 @@ def schedules(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def add_project(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         directions = Direction.objects.all()
@@ -230,6 +231,7 @@ def add_project(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def add_project_using_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         if request.method == "POST":
@@ -356,12 +358,14 @@ def add_project_using_xlsx(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def add_schedule(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         return render(request, "views/add_schedule.html")
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def edit_schedule(request: HttpRequest, schedule_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         schedule = Schedule.objects.get(pk=schedule_pk)
@@ -378,6 +382,7 @@ def edit_schedule(request: HttpRequest, schedule_pk: int):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def delete_schedule(request: HttpRequest, schedule_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         Schedule.objects.get(pk=schedule_pk).delete()
@@ -385,6 +390,7 @@ def delete_schedule(request: HttpRequest, schedule_pk: int):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def mark_form(request: HttpRequest):
     context = {"criteries": Criteria.objects.all()}
     if request.user.groups.contains(Group.objects.get(name="Jury")):
@@ -452,6 +458,7 @@ def mark_form(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def export_to_pdf(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         sort_by_marks = lambda e: e.percent
@@ -469,6 +476,7 @@ def export_to_pdf(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def export_to_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         rated_projects = [
@@ -491,6 +499,7 @@ def export_to_xlsx(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def projects_list(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         rated_projects = Project.rated_objects.all()
@@ -498,6 +507,7 @@ def projects_list(request: HttpRequest):
     return redirect("home")
 
 
+@login_required(login_url="/login/")
 def project_result(request: HttpRequest, project_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         project = Project.objects.get(pk=project_pk)
