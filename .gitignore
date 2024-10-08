@@ -2,6 +2,3 @@
 .venv
 .vscode
 __pycache__
-
-# Media Files
-media
