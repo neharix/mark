@@ -1,0 +1,103 @@
+{% extends "layouts/main_layout.html" %}
+{% load static %}
+{% block title %}
+    Ulanyjylar
+{% endblock title %}
+{% block body %}
+    <div class="px-3">
+        <div class="block p-3">
+            <div class="m-2">Moderatorlar</div>
+            <div class="m-3 fw-bolder" id="moderators">
+                {% for user in moderators %}
+                    <div class="my-3 my-card">
+                        <div class="d-flex align-items-center">
+                            <div style="margin-right: 1rem;">
+                                <div class="d-flex justify-content-center align-items-center ico" style="">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between">
+                                <div>
+                                    <div>
+                                        <div>{{ user.username }}</div>
+                                    </div>
+                                    <div>{{ user.last_name }} {{ user.first_name }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn button mx-2"
+                                            onclick='location.href="/users/delete/{{ user.pk }}/"'>
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="m-2">Emin agzalar</div>
+            <div class="m-3 fw-bolder" id="moderators">
+                {% for user in juries %}
+                    <div class="my-3 my-card">
+                        <div class="d-flex align-items-center">
+                            <div style="margin-right: 1rem;">
+                                <div class="d-flex justify-content-center align-items-center ico" style="">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between">
+                                <div>
+                                    <div>
+                                        <div>{{ user.username }}</div>
+                                    </div>
+                                    <div>{{ user.last_name }} {{ user.first_name }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn button mx-2"
+                                            onclick='location.href="/users/delete/{{ user.pk }}/"'>
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="m-2">Tomaşaçylar</div>
+            <div class="m-3 fw-bolder" id="moderators">
+                {% for user in spectators %}
+                    <div class="my-3 my-card">
+                        <div class="d-flex align-items-center">
+                            <div style="margin-right: 1rem;">
+                                <div class="d-flex justify-content-center align-items-center ico" style="">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between">
+                                <div>
+                                    <div>
+                                        <div>{{ user.username }}</div>
+                                    </div>
+                                    <div>{{ user.last_name }} {{ user.first_name }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn button mx-2"
+                                            onclick='location.href="/users/delete/{{ user.pk }}/"'>
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn button mx-2"
+                        onclick="location.href='{% url "add_user" %}'">
+                    <i class="bi bi-plus"></i> Ulanyjy goşmak
+                </button>
+            </div>
+        </div>
+    {% endblock body %}
+    {% block scripts %}
+        <script src="{% static 'js/main.js' %}"></script>
+    {% endblock scripts %}

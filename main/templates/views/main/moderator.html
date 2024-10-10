@@ -8,6 +8,39 @@
         <div class="block p-3">
             <div class="row">
                 <div class="col-sm">
+                    <div class="m-2">Moderatorlaryň sany</div>
+                    <div class="m-2">
+                        <div class="fw-bold fs-bg">{{ moderators_count }}</div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="m-2">Emin agzalaryň sany</div>
+                    <div class="m-2">
+                        <div class="fw-bold fs-bg">{{ juries_count }}</div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="m-2">Tomaşaçylaryň sany</div>
+                    <div class="m-2">
+                        <div class="fw-bold fs-bg">{{ spectators_count }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn button mx-2" onclick="location.href='{% url "users" %}'">
+                    <i class="bi bi-list-task"></i>
+                    Ähli ulanyjylary görmek
+                </button>
+                <button class="btn button mx-2"
+                        onclick="location.href='{% url "add_user" %}'">
+                    <i class="bi bi-plus"></i>
+                    Ulanyjy goşmak
+                </button>
+            </div>
+        </div>
+        <div class="block p-3">
+            <div class="row">
+                <div class="col-sm">
                     <div class="m-2">Taslamalaryň sany</div>
                     <div class="m-2">
                         <div class="fw-bold fs-bg">{{ projects_count }}</div>

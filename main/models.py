@@ -132,3 +132,11 @@ class Mark(models.Model):
 
     def __str__(self):
         return f"{self.date} {self.project}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Ulanyjy")
+    password = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f"{self.user.username} profile"

@@ -83,6 +83,9 @@ def logout_view(request):
 @login_required(login_url="/login/")
 def main(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        moderators_count = User.objects.filter(groups__name="Moderator").count()
+        juries_count = User.objects.filter(groups__name="Jury").count()
+        spectators_count = User.objects.filter(groups__name="Spectator").count()
         projects_count = Project.objects.all().count()
         rated_projects_count = Project.rated_objects.all().count()
         unrated_projects_count = Project.unrated_objects.all().count()
@@ -94,6 +97,9 @@ def main(request: HttpRequest):
             request,
             "views/main/moderator.html",
             {
+                "moderators_count": moderators_count,
+                "juries_count": juries_count,
+                "spectators_count": spectators_count,
                 "projects_count": projects_count,
                 "rated_projects_count": rated_projects_count,
                 "unrated_projects_count": unrated_projects_count,
@@ -525,3 +531,71 @@ def project_result(request: HttpRequest, project_pk: int):
                 "project_mark_container": project_mark_container,
             },
         )
+
+
+@login_required(login_url="/login/")
+def add_user(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        groups = Group.objects.all()
+        if request.method == "POST":
+            if request.POST["password_1"] == request.POST["password_2"]:
+                try:
+                    group = Group.objects.get(pk=int(request.POST["role"]))
+                    user = User.objects.create(
+                        last_name=request.POST["last_name"],
+                        first_name=request.POST["first_name"],
+                        username=request.POST["username"],
+                        password=request.POST["password_1"],
+                    )
+                    Profile.objects.create(
+                        user=user, password=request.POST["password_1"]
+                    )
+                    user.groups.add(group)
+                    user.save()
+                    return redirect("users")
+                except:
+                    return render(
+                        request,
+                        "views/add_user.html",
+                        {
+                            "groups": groups,
+                            "message": "Näsazlyk ýüze çykdy",
+                        },
+                    )
+            else:
+                return render(
+                    request,
+                    "views/add_user.html",
+                    {
+                        "groups": groups,
+                        "message": "Girizen açar sözleriňiz bir-birine deň däl",
+                    },
+                )
+        return render(request, "views/add_user.html", {"groups": groups})
+    return redirect("home")
+
+
+@login_required(login_url="/login/")
+def users(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        juries = User.objects.filter(groups__name="Jury")
+        spectators = User.objects.filter(groups__name="Spectator")
+        moderators = User.objects.filter(groups__name="Moderator")
+        return render(
+            request,
+            "views/users.html",
+            {
+                "juries": juries,
+                "spectators": spectators,
+                "moderators": moderators,
+            },
+        )
+    return redirect("home")
+
+
+@login_required(login_url="/login/")
+def delete_user(request: HttpRequest, user_pk: int):
+    if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        User.objects.get(pk=user_pk).delete()
+        return redirect("users")
+    return redirect("home")

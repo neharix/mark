@@ -26,4 +26,12 @@ class DirectionAdmin(admin.ModelAdmin):
 @admin.register(Mark)
 class MarkAdmin(admin.ModelAdmin):
     list_display = ["pk", "criteria", "project", "mark", "jury", "date"]
-    readonly_fields = ("date",)
+    readonly_fields = (
+        "pk",
+        "criteria",
+        "project",
+        "mark",
+        "description",
+        "jury",
+        "date",
+    )
