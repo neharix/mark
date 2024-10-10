@@ -147,6 +147,7 @@ def main(request: HttpRequest):
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
                 "spectate_btn": True,
+                "exporter": True,
             },
         )
     return render(request, "views/main/default.html")
