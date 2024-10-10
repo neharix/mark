@@ -7,7 +7,15 @@
     <div class="px-3">
         <div class="block p-3">
             <div class="row m-2 my-5">
-                <canvas id="marks"></canvas>
+                <div class="col-sm-2 text-light">
+                    <div>h</div>
+                </div>
+                <div class="col-sm">
+                    <canvas id="marks"></canvas>
+                </div>
+                <div class="col-sm-2 text-light">
+                    <div>h</div>
+                </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm">
@@ -19,6 +27,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-2 text-light">h</div>
                 <div class="col-sm d-flex align-items-center">
                     <canvas id="projectByDirection"></canvas>
                 </div>
@@ -55,6 +64,7 @@
                 }
             }
         });
+
 
         new Chart(document.getElementById('aboutProjects').getContext('2d'), {
             type: 'doughnut',

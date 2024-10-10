@@ -136,7 +136,11 @@ class Mark(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Ulanyjy")
-    password = models.CharField(max_length=250)
+    password = models.CharField(max_length=250, verbose_name="Açar sözi")
 
     def __str__(self):
-        return f"{self.user.username} profile"
+        return f"{self.user.username} profili"
+
+    class Meta:
+        verbose_name = "profil"
+        verbose_name_plural = "profiller"

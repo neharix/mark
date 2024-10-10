@@ -13,6 +13,11 @@
     font-weight: var(--default-font-weight);
 }
 
+.bg-grey {
+    background-color: whitesmoke;
+}
+
+
 .ml-auto {
     margin-left: auto;
 }

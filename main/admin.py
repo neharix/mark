@@ -23,6 +23,12 @@ class DirectionAdmin(admin.ModelAdmin):
     list_display = ["pk", "name"]
 
 
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ["pk", "user", "password"]
+    readonly_fields = ("user", "password")
+
+
 @admin.register(Mark)
 class MarkAdmin(admin.ModelAdmin):
     list_display = ["pk", "criteria", "project", "mark", "jury", "date"]

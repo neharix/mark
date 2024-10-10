@@ -91,7 +91,9 @@ def main(request: HttpRequest):
         unrated_projects_count = Project.unrated_objects.all().count()
         schedules = [
             ScheduleContainer(schedule)
-            for schedule in Schedule.objects.all().order_by("-date")[:5]
+            for schedule in Schedule.objects.filter(
+                date__gte=datetime.date.today()
+            ).order_by("-date")[:5]
         ]
         return render(
             request,
@@ -144,7 +146,6 @@ def main(request: HttpRequest):
                 "rated_projects": rated_projects,
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
-                "exporter": True,
                 "spectate_btn": True,
             },
         )
@@ -154,9 +155,10 @@ def main(request: HttpRequest):
 @login_required(login_url="/login/")
 def schedules(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
+        today = datetime.date.today()
         schedules = [
             ScheduleContainer(schedule)
-            for schedule in Schedule.objects.all().order_by("-date")
+            for schedule in Schedule.objects.filter(date__gte=today).order_by("-date")
         ]
         return render(
             request,
@@ -545,8 +547,8 @@ def add_user(request: HttpRequest):
                         last_name=request.POST["last_name"],
                         first_name=request.POST["first_name"],
                         username=request.POST["username"],
-                        password=request.POST["password_1"],
                     )
+                    user.set_password(request.POST["password_1"])
                     Profile.objects.create(
                         user=user, password=request.POST["password_1"]
                     )
