@@ -12,12 +12,14 @@ from django.contrib.auth.models import Group, User
 from django.core.files.base import ContentFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
+from django_ratelimit.decorators import ratelimit
 
 from .containers import *
 from .models import *
 from .utils import *
 
 
+@ratelimit(key="ip", rate="5/s")
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -43,6 +45,7 @@ def login_view(request):
             )
 
 
+@ratelimit(key="ip", rate="5/s")
 def register_view(request):
     if request.method == "POST":
         fname = request.POST["firstname"]
@@ -74,12 +77,14 @@ def register_view(request):
         return render(request, "flight/register.html")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def logout_view(request):
     logout(request)
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def main(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -153,6 +158,7 @@ def main(request: HttpRequest):
     return render(request, "views/main/default.html")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def schedules(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -171,6 +177,7 @@ def schedules(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def add_project(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -240,6 +247,7 @@ def add_project(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def add_project_using_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -367,6 +375,7 @@ def add_project_using_xlsx(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def add_schedule(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -374,6 +383,7 @@ def add_schedule(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def edit_schedule(request: HttpRequest, schedule_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -391,6 +401,7 @@ def edit_schedule(request: HttpRequest, schedule_pk: int):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def delete_schedule(request: HttpRequest, schedule_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -399,6 +410,7 @@ def delete_schedule(request: HttpRequest, schedule_pk: int):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def mark_form(request: HttpRequest):
     context = {"criteries": Criteria.objects.all()}
@@ -467,6 +479,7 @@ def mark_form(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def export_to_pdf(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
@@ -485,6 +498,7 @@ def export_to_pdf(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def export_to_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
@@ -508,6 +522,7 @@ def export_to_xlsx(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def projects_list(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
@@ -516,6 +531,7 @@ def projects_list(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def project_result(request: HttpRequest, project_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
@@ -536,6 +552,7 @@ def project_result(request: HttpRequest, project_pk: int):
         )
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def add_user(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -578,6 +595,7 @@ def add_user(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def users(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -596,6 +614,7 @@ def users(request: HttpRequest):
     return redirect("home")
 
 
+@ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def delete_user(request: HttpRequest, user_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):

@@ -3,6 +3,7 @@ import json
 
 from django.contrib.auth.models import Group
 from django.shortcuts import render
+from django_ratelimit.decorators import ratelimit
 
 # Create your views here.
 from rest_framework.decorators import api_view
@@ -14,6 +15,7 @@ from main.models import *
 from .serializers import *
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["GET"])
 def unrated_projects_api_view(request: HttpRequest):
     projects = Project.unrated_objects.all()
@@ -29,6 +31,7 @@ def unrated_projects_api_view(request: HttpRequest):
     return Response(serializer.data)
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["GET"])
 def juries_api_view(request: HttpRequest):
     users = User.objects.all()
@@ -40,6 +43,7 @@ def juries_api_view(request: HttpRequest):
     return Response(serializer.data)
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["POST"])
 def add_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -67,6 +71,7 @@ def add_schedule_api_view(request: HttpRequest):
     return Response({"detail": "you need to be a moderator"})
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["POST"])
 def edit_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -102,6 +107,7 @@ def edit_schedule_api_view(request: HttpRequest):
     return Response({"detail": "you need to be a moderator"})
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["POST"])
 def delete_project_from_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -118,6 +124,7 @@ def delete_project_from_schedule_api_view(request: HttpRequest):
     return Response({"detail": "you need to be a moderator"})
 
 
+@ratelimit(key="ip", rate="5/s")
 @api_view(["POST"])
 def delete_jury_from_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -131,11 +138,3 @@ def delete_jury_from_schedule_api_view(request: HttpRequest):
             return Response({"detail": "success"})
         return Response({"detail": "fail"})
     return Response({"detail": "you need to be a moderator"})
-
-
-# @api_view(["GET"])
-# def devices_api_view(request: HttpRequest, slug: str):
-#     devices = Device.objects.filter(device_type__short=slug)
-#     devices_list = [DeviceContainer(device, slug) for device in devices]
-#     serializer = DeviceSerializer(devices_list, many=True)
-#     return Response(serializer.data)
