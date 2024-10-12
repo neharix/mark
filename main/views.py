@@ -13,6 +13,7 @@ from django.core.files.base import ContentFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django_ratelimit.decorators import ratelimit
+from encrypted_files.base import EncryptedFile
 
 from .containers import *
 from .models import *
@@ -620,4 +621,68 @@ def delete_user(request: HttpRequest, user_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         User.objects.get(pk=user_pk).delete()
         return redirect("users")
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def decrypted_copy_1(request: HttpRequest, project_pk: int):
+    if (
+        request.user.groups.contains(Group.objects.get(name="Moderator"))
+        or request.user.is_superuser
+    ):
+        file = Project.objects.get(pk=project_pk).p_copy_page1
+        encrypted_file = EncryptedFile(file)
+        return HttpResponse(
+            encrypted_file.read(),
+            content_type="image/jpg, image/png",
+        )
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def decrypted_copy_2_3(request: HttpRequest, project_pk: int):
+    if (
+        request.user.groups.contains(Group.objects.get(name="Moderator"))
+        or request.user.is_superuser
+    ):
+        file = Project.objects.get(pk=project_pk).p_copy_page2_3
+        encrypted_file = EncryptedFile(file)
+        return HttpResponse(
+            encrypted_file.read(),
+            content_type="image/jpg, image/png",
+        )
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def decrypted_copy_5_6(request: HttpRequest, project_pk: int):
+    if (
+        request.user.groups.contains(Group.objects.get(name="Moderator"))
+        or request.user.is_superuser
+    ):
+        file = Project.objects.get(pk=project_pk).p_copy_page5_6
+        encrypted_file = EncryptedFile(file)
+        return HttpResponse(
+            encrypted_file.read(),
+            content_type="image/jpg, image/png",
+        )
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def decrypted_copy_32(request: HttpRequest, project_pk: int):
+    if (
+        request.user.groups.contains(Group.objects.get(name="Moderator"))
+        or request.user.is_superuser
+    ):
+        file = Project.objects.get(pk=project_pk).p_copy_page32
+        encrypted_file = EncryptedFile(file)
+        return HttpResponse(
+            encrypted_file.read(),
+            content_type="image/jpg, image/png",
+        )
     return redirect("home")

@@ -1,3 +1,7 @@
+import hashlib
+import os
+
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
