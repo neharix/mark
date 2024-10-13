@@ -57,6 +57,7 @@
                         <input class="floating-label__input inp usrnm"
                                type="text"
                                name="username"
+                               id="username"
                                autocomplete="off"
                                required
                                placeholder=" " />
@@ -64,6 +65,24 @@
                             <div class="floating-label__leading"></div>
                             <div class="floating-label__notch">
                                 <label class="floating-label__label" for="number">Ulanyjy ady</label>
+                            </div>
+                            <div class="floating-label__trailing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="floating-label my-3">
+                        <input class="floating-label__input inp email"
+                               type="text"
+                               name="email"
+                               id="email"
+                               autocomplete="off"
+                               required
+                               placeholder=" " />
+                        <div class="floating-label__outline">
+                            <div class="floating-label__leading"></div>
+                            <div class="floating-label__notch">
+                                <label class="floating-label__label" for="email">Email</label>
                             </div>
                             <div class="floating-label__trailing"></div>
                         </div>
@@ -86,10 +105,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center w-100">
-                    <button class="btn button w-50" type="submit" id="accept-btn" disabled>GIRIŞ</button>
+                <div class="d-none" id="otp-field">
+                    <div class="floating-label my-3">
+                        <input class="floating-label__input inp otp"
+                               type="text"
+                               id="otp"
+                               name="otp"
+                               autocomplete="off"
+                               required
+                               placeholder=" " />
+                        <div class="floating-label__outline">
+                            <div class="floating-label__leading"></div>
+                            <div class="floating-label__notch">
+                                <label class="floating-label__label" for="otp">Tassyklama belgisi</label>
+                            </div>
+                            <div class="floating-label__trailing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center my-2">
+                    <button class="btn button mx-auto" type="submit" id="accept-btn" disabled>GIRIŞ</button>
                 </div>
             </form>
+            <div class="d-flex justify-content-center my-2">
+                <button class="link link-secondary fs-7 text-decoration-none mx-auto"
+                        style="border: none"
+                        id="get-verification-code"
+                        disabled>TASSYKLAMA BELGISINI ALMAK</button>
+            </div>
         </div>
     </div>
 {% endblock body %}

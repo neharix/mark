@@ -1,12 +1,15 @@
 import datetime
 import json
+import random
 
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 from django.shortcuts import render
 from django_ratelimit.decorators import ratelimit
 
 # Create your views here.
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import HttpRequest
 from rest_framework.response import Response
 
@@ -16,6 +19,7 @@ from .serializers import *
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["GET"])
 def unrated_projects_api_view(request: HttpRequest):
     projects = Project.unrated_objects.all()
@@ -32,6 +36,7 @@ def unrated_projects_api_view(request: HttpRequest):
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["GET"])
 def juries_api_view(request: HttpRequest):
     users = User.objects.all()
@@ -44,6 +49,7 @@ def juries_api_view(request: HttpRequest):
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def add_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -72,6 +78,7 @@ def add_schedule_api_view(request: HttpRequest):
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def edit_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -108,6 +115,7 @@ def edit_schedule_api_view(request: HttpRequest):
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def delete_project_from_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -125,6 +133,7 @@ def delete_project_from_schedule_api_view(request: HttpRequest):
 
 
 @ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
 @api_view(["POST"])
 def delete_jury_from_schedule_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
@@ -138,3 +147,33 @@ def delete_jury_from_schedule_api_view(request: HttpRequest):
             return Response({"detail": "success"})
         return Response({"detail": "fail"})
     return Response({"detail": "you need to be a moderator"})
+
+
+@ratelimit(key="ip", rate="5/s")
+@api_view(["POST"])
+def otp_api_view(request: HttpRequest):
+    username = request.data["username"]
+    email = request.data["email"]
+    try:
+        user = User.objects.get(username=username)
+        print("success")
+        if user.email == email:
+            profile = Profile.objects.get(user=user)
+            profile.otp = "".join([str(random.randint(0, 9)) for i in range(5)])
+            profile.save()
+            try:
+                pass
+            except:
+                return Response({"detail": "something wrong with server"})
+        else:
+            return Response({"detail": "invalid email"})
+    except:
+        return Response({"detail": "user not found"})
+    send_mail(
+        subject="Tassyklama kody",
+        from_email="altyntoleg@gmail.com",
+        message="",
+        recipient_list=[user.email],
+        html_message=f"<div><p>Girişi ýerine ýetirmek üçin tassyklama belgiňiz:</p></div><div><h1>{profile.otp}</h1></div>",
+    )
+    return Response({"detail": "success"})

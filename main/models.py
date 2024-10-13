@@ -140,6 +140,7 @@ class Mark(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Ulanyjy")
+    otp = models.CharField(max_length=5, verbose_name="OTP kody")
     password = models.CharField(max_length=250, verbose_name="Açar sözi")
 
     def __str__(self):

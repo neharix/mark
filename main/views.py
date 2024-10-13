@@ -24,12 +24,20 @@ from .utils import *
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
+        email = request.POST["email"]
         password = request.POST["password"]
+        otp = request.POST["otp"]
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect("home")
-
+            if Profile.objects.get(user=user).otp == otp:
+                login(request, user)
+                return redirect("home")
+            else:
+                return render(
+                    request,
+                    "views/login.html",
+                    {"message": "Tassyklama belgisi nädogry"},
+                )
         else:
             return render(
                 request,
@@ -44,38 +52,6 @@ def login_view(request):
                 request,
                 "views/login.html",
             )
-
-
-@ratelimit(key="ip", rate="5/s")
-def register_view(request):
-    if request.method == "POST":
-        fname = request.POST["firstname"]
-        lname = request.POST["lastname"]
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensuring password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(
-                request, "flight/register.html", {"message": "Passwords must match."}
-            )
-
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.first_name = fname
-            user.last_name = lname
-            user.save()
-        except:
-            return render(
-                request, "flight/register.html", {"message": "Username already taken."}
-            )
-        login(request, user)
-        return redirect("home")
-    else:
-        return render(request, "flight/register.html")
 
 
 @ratelimit(key="ip", rate="5/s")
