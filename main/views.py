@@ -13,11 +13,13 @@ from django.core.files.base import ContentFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django_ratelimit.decorators import ratelimit
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Inches, Mm, Pt, RGBColor
 from encrypted_files.base import EncryptedFile
 
 from .containers import *
 from .models import *
-from .utils import *
 
 
 @ratelimit(key="ip", rate="5/s")
@@ -128,8 +130,6 @@ def main(request: HttpRequest):
                 "rated_projects": rated_projects,
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
-                "spectate_btn": True,
-                "exporter": True,
             },
         )
     return render(request, "views/main/default.html")
@@ -458,7 +458,7 @@ def mark_form(request: HttpRequest):
 
 @ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
-def export_to_pdf(request: HttpRequest):
+def export_to_docx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         sort_by_marks = lambda e: e.percent
         rated_projects = [
@@ -466,12 +466,74 @@ def export_to_pdf(request: HttpRequest):
         ]
         rated_projects.sort(key=sort_by_marks)
         rated_projects.reverse()
-        data = {
-            "rated_projects": rated_projects,
-            "current_year": datetime.datetime.now().year,
-        }
-        pdf = render_to_pdf("results_pdf.html", data)
-        return HttpResponse(pdf, content_type="application/pdf")
+        document = Document()
+        style = document.styles["Normal"]
+        style.font.name = "Times New Roman"
+
+        picture_paragraph = document.add_paragraph()
+        picture_run = picture_paragraph.add_run()
+        picture_run.add_picture(
+            str(settings.BASE_DIR) + "/main/static/img/ministry-logo.png",
+            width=Mm(25),
+            height=Mm(25),
+        )
+        picture_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        head = document.add_heading(level=0)
+        head.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        run = head.add_run(f'"Sanly Çözgüt - 2024" netijeleri')
+
+        run.font.name = "Times New Roman"
+        run.font.bold = True
+
+        table = document.add_table(rows=len(rated_projects) + 1, cols=6)
+        table.style = "Table Grid"
+
+        for index in range(6):
+            cell = table.cell(0, index)
+            paragraph = cell.paragraphs[0]
+            if index == 0:
+                run = paragraph.add_run("№")
+            elif index == 1:
+                run = paragraph.add_run("Taslama")
+            elif index == 2:
+                run = paragraph.add_run("Bahasy")
+            elif index == 3:
+                run = paragraph.add_run("Ýolbaşçysy")
+            elif index == 4:
+                run = paragraph.add_run("Edarasy")
+            elif index == 5:
+                run = paragraph.add_run("Ugry")
+            run.font.bold = True
+
+        row_id = 1
+
+        for project in rated_projects:
+
+            table.cell(row_id, 0).text = f"{row_id}"
+
+            table.cell(row_id, 1).text = f"{project.name}"
+            table.cell(row_id, 2).text = f"{project.percent}%"
+            table.cell(row_id, 3).text = f"{project.manager}"
+            table.cell(row_id, 4).text = f"{project.agency}"
+            table.cell(row_id, 5).text = f"{project.direction}"
+            row_id += 1
+
+        buffer = BytesIO()
+        document.save(buffer)
+        buffer.seek(0)
+
+        response = HttpResponse(
+            buffer.getvalue(),
+            content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+
+        response["Content-Disposition"] = (
+            f'attachment; filename="netije-{datetime.datetime.now().strftime('%d.%m.%Y')}.docx"'
+        )
+
+        return response
+
     return redirect("home")
 
 
@@ -482,11 +544,20 @@ def export_to_xlsx(request: HttpRequest):
         rated_projects = [
             ProjectMarkContainer(project) for project in Project.rated_objects.all()
         ]
-        dataframe_dict = {"Taslama": [], "Bal": []}
+        dataframe_dict = {
+            "Taslama": [],
+            "Bahasy": [],
+            "Ýolbaşçysy": [],
+            "Edarasy": [],
+            "Ugry": [],
+        }
 
         for project in rated_projects:
             dataframe_dict["Taslama"].append(project.name)
             dataframe_dict["Bal"].append(f"{project.percent}%")
+            dataframe_dict["Bal"].append(f"{project.manager}")
+            dataframe_dict["Bal"].append(f"{project.agency}")
+            dataframe_dict["Bal"].append(f"{project.direction}")
 
         dataframe = pd.DataFrame(dataframe_dict)
         response = HttpResponse(
@@ -542,10 +613,13 @@ def add_user(request: HttpRequest):
                         last_name=request.POST["last_name"],
                         first_name=request.POST["first_name"],
                         username=request.POST["username"],
+                        email=request.POST["email"],
                     )
                     user.set_password(request.POST["password_1"])
                     Profile.objects.create(
-                        user=user, password=request.POST["password_1"]
+                        user=user,
+                        password=request.POST["password_1"],
+                        otp="".join([str(random.randint(0, 9)) for i in range(5)]),
                     )
                     user.groups.add(group)
                     user.save()

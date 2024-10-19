@@ -118,7 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "altyntoleg@gmail.com"
 EMAIL_HOST_PASSWORD = "vizo ijwv dtft achk"

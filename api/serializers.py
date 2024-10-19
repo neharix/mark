@@ -10,6 +10,14 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ["pk", "description", "agency", "full_name_of_manager"]
 
 
+class UnratedProjectSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    percent = serializers.IntegerField()
+    manager = serializers.CharField()
+    agency = serializers.CharField()
+    direction = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

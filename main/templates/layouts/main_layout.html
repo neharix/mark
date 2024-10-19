@@ -72,28 +72,8 @@
                     </a>
                     <div class="justify-content-end">
                         <ul class="nav-list mb-2 mb-lg-0">
-                            {% if spectate_btn %}
-                                <li class="nav-item mx-2">
-                                    <button onclick="location.href='{% url 'projects_list' %}'"
-                                            class="btn button">
-                                        <i class="bi bi-list"></i> Taslamalar
-                                    </button>
-                                </li>
-                            {% endif %}
-                            {% if exporter %}
-                                <li class="nav-item mx-5">
-                                    <div class="btn-group" role="group">
-                                        <button onclick="location.href='{% url 'export_to_xlsx' %}'"
-                                                class="btn button">
-                                            <i class="bi bi-filetype-xlsx"></i>
-                                        </button>
-                                        <button onclick="location.href='{% url 'export_to_pdf' %}'"
-                                                class="btn button">
-                                            <i class="bi bi-filetype-pdf"></i>
-                                        </button>
-                                    </div>
-                                </li>
-                            {% endif %}
+                            {% block navbar %}
+                            {% endblock navbar %}
                             <li class="nav-item mx-2">
                                 <div class="dropdown">
                                     <a class="nav-link"

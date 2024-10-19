@@ -12,7 +12,7 @@ urlpatterns = [
     path("schedules/edit/<int:schedule_pk>/", edit_schedule),
     path("schedules/delete/<int:schedule_pk>/", delete_schedule),
     path("users/delete/<int:user_pk>/", delete_user),
-    path("export_to_pdf/", export_to_pdf, name="export_to_pdf"),
+    path("export_to_docx/", export_to_docx, name="export_to_docx"),
     path("export_to_xlsx/", export_to_xlsx, name="export_to_xlsx"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),

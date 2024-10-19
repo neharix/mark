@@ -3,18 +3,35 @@
 {% block title %}
     Baş sahypa
 {% endblock title %}
+{% block navbar %}
+    <li class="nav-item mx-2">
+        <button onclick="location.href='{% url 'projects_list' %}'"
+                class="btn button">
+            <i class="bi bi-list"></i> Taslamalar
+        </button>
+    </li>
+    <li class="nav-item mx-5">
+        <div class="btn-group" role="group">
+            <button onclick="location.href='{% url 'export_to_xlsx' %}'"
+                    class="btn button">
+                <i class="bi bi-filetype-xlsx"></i>
+            </button>
+            <button onclick="location.href='{% url 'export_to_docx' %}'"
+                    class="btn button">
+                <i class="bi bi-filetype-docx"></i>
+            </button>
+        </div>
+    </li>
+{% endblock navbar %}
 {% block body %}
     <div class="px-3">
         <div class="block p-3">
             <div class="row m-2 my-5">
-                <div class="col-sm-2 text-light">
-                    <div>h</div>
+                <div class="col-sm">
+                    <canvas id="onlineMonitoring"></canvas>
                 </div>
                 <div class="col-sm">
                     <canvas id="marks"></canvas>
-                </div>
-                <div class="col-sm-2 text-light">
-                    <div>h</div>
                 </div>
             </div>
             <div class="row m-2">
@@ -41,7 +58,29 @@
     <script>
         Chart.defaults.font.family = 'Quicksand';
 
-        // Create the bar chart
+        let onlineChart = new Chart(document.getElementById('onlineMonitoring').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: [{% for project in rated_projects %}"{{ project.name }}", {% endfor %}],
+                datasets: [{
+                    label: 'Taslamalaryň alan bahalary',
+                    data: [{% for project in rated_projects %}{{ project.percent }}, {% endfor %}],
+                    backgroundColor: 'rgba(70, 192, 192, 0.6)',
+                    borderColor: 'rgba(150, 100, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                    }
+                }
+            }
+        });
+
         let marksChart = new Chart(document.getElementById('marks').getContext('2d'), {
             type: 'bar',
             data: {
@@ -123,4 +162,5 @@
             }
         });
     </script>
+    <script src="{% static 'js/update_chart.js' %}"></script>
 {% endblock scripts %}

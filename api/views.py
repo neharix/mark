@@ -15,7 +15,37 @@ from rest_framework.response import Response
 
 from main.models import *
 
+from .containers import *
 from .serializers import *
+
+# def pdf_data_api_view(request: HttpRequest):
+#     if request.user.groups.contains(Group.objects.get(name="Moderator")):
+#         sort_by_marks = lambda e: e.percent
+#         rated_projects = [
+#             ProjectMarkContainer(project) for project in Project.rated_objects.all()
+#         ]
+#         rated_projects.sort(key=sort_by_marks)
+#         rated_projects.reverse()
+#         data = {
+#             "rated_projects": rated_projects,
+#             "current_year": datetime.datetime.now().year,
+#         }
+#     return Response({"detail": "you need to be a spectator"})
+
+
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
+@api_view(["GET"])
+def unrated_projects_status_api_view(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        unrated_projects = Project.unrated_objects.all()
+        projects = [
+            UnratedProjectMarkContainer(project)
+            for project in Project.unrated_objects.all()
+        ]
+        serializer = UnratedProjectSerializer(projects, many=True)
+        return Response(serializer.data)
+    return Response({"detail": "you need to be a spectator"})
 
 
 @ratelimit(key="ip", rate="5/s")
