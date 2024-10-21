@@ -143,6 +143,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Ulanyjy")
     otp = models.CharField(max_length=5, verbose_name="OTP kody")
     password = models.CharField(max_length=250, verbose_name="Açar sözi")
+    active_jury = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user.username} profili"

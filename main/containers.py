@@ -28,12 +28,16 @@ class ProjectMarkContainer:
         self.agency = project.agency
         marks_list = []
         for jury in User.objects.filter(groups__name="Jury"):
-            total = 0
-            for mark in Mark.objects.filter(project=project, jury=jury):
-                total += mark.mark
-            if total != 0:
-                marks_list.append(total)
-        self.percent = int(sum(marks_list) / len(marks_list))
+            if Profile.objects.get(user=jury).active_jury:
+                total = 0
+                for mark in Mark.objects.filter(project=project, jury=jury):
+                    total += mark.mark
+                if Mark.objects.filter(project=project, jury=jury).count() != 0:
+                    marks_list.append(total)
+        try:
+            self.percent = int(sum(marks_list) / len(marks_list))
+        except ZeroDivisionError:
+            self.percent = 0
 
 
 class MarkContainer:

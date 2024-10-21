@@ -554,10 +554,10 @@ def export_to_xlsx(request: HttpRequest):
 
         for project in rated_projects:
             dataframe_dict["Taslama"].append(project.name)
-            dataframe_dict["Bal"].append(f"{project.percent}%")
-            dataframe_dict["Bal"].append(f"{project.manager}")
-            dataframe_dict["Bal"].append(f"{project.agency}")
-            dataframe_dict["Bal"].append(f"{project.direction}")
+            dataframe_dict["Bahasy"].append(f"{project.percent}%")
+            dataframe_dict["Ýolbaşçysy"].append(f"{project.manager}")
+            dataframe_dict["Edarasy"].append(f"{project.agency}")
+            dataframe_dict["Ugry"].append(f"{project.direction}")
 
         dataframe = pd.DataFrame(dataframe_dict)
         response = HttpResponse(
@@ -616,11 +616,10 @@ def add_user(request: HttpRequest):
                         email=request.POST["email"],
                     )
                     user.set_password(request.POST["password_1"])
-                    Profile.objects.create(
-                        user=user,
-                        password=request.POST["password_1"],
-                        otp="".join([str(random.randint(0, 9)) for i in range(5)]),
-                    )
+                    profile = Profile.objects.get(user=user)
+                    profile.password = request.POST["password_1"]
+                    profile.save()
+
                     user.groups.add(group)
                     user.save()
                     return redirect("users")

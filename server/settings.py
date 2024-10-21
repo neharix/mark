@@ -119,8 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "altyntoleg@gmail.com"
-EMAIL_HOST_PASSWORD = "vizo ijwv dtft achk"
+EMAIL_HOST_USER = "sanlycozgutbaslesik@gmail.com"
+EMAIL_HOST_PASSWORD = "wnrx jfbc rpxl eush"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

@@ -201,7 +201,7 @@ def otp_api_view(request: HttpRequest):
         return Response({"detail": "user not found"})
     send_mail(
         subject="Tassyklama kody",
-        from_email="altyntoleg@gmail.com",
+        from_email="sanlycozgutbaslesik@gmail.com",
         message="",
         recipient_list=[user.email],
         html_message=f"<div><p>Girişi ýerine ýetirmek üçin tassyklama belgiňiz:</p></div><div><h1>{profile.otp}</h1></div>",
