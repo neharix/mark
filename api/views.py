@@ -179,31 +179,31 @@ def delete_jury_from_schedule_api_view(request: HttpRequest):
     return Response({"detail": "you need to be a moderator"})
 
 
-@ratelimit(key="ip", rate="5/s")
-@api_view(["POST"])
-def otp_api_view(request: HttpRequest):
-    username = request.data["username"]
-    email = request.data["email"]
-    try:
-        user = User.objects.get(username=username)
-        print("success")
-        if user.email == email:
-            profile = Profile.objects.get(user=user)
-            profile.otp = "".join([str(random.randint(0, 9)) for i in range(5)])
-            profile.save()
-            try:
-                pass
-            except:
-                return Response({"detail": "something wrong with server"})
-        else:
-            return Response({"detail": "invalid email"})
-    except:
-        return Response({"detail": "user not found"})
-    send_mail(
-        subject="Tassyklama kody",
-        from_email="sanlycozgutbaslesik@gmail.com",
-        message="",
-        recipient_list=[user.email],
-        html_message=f"<div><p>Girişi ýerine ýetirmek üçin tassyklama belgiňiz:</p></div><div><h1>{profile.otp}</h1></div>",
-    )
-    return Response({"detail": "success"})
+# @ratelimit(key="ip", rate="5/s")
+# @api_view(["POST"])
+# def otp_api_view(request: HttpRequest):
+#     username = request.data["username"]
+#     email = request.data["email"]
+#     try:
+#         user = User.objects.get(username=username)
+#         print("success")
+#         if user.email == email:
+#             profile = Profile.objects.get(user=user)
+#             profile.otp = "".join([str(random.randint(0, 9)) for i in range(5)])
+#             profile.save()
+#             try:
+#                 pass
+#             except:
+#                 return Response({"detail": "something wrong with server"})
+#         else:
+#             return Response({"detail": "invalid email"})
+#     except:
+#         return Response({"detail": "user not found"})
+#     send_mail(
+#         subject="Tassyklama kody",
+#         from_email="sanlycozgutbaslesik@gmail.com",
+#         message="",
+#         recipient_list=[user.email],
+#         html_message=f"<div><p>Girişi ýerine ýetirmek üçin tassyklama belgiňiz:</p></div><div><h1>{profile.otp}</h1></div>",
+#     )
+#     return Response({"detail": "success"})

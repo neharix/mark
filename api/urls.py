@@ -11,7 +11,7 @@ urlpatterns = [
         unrated_projects_status_api_view,
         name="unrated_projects_status_api_view",
     ),
-    path("otp/", otp_api_view, name="otp_api_view"),
+    # path("otp/", otp_api_view, name="otp_api_view"),
     path("juries/", juries_api_view, name="juries_api_view"),
     path(
         "delete_project_from_schedule/",

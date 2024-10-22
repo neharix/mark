@@ -24,8 +24,4 @@ urlpatterns = [
         add_project_using_xlsx,
         name="add_project_using_excel",
     ),
-    path("decrypt_p1/<int:project_pk>/", decrypted_copy_1),
-    path("decrypt_p2_3/<int:project_pk>/", decrypted_copy_2_3),
-    path("decrypt_p5_6/<int:project_pk>/", decrypted_copy_5_6),
-    path("decrypt_p32/<int:project_pk>/", decrypted_copy_32),
 ]

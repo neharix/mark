@@ -1,7 +1,5 @@
 import datetime
-import os
 import random
-import zipfile
 from io import BytesIO
 
 import numpy as np
@@ -10,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.core.files.base import ContentFile
+from django.db import utils
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django_ratelimit.decorators import ratelimit
@@ -26,20 +25,11 @@ from .models import *
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
-        email = request.POST["email"]
         password = request.POST["password"]
-        otp = request.POST["otp"]
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if Profile.objects.get(user=user).otp == otp:
-                login(request, user)
-                return redirect("home")
-            else:
-                return render(
-                    request,
-                    "views/login.html",
-                    {"message": "Tassyklama belgisi nädogry"},
-                )
+            login(request, user)
+            return redirect("home")
         else:
             return render(
                 request,
@@ -102,6 +92,10 @@ def main(request: HttpRequest):
             projects = []
             for pk in json.loads(schedule.quene_json):
                 projects.append(Project.objects.get(pk=pk))
+            context["is_participate"] = schedule.juries.filter(
+                username=request.user.username
+            ).exists()
+            context["marks"] = Mark.objects.filter(jury=request.user)
             context["projects_count"] = len(json.loads(schedule.quene_json))
             context["juries_count"] = schedule.juries.all().count()
             context["projects"] = projects
@@ -160,19 +154,6 @@ def add_project(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         directions = Direction.objects.all()
         if request.method == "POST":
-            if request.POST["personality_type"] == "1":
-                personality_type = Project.PersonalityType.INDIVIDUAL
-            elif request.POST["personality_type"] == "2":
-                personality_type = Project.PersonalityType.LEGAL
-            else:
-                return render(
-                    request,
-                    "views/add_project.html",
-                    {
-                        "directions": directions,
-                        "message": "Şahsyýet görnüşini dogry giriziň!",
-                    },
-                )
             try:
                 direction = Direction.objects.get(pk=int(request.POST["direction"]))
             except:
@@ -186,19 +167,10 @@ def add_project(request: HttpRequest):
                 )
             try:
                 project = Project.objects.create(
-                    personality_type=personality_type,
                     agency=request.POST["agency"],
                     direction=direction,
-                    place_of_residence=request.POST["place_of_residence"],
                     full_name_of_manager=request.POST["manager_full_name"],
-                    phone_number=request.POST["phone_number"],
-                    additional_phone_number=request.POST["additional_phone_number"],
-                    email=request.POST["email"],
                     description=request.POST["description"],
-                    p_copy_page1=request.FILES["page1"],
-                    p_copy_page2_3=request.FILES["page2_3"],
-                    p_copy_page5_6=request.FILES["page5_6"],
-                    p_copy_page32=request.FILES["page32"],
                 )
                 if request.POST.get("second_member_full_name", False):
                     if request.POST["second_member_full_name"] != "ýok":
@@ -229,106 +201,19 @@ def add_project(request: HttpRequest):
 def add_project_using_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         if request.method == "POST":
-            zip_file_memory = request.FILES.get("zipfile", None)
-            if zip_file_memory is not None:
-                zip_file = BytesIO(zip_file_memory.read())
-                with zipfile.ZipFile(zip_file, "r") as file:
-                    images = file.namelist()
-                print(images)
-            else:
-                return render(
-                    request,
-                    "views/add_project_using_xlsx.html",
-                    {"message": "ZIP arhiw tapylmady"},
-                )
-
-            dataframe = pd.read_excel(request.FILES.get("xlsx"))
+            print(request.FILES.get("xlsx").size)
+            dataframe = pd.read_excel(request.FILES["xlsx"], engine="openpyxl")
             for index in range(len(dataframe["Ýolbaşçynyň F.A.A"])):
-                if f'page1/{dataframe["Pasportyň 1-nji sahypasy"][index]}' in images:
-                    filename = f'page1/{dataframe["Pasportyň 1-nji sahypasy"][index]}'
-                    try:
-                        os.mkdir(f"temp/page1/")
-                    except:
-                        pass
-                    with zipfile.ZipFile(zip_file, "r") as file:
-                        file.extract(filename, "temp")
-                    with open(f"temp/{filename}", "rb") as file:
-                        image1 = ContentFile(file.read(), filename.split("/")[1])
-                    os.remove(f"temp/{filename}")
-                    os.rmdir(f"temp/{filename.split('/')[0]}/")
-
-                if (
-                    f'page2_3/{dataframe["Pasportyň 2-3-nji sahypalary"][index]}'
-                    in images
-                ):
-                    filename = (
-                        f'page2_3/{dataframe["Pasportyň 2-3-nji sahypalary"][index]}'
-                    )
-                    try:
-                        os.mkdir(f"temp/page2_3/")
-                    except:
-                        pass
-                    with zipfile.ZipFile(zip_file, "r") as file:
-                        file.extract(filename, "temp")
-                    with open(f"temp/{filename}", "rb") as file:
-                        image2_3 = ContentFile(file.read(), filename.split("/")[1])
-                    os.remove(f"temp/{filename}")
-                    os.rmdir(f"temp/{filename.split('/')[0]}/")
-
-                if (
-                    f'page5_6/{dataframe["Pasportyň 5-6-njy sahypalary"][index]}'
-                    in images
-                ):
-                    filename = (
-                        f'page5_6/{dataframe["Pasportyň 5-6-njy sahypalary"][index]}'
-                    )
-                    try:
-                        os.mkdir(f"temp/page5_6/")
-                    except:
-                        pass
-                    with zipfile.ZipFile(zip_file, "r") as file:
-                        file.extract(filename, "temp")
-                    with open(f"temp/{filename}", "rb") as file:
-                        image5_6 = ContentFile(file.read(), filename.split("/")[1])
-                    os.remove(f"temp/{filename}")
-                    os.rmdir(f"temp/{filename.split('/')[0]}/")
-
-                if f'page32/{dataframe["Pasportyň 32-nji sahypasy"][index]}' in images:
-                    filename = f'page32/{dataframe["Pasportyň 32-nji sahypasy"][index]}'
-                    try:
-                        os.mkdir(f"temp/page32/")
-                    except:
-                        pass
-                    with zipfile.ZipFile(zip_file, "r") as file:
-                        file.extract(filename, "temp")
-                    with open(f"temp/{filename}", "rb") as file:
-                        image32 = ContentFile(file.read(), filename.split("/")[1])
-                    os.remove(f"temp/{filename}")
-                    os.rmdir(f"temp/{filename.split('/')[0]}/")
-
-                if dataframe["Şahs"][index].lower() == "fiziki":
-                    personality_type = Project.PersonalityType.INDIVIDUAL
-                elif dataframe["Şahs"][index].lower() == "ýuridiki":
-                    personality_type = Project.PersonalityType.LEGAL
                 try:
                     direction = Direction.objects.get(name=dataframe["Ugry"][index])
                 except:
                     direction = Direction.objects.create(name=dataframe["Ugry"][index])
 
                 project = Project.objects.create(
-                    personality_type=personality_type,
                     agency=dataframe["Edaranyň ady"][index],
                     direction=direction,
-                    place_of_residence=dataframe["Ýaşaýan ýeri"][index],
                     full_name_of_manager=dataframe["Ýolbaşçynyň F.A.A"][index],
-                    phone_number=dataframe["Ýolbaşçynyň telefon belgisi"][index],
-                    additional_phone_number=dataframe["Goşmaça telefon belgisi"][index],
-                    email=dataframe["Email"][index],
                     description=dataframe["Taslamanyň beýany"][index],
-                    p_copy_page1=image1,
-                    p_copy_page2_3=image2_3,
-                    p_copy_page5_6=image5_6,
-                    p_copy_page32=image32,
                 )
 
                 if (
@@ -390,45 +275,37 @@ def delete_schedule(request: HttpRequest, schedule_pk: int):
 @ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
 def mark_form(request: HttpRequest):
-    context = {"criteries": Criteria.objects.all()}
+    context = {}
     if request.user.groups.contains(Group.objects.get(name="Jury")):
         if request.method == "POST":
             rated_project = Project.objects.get(pk=int(request.POST["project-pk"]))
             if Mark.objects.filter(jury=request.user, project=rated_project).exists():
                 return redirect("mark_form")
-            for criteria in context["criteries"]:
-                mark = Mark.objects.create(
-                    jury=request.user,
-                    mark=int(request.POST[f"mark-{criteria.pk}"]),
-                    project=rated_project,
-                    criteria=criteria,
-                )
-                if request.POST[f"description-{criteria.pk}"] != "":
-                    mark.description = request.POST[f"description-{criteria.pk}"]
-                mark.save()
+            mark = Mark.objects.create(
+                jury=request.user,
+                mark=(
+                    int(request.POST["mark"]) if int(request.POST["mark"]) >= 10 else 10
+                ),
+                project=rated_project,
+            )
+            if request.POST[f"description"] != "":
+                mark.description = request.POST[f"description"]
+            mark.save()
 
-                today = datetime.datetime.today()
-                schedule = Schedule.objects.get(
-                    date__year=today.year, date__month=today.month, date__day=today.day
-                )
+            today = datetime.datetime.today()
+            schedule = Schedule.objects.get(
+                date__year=today.year, date__month=today.month, date__day=today.day
+            )
 
-                juries = schedule.juries.all()
-                rate_count = 0
-                for jury in juries:
-                    print(jury.first_name + "init")
-                    mark_count = 0
-                    for criteria in context["criteries"]:
-                        if Mark.objects.filter(
-                            jury=jury, criteria=criteria, project=rated_project
-                        ).exists():
-                            print(f"{ jury.first_name } +1")
-                            mark_count += 1
-                    if mark_count == context["criteries"].count():
-                        rate_count += 1
-                if rate_count == juries.count():
-                    print(rate_count)
-                    rated_project.rated = True
-                    rated_project.save()
+            juries = schedule.juries.all()
+            rate_count = 0
+            for jury in juries:
+                if Mark.objects.filter(jury=jury, project=rated_project).exists():
+                    rate_count += 1
+            if rate_count == juries.count():
+                print(rate_count)
+                rated_project.rated = True
+                rated_project.save()
         today = datetime.datetime.today()
         try:
             schedule = Schedule.objects.get(
@@ -606,41 +483,47 @@ def add_user(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         groups = Group.objects.all()
         if request.method == "POST":
-            if request.POST["password_1"] == request.POST["password_2"]:
-                try:
-                    group = Group.objects.get(pk=int(request.POST["role"]))
-                    user = User.objects.create(
-                        last_name=request.POST["last_name"],
-                        first_name=request.POST["first_name"],
-                        username=request.POST["username"],
-                        email=request.POST["email"],
-                    )
-                    user.set_password(request.POST["password_1"])
-                    profile = Profile.objects.get(user=user)
-                    profile.password = request.POST["password_1"]
-                    profile.save()
+            try:
+                group = Group.objects.get(pk=int(request.POST["role"]))
+                username = (
+                    request.POST["first_name"].lower()
+                    + request.POST["last_name"].lower()
+                )
+                user = User.objects.create(
+                    last_name=request.POST["last_name"],
+                    first_name=request.POST["first_name"],
+                    username=username,
+                )
+                password = username + "".join(
+                    [str(random.randint(0, 9)) for i in range(4)]
+                )
+                user.set_password(password)
+                profile = Profile.objects.get(user=user)
+                profile.password = password
+                profile.save()
 
-                    user.groups.add(group)
-                    user.save()
-                    return redirect("users")
-                except:
-                    return render(
-                        request,
-                        "views/add_user.html",
-                        {
-                            "groups": groups,
-                            "message": "Näsazlyk ýüze çykdy",
-                        },
-                    )
-            else:
+                user.groups.add(group)
+                user.save()
+                return redirect("users")
+            except utils.IntegrityError:
                 return render(
                     request,
                     "views/add_user.html",
                     {
                         "groups": groups,
-                        "message": "Girizen açar sözleriňiz bir-birine deň däl",
+                        "message": f"Ulanyjy eýýäm girizildi",
                     },
                 )
+            except:
+                return render(
+                    request,
+                    "views/add_user.html",
+                    {
+                        "groups": groups,
+                        "message": f"Näsazlyk ýüze çykdy",
+                    },
+                )
+
         return render(request, "views/add_user.html", {"groups": groups})
     return redirect("home")
 
@@ -670,68 +553,4 @@ def delete_user(request: HttpRequest, user_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         User.objects.get(pk=user_pk).delete()
         return redirect("users")
-    return redirect("home")
-
-
-@ratelimit(key="ip", rate="5/s")
-@login_required(login_url="/login/")
-def decrypted_copy_1(request: HttpRequest, project_pk: int):
-    if (
-        request.user.groups.contains(Group.objects.get(name="Moderator"))
-        or request.user.is_superuser
-    ):
-        file = Project.objects.get(pk=project_pk).p_copy_page1
-        encrypted_file = EncryptedFile(file)
-        return HttpResponse(
-            encrypted_file.read(),
-            content_type="image/jpg, image/png",
-        )
-    return redirect("home")
-
-
-@ratelimit(key="ip", rate="5/s")
-@login_required(login_url="/login/")
-def decrypted_copy_2_3(request: HttpRequest, project_pk: int):
-    if (
-        request.user.groups.contains(Group.objects.get(name="Moderator"))
-        or request.user.is_superuser
-    ):
-        file = Project.objects.get(pk=project_pk).p_copy_page2_3
-        encrypted_file = EncryptedFile(file)
-        return HttpResponse(
-            encrypted_file.read(),
-            content_type="image/jpg, image/png",
-        )
-    return redirect("home")
-
-
-@ratelimit(key="ip", rate="5/s")
-@login_required(login_url="/login/")
-def decrypted_copy_5_6(request: HttpRequest, project_pk: int):
-    if (
-        request.user.groups.contains(Group.objects.get(name="Moderator"))
-        or request.user.is_superuser
-    ):
-        file = Project.objects.get(pk=project_pk).p_copy_page5_6
-        encrypted_file = EncryptedFile(file)
-        return HttpResponse(
-            encrypted_file.read(),
-            content_type="image/jpg, image/png",
-        )
-    return redirect("home")
-
-
-@ratelimit(key="ip", rate="5/s")
-@login_required(login_url="/login/")
-def decrypted_copy_32(request: HttpRequest, project_pk: int):
-    if (
-        request.user.groups.contains(Group.objects.get(name="Moderator"))
-        or request.user.is_superuser
-    ):
-        file = Project.objects.get(pk=project_pk).p_copy_page32
-        encrypted_file = EncryptedFile(file)
-        return HttpResponse(
-            encrypted_file.read(),
-            content_type="image/jpg, image/png",
-        )
     return redirect("home")

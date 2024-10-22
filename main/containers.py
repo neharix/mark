@@ -42,7 +42,6 @@ class ProjectMarkContainer:
 
 class MarkContainer:
     def __init__(self, mark: Mark) -> None:
-        self.criteria = mark.criteria
         self.jury = mark.jury
         self.mark = mark.mark
         self.description = mark.description

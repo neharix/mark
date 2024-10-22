@@ -18,18 +18,7 @@ class UnratedManager(models.Manager):
 
 
 class Project(models.Model):
-    class PersonalityType(models.TextChoices):
-        INDIVIDUAL = "Fiziki", "Fiziki"
-        LEGAL = "Ýuridiki", "Ýuridiki"
-
-    personality_type = models.CharField(
-        verbose_name="Şahs görnüşi",
-        max_length=50,
-        choices=PersonalityType.choices,
-        default=PersonalityType.INDIVIDUAL,
-    )
     agency = models.CharField(verbose_name="Edara", max_length=200)
-    place_of_residence = models.CharField(verbose_name="Ýaşaýan ýeri", max_length=200)
     full_name_of_manager = models.CharField(
         verbose_name="Topar ýolbaşçysynyň F.A.Aa", max_length=200
     )
@@ -45,11 +34,6 @@ class Project(models.Model):
         null=True,
         blank=True,
     )
-    phone_number = models.CharField(verbose_name="Telefon belgi", max_length=8)
-    additional_phone_number = models.CharField(
-        verbose_name="Telefon belgi", max_length=8
-    )
-    email = models.EmailField("Email")
     direction = models.ForeignKey(
         "Direction", verbose_name="Ugry", on_delete=models.PROTECT
     )
@@ -57,23 +41,6 @@ class Project(models.Model):
         verbose_name="Taslamanyň beýany", null=True, blank=True
     )
     rated = models.BooleanField(default=False)
-
-    p_copy_page1 = models.ImageField(
-        verbose_name="Topar ýolbaşçysynyň pasport nusgasy (sahypa 1)",
-        upload_to="passport_copies/1/",
-    )
-    p_copy_page2_3 = models.ImageField(
-        verbose_name="Topar ýolbaşçysynyň pasport nusgasy (sahypa 2-3)",
-        upload_to="passport_copies/2-3/",
-    )
-    p_copy_page5_6 = models.ImageField(
-        verbose_name="Topar ýolbaşçysynyň pasport nusgasy (sahypa 5-6)",
-        upload_to="passport_copies/5-6/",
-    )
-    p_copy_page32 = models.ImageField(
-        verbose_name="Topar ýolbaşçysynyň pasport nusgasy (sahypa 32)",
-        upload_to="passport_copies/32/",
-    )
 
     objects = models.Manager()
     rated_objects = RatedManager()
@@ -98,18 +65,6 @@ class Direction(models.Model):
         return self.name
 
 
-class Criteria(models.Model):
-    expression = models.CharField("Kriteriýa aňlatmalary", max_length=400)
-    max_value = models.IntegerField("Göterimi")
-
-    class Meta:
-        verbose_name = "kriteriýa"
-        verbose_name_plural = "kriteriýalar"
-
-    def __str__(self):
-        return self.expression
-
-
 class Schedule(models.Model):
     quene_json = models.TextField("Reje JSON-y")
     juries = models.ManyToManyField(User, verbose_name="Emin agzalar")
@@ -124,7 +79,6 @@ class Schedule(models.Model):
 
 
 class Mark(models.Model):
-    criteria = models.ForeignKey("Criteria", on_delete=models.SET_NULL, null=True)
     jury = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     mark = models.IntegerField()
@@ -141,7 +95,6 @@ class Mark(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Ulanyjy")
-    otp = models.CharField(max_length=5, verbose_name="OTP kody")
     password = models.CharField(max_length=250, verbose_name="Açar sözi")
     active_jury = models.BooleanField(default=True)
 
@@ -159,5 +112,4 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(
             user=instance,
             password="<undefined>",
-            otp="".join([str(random.randint(0, 9)) for i in range(5)]),
         )

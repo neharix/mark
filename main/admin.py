@@ -10,12 +10,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ["pk", "full_name_of_manager", "personality_type", "description"]
-
-
-@admin.register(Criteria)
-class CriteriaAdmin(admin.ModelAdmin):
-    list_display = ["pk", "expression", "max_value"]
+    list_display = ["pk", "full_name_of_manager", "description"]
 
 
 @admin.register(Direction)
@@ -31,10 +26,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Mark)
 class MarkAdmin(admin.ModelAdmin):
-    list_display = ["pk", "criteria", "project", "mark", "jury", "date"]
+    list_display = ["pk", "project", "mark", "jury", "date"]
     readonly_fields = (
         "pk",
-        "criteria",
         "project",
         "mark",
         "description",

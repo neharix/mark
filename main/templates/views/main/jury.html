@@ -6,7 +6,18 @@
 {% block body %}
     <div class="h-75 d-flex align-items-center justify-content-center">
         <div class="block p-3 w-75">
-            <div class="m-2 h3">Bugünki rejede:</div>
+            <div class="m-2 d-flex justify-content-between">
+                <div class="h3">Bugünki rejede:</div>
+                <div>
+                    <button class="btn button"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions"
+                            aria-controls="offcanvasWithBothOptions">
+                        <i class="bi bi-clock-history"></i>
+                    </button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm">
                     <div class="m-2">Taslamalaryň sany</div>
@@ -21,37 +32,66 @@
                     </div>
                 </div>
             </div>
-            {% if projects %}
-                <div class="m-2 h3">Giňişleýin maglumat:</div>
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="m-2">Taslamalar:</div>
-                        <div class="projects">
-                            {% for project in projects %}
-                                <div class="m-2 fs-7">{{ forloop.counter }}. {{ project.full_name_of_manager }}-yň taslamasy</div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="m-2">Emin agzalar:</div>
-                        <div class="juries">
-                            {% for jury in juries %}
-                                <div class="m-2 fs-7">{{ forloop.counter }}. {{ jury.last_name }} {{ jury.first_name }}</div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
             <div class="d-flex justify-content-center mt-3">
-                <button class="btn button mx-2"
+                <button class="btn button mx-2 {% if not is_participate %}disabled{% endif %}"
                         onclick="location.href='{% url "mark_form" %}'">
-                    <i class="bi bi-plus"></i>
-                    Bahalandyrma başlamak
+                    {% if is_participate %}
+                        <i class="bi bi-plus"></i>
+                        Bahalandyrma başlamak
+                    {% else %}
+                        Siz bahalandyrma gatnaşmaýarsyňyz
+                    {% endif %}
                 </button>
             </div>
         </div>
     </div>
+    <div class="offcanvas offcanvas-start"
+         data-bs-scroll="true"
+         tabindex="-1"
+         id="offcanvasWithBothOptions"
+         aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+                {{ request.user.last_name }} {{ request.user.first_name }}-yň beren bahalary
+            </h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="history">
+            {% for mark in marks %}
+                <div class="my-3 my-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="margin-right: 1rem;">
+                            <div class="d-flex justify-content-center align-items-center ico" style="">
+                                <i class="bi bi-star"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>{{ mark.project.full_name_of_manager }}-yň taslamasy</div>
+                            </div>
+                            <div>Baha: {{ mark.mark }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center text-secondary">Siziň beren bahalaryňyz tapylmady</p>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock body %}
 {% block scripts %}
-    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+    function set_borders(node_list) {
+        for (var i = 0; i < node_list.length; i++) {
+            if (i != node_list.length - 1) {
+                node_list[i].classList.add("border-bottom");
+            }
+        }
+    }
+    let history = document.querySelectorAll("#history .my-card");
+    set_borders(history);
+    </script>
 {% endblock scripts %}
