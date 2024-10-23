@@ -68,11 +68,25 @@
                                 <i class="bi bi-star"></i>
                             </div>
                         </div>
-                        <div>
+                        <div class="w-100 d-flex justify-content-between">
                             <div>
-                                <div>{{ mark.project.full_name_of_manager }}-yň taslamasy</div>
+                                <div>
+                                    <div class="fs-7">{{ mark.project.full_name_of_manager }}-yň taslamasy</div>
+                                </div>
+                                <div class="fs-7">Baha: {{ mark.mark }}</div>
                             </div>
-                            <div>Baha: {{ mark.mark }}</div>
+                            <div class="d-flex align-items-center">
+                                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year %}
+                                    <button class="btn button mx-2"
+                                            onclick='location.href="/mark/edit/{{ mark.pk }}/"'>
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                {% else %}
+                                    <button class="btn button mx-2 disabled">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

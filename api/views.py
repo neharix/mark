@@ -33,6 +33,19 @@ from .serializers import *
 #     return Response({"detail": "you need to be a spectator"})
 
 
+@permission_classes([IsAuthenticated])
+@api_view(["GET"])
+def update_chart_data_api_view(request: HttpRequest, project_pk: int, arr_id: int):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        project = Project.objects.get(pk=project_pk)
+        project_container = UnratedProjectMarkContainer(project)
+        serializer = UnratedProjectSerializer(project_container)
+        data = serializer.data
+        data["arr_id"] = arr_id
+        return Response(data)
+    return Response({"detail": "you need to be a spectator"})
+
+
 @ratelimit(key="ip", rate="5/s")
 @permission_classes([IsAuthenticated])
 @api_view(["GET"])

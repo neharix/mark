@@ -35,7 +35,7 @@ class ProjectMarkContainer:
                 if Mark.objects.filter(project=project, jury=jury).count() != 0:
                     marks_list.append(total)
         try:
-            self.percent = int(sum(marks_list) / len(marks_list))
+            self.percent = round(sum(marks_list) / len(marks_list), 3)
         except ZeroDivisionError:
             self.percent = 0
 
@@ -48,3 +48,13 @@ class MarkContainer:
         self.date = mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime(
             "%d.%m.%Y %H:%M:%S"
         )
+
+
+class SecondaryMarkContainer:
+    def __init__(self, mark: Mark) -> None:
+        self.pk = mark.pk
+        self.jury = mark.jury
+        self.project = mark.project
+        self.mark = mark.mark
+        self.description = mark.description
+        self.date = mark.date.astimezone(pytz.timezone("Asia/Ashgabat"))

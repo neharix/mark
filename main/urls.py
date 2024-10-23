@@ -10,6 +10,7 @@ urlpatterns = [
     path("project_result/<int:project_pk>/", project_result),
     path("mark_form/", mark_form, name="mark_form"),
     path("schedules/edit/<int:schedule_pk>/", edit_schedule),
+    path("mark/edit/<int:mark_pk>/", edit_mark),
     path("schedules/delete/<int:schedule_pk>/", delete_schedule),
     path("users/delete/<int:user_pk>/", delete_user),
     path("export_to_docx/", export_to_docx, name="export_to_docx"),

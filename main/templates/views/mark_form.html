@@ -37,7 +37,7 @@
                                    id="mark"
                                    autocomplete="off"
                                    required
-                                   value="10"
+                                   value="{% if mark %}{{ mark.mark }}{% else %}10{% endif %}"
                                    placeholder=" " />
                             <div class="floating-label__outline">
                                 <div class="floating-label__leading"></div>
@@ -56,7 +56,7 @@
                                       id="description"
                                       autocomplete="off"
                                       placeholder=" "
-                                      rows="1"></textarea>
+                                      rows="1">{% if mark %}{% if mark.description %}{{ mark.description }}{% endif %}{% endif %}</textarea>
                             <div class="floating-label__outline">
                                 <div class="floating-label__leading"></div>
                                 <div class="floating-label__notch">

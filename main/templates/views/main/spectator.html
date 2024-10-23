@@ -61,10 +61,10 @@
         let onlineChart = new Chart(document.getElementById('onlineMonitoring').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: [{% for project in rated_projects %}"{{ project.name }}", {% endfor %}],
+                labels: [],
                 datasets: [{
-                    label: 'Taslamalaryň alan bahalary',
-                    data: [{% for project in rated_projects %}{{ project.percent }}, {% endfor %}],
+                    label: 'Taslamalaryň alan bahalary (prosesde)',
+                    data: [],
                     backgroundColor: 'rgba(70, 192, 192, 0.6)',
                     borderColor: 'rgba(150, 100, 255, 1)',
                     borderWidth: 1
@@ -87,7 +87,7 @@
                 labels: [{% for project in rated_projects %}"{{ project.name }}", {% endfor %}],
                 datasets: [{
                     label: 'Taslamalaryň alan bahalary',
-                    data: [{% for project in rated_projects %}{{ project.percent }}, {% endfor %}],
+                    data: [{% for project in rated_projects %}parseFloat("{{ project.percent }}"), {% endfor %}],
                     backgroundColor: 'rgba(70, 192, 192, 0.6)',
                     borderColor: 'rgba(150, 100, 255, 1)',
                     borderWidth: 1

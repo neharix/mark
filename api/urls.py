@@ -4,6 +4,10 @@ from .views import *
 
 urlpatterns = [
     path(
+        "update_project/<int:project_pk>/<int:arr_id>/",
+        update_chart_data_api_view,
+    ),
+    path(
         "unrated_projects/", unrated_projects_api_view, name="unrated_projects_api_view"
     ),
     path(

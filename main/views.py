@@ -83,7 +83,7 @@ def main(request: HttpRequest):
             },
         )
     elif request.user.groups.contains(Group.objects.get(name="Jury")):
-        today = datetime.datetime.today()
+        today = datetime.datetime.today().astimezone(pytz.timezone("Asia/Ashgabat"))
         context = {"projects_count": 0, "juries_count": 0}
         try:
             schedule = Schedule.objects.get(
@@ -95,7 +95,13 @@ def main(request: HttpRequest):
             context["is_participate"] = schedule.juries.filter(
                 username=request.user.username
             ).exists()
-            context["marks"] = Mark.objects.filter(jury=request.user)
+            context["today"] = today
+
+            context["marks"] = [
+                SecondaryMarkContainer(mark)
+                for mark in Mark.objects.filter(jury=request.user).order_by("-date")
+            ]
+
             context["projects_count"] = len(json.loads(schedule.quene_json))
             context["juries_count"] = schedule.juries.all().count()
             context["projects"] = projects
@@ -553,4 +559,36 @@ def delete_user(request: HttpRequest, user_pk: int):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
         User.objects.get(pk=user_pk).delete()
         return redirect("users")
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def edit_mark(request: HttpRequest, mark_pk: int):
+    if request.user.groups.contains(Group.objects.get(name="Jury")):
+        mark = Mark.objects.get(pk=mark_pk)
+        if request.method == "POST":
+            mark.mark = (
+                int(request.POST["mark"]) if int(request.POST["mark"]) >= 10 else 10
+            )
+            mark.description = (
+                request.POST["description"]
+                if request.POST.get("description", False)
+                else None
+            )
+            mark.save()
+            return redirect("home")
+
+        today = datetime.datetime.today().astimezone(pytz.timezone("Asia/Ashgabat"))
+        if (
+            mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).day == today.day
+            and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).month
+            == today.month
+            and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).year == today.year
+        ):
+            return render(
+                request,
+                "views/mark_form.html",
+                {"project": mark.project, "mark": mark},
+            )
     return redirect("home")

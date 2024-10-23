@@ -11,6 +11,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class UnratedProjectSerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
     name = serializers.CharField()
     percent = serializers.IntegerField()
     manager = serializers.CharField()
