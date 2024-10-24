@@ -83,7 +83,7 @@ def main(request: HttpRequest):
             },
         )
     elif request.user.groups.contains(Group.objects.get(name="Jury")):
-        today = datetime.datetime.today().astimezone(pytz.timezone("Asia/Ashgabat"))
+        today = datetime.datetime.now().astimezone(pytz.timezone("Asia/Ashgabat"))
         context = {"projects_count": 0, "juries_count": 0}
         try:
             schedule = Schedule.objects.get(
@@ -588,12 +588,13 @@ def edit_mark(request: HttpRequest, mark_pk: int):
             mark.save()
             return redirect("home")
 
-        today = datetime.datetime.today().astimezone(pytz.timezone("Asia/Ashgabat"))
+        today = datetime.datetime.now().astimezone(pytz.timezone("Asia/Ashgabat"))
         if (
             mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).day == today.day
             and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).month
             == today.month
             and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).year == today.year
+            and today.hour < 8
         ):
             return render(
                 request,

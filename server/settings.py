@@ -129,6 +129,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# RATELIMIT_IP_META_KEY = "HTTP_X_REAL_IP"
+
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "sanlycozgutbaslesik@gmail.com"
 EMAIL_HOST_PASSWORD = "wnrx jfbc rpxl eush"

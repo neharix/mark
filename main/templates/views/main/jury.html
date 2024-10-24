@@ -76,7 +76,7 @@
                                 <div class="fs-7">Baha: {{ mark.mark }}</div>
                             </div>
                             <div class="d-flex align-items-center">
-                                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year %}
+                                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year and today.hour < 8 %}
                                     <button class="btn button mx-2"
                                             onclick='location.href="/mark/edit/{{ mark.pk }}/"'>
                                         <i class="bi bi-pencil"></i>
