@@ -6,24 +6,36 @@
 {% block body %}
     <div class="px-3">
         <div class="block p-3">
-            <div class="h3 m-2">Taslama barada giňişleýin maglumat:</div>
+            <div class="m-2">Taslama barada giňişleýin maglumat:</div>
             <div class="row mx-2 my-3">
                 <div class="col-sm">
-                    <div>Ýolbaşçy: {{ project.full_name_of_manager }}</div>
+                    <div>
+                        <b>Taslamanyň ady/beýany:</b> {{ project.description }}
+                    </div>
+                    <div>
+                        <b>Ýolbaşçy:</b> {{ project.full_name_of_manager }}
+                    </div>
                     {% if project.full_name_of_second_participant %}
-                        <div>Ikinji agza: {{ project.full_name_of_second_participant }}</div>
+                        <div>
+                            <b>Ikinji agza:</b> {{ project.full_name_of_second_participant }}
+                        </div>
                     {% endif %}
                     {% if project.full_name_of_third_participant %}
-                        <div>Üçünji agza: {{ project.full_name_of_third_participant }}</div>
+                        <div>
+                            <b>Üçünji agza:</b> {{ project.full_name_of_third_participant }}
+                        </div>
                     {% endif %}
-                    <div>Ugry: {{ project.direction.name }}</div>
                 </div>
                 <div class="col-sm">
-                    <div>Edara: {{ project.agency }}</div>
-                    <div>Taslamanyň beýany: {{ project.description }}</div>
+                    <div>
+                        <b>Edara:</b> {{ project.agency }}
+                    </div>
+                    <div>
+                        <b>Ugry:</b> {{ project.direction.name }}
+                    </div>
                 </div>
             </div>
-            <div class="m-2 h3">Bahalandyrma:</div>
+            <div class="m-2">Bahalandyrma:</div>
             <form class="m-2" method="post">
                 {% csrf_token %}
                 <input type="hidden" value="{{ project.pk }}" name="project-pk" />

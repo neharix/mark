@@ -115,9 +115,14 @@ def main(request: HttpRequest):
         )
     elif request.user.groups.contains(Group.objects.get(name="Spectator")):
         rated_projects_count = Project.rated_objects.all().count()
-        rated_projects = [
-            ProjectMarkContainer(project) for project in Project.rated_objects.all()
-        ]
+        rated_projects = []
+        today = datetime.datetime.today().astimezone(pytz.timezone("Asia/Ashgabat"))
+
+        for project in Project.objects.all():
+            if Mark.objects.filter(project=project).exists():
+                rated_projects.append(ProjectMarkContainer(project))
+        rated_projects.sort(key=lambda e: e.percent)
+        rated_projects.reverse()
         unrated_projects_count = Project.unrated_objects.all().count()
         directions = [
             DirectionContainer(direction) for direction in Direction.objects.all()
@@ -127,7 +132,7 @@ def main(request: HttpRequest):
             "views/main/spectator.html",
             {
                 "rated_projects_count": rated_projects_count,
-                "rated_projects": rated_projects,
+                "rated_projects": rated_projects[:10],
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
             },
@@ -195,9 +200,6 @@ def add_project(request: HttpRequest):
                     "views/add_project.html",
                     {"message": "Ýalňyşlyk döredi!", "directions": directions},
                 )
-
-            print(request.POST)
-            print(request.FILES)
         return render(request, "views/add_project.html", {"directions": directions})
     return redirect("home")
 
@@ -344,9 +346,10 @@ def mark_form(request: HttpRequest):
 def export_to_docx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         sort_by_marks = lambda e: e.percent
-        rated_projects = [
-            ProjectMarkContainer(project) for project in Project.rated_objects.all()
-        ]
+        rated_projects = []
+        for project in Project.objects.all():
+            if Mark.objects.filter(project=project).exists():
+                rated_projects.append(ProjectMarkContainer(project))
         rated_projects.sort(key=sort_by_marks)
         rated_projects.reverse()
         document = Document()
@@ -424,9 +427,12 @@ def export_to_docx(request: HttpRequest):
 @login_required(login_url="/login/")
 def export_to_xlsx(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
-        rated_projects = [
-            ProjectMarkContainer(project) for project in Project.rated_objects.all()
-        ]
+        rated_projects = []
+        for project in Project.objects.all():
+            if Mark.objects.filter(project=project).exists():
+                rated_projects.append(ProjectMarkContainer(project))
+        rated_projects.sort(key=lambda e: e.percent)
+        rated_projects.reverse()
         dataframe_dict = {
             "Taslama": [],
             "Bahasy": [],
@@ -457,8 +463,11 @@ def export_to_xlsx(request: HttpRequest):
 @login_required(login_url="/login/")
 def projects_list(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
-        rated_projects = Project.rated_objects.all()
-        return render(request, "views/projects_list.html", {"projects": rated_projects})
+        projects = []
+        for project in Project.objects.all():
+            if Mark.objects.filter(project=project).exists():
+                projects.append(project)
+        return render(request, "views/projects_list.html", {"projects": projects})
     return redirect("home")
 
 

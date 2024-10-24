@@ -2,12 +2,12 @@ import datetime
 import json
 import random
 
+# Create your views here.
+import pytz
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django_ratelimit.decorators import ratelimit
-
-# Create your views here.
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import HttpRequest
@@ -51,11 +51,12 @@ def update_chart_data_api_view(request: HttpRequest, project_pk: int, arr_id: in
 @api_view(["GET"])
 def unrated_projects_status_api_view(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
-        unrated_projects = Project.unrated_objects.all()
-        projects = [
-            UnratedProjectMarkContainer(project)
-            for project in Project.unrated_objects.all()
-        ]
+        today = datetime.datetime.today()
+        # .astimezone(pytz.timezone("Asia/Ashgabat"))
+        projects = []
+        for project in Project.objects.all():
+            if Mark.objects.filter(project=project).exists():
+                projects.append(UnratedProjectMarkContainer(project))
         serializer = UnratedProjectSerializer(projects, many=True)
         return Response(serializer.data)
     return Response({"detail": "you need to be a spectator"})
