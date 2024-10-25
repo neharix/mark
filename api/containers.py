@@ -8,12 +8,17 @@ from main.models import Mark, Profile, Project
 class UnratedProjectMarkContainer:
     def __init__(self, project: Project) -> None:
         self.pk = project.pk
-        self.name = project.description
+        self.name = (
+            project.description
+            if len(project.description) < 20
+            else project.description[:20] + "..."
+        )
         self.manager = project.full_name_of_manager
         self.direction = project.direction.name
         self.agency = project.agency
         marks_list = []
         today = datetime.datetime.today()
+        self.date = None
         for jury in User.objects.filter(groups__name="Jury"):
             if Profile.objects.get(user=jury).active_jury:
                 total = 0
@@ -24,9 +29,11 @@ class UnratedProjectMarkContainer:
                     date__month=today.month,
                     date__day=today.day,
                 ):
+                    self.date = mark.date
                     total += mark.mark
                 if Mark.objects.filter(project=project, jury=jury).count() != 0:
                     marks_list.append(total)
+
         try:
             self.percent = round(sum(marks_list) / len(marks_list), 2)
         except ZeroDivisionError:

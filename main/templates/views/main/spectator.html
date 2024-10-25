@@ -4,24 +4,6 @@
     Baş sahypa
 {% endblock title %}
 {% block navbar %}
-    <li class="nav-item mx-2">
-        <button onclick="location.href='{% url 'projects_list' %}'"
-                class="btn button">
-            <i class="bi bi-list"></i> Taslamalar
-        </button>
-    </li>
-    <li class="nav-item mx-5">
-        <div class="btn-group" role="group">
-            <button onclick="location.href='{% url 'export_to_xlsx' %}'"
-                    class="btn button">
-                <i class="bi bi-filetype-xlsx"></i>
-            </button>
-            <button onclick="location.href='{% url 'export_to_docx' %}'"
-                    class="btn button">
-                <i class="bi bi-filetype-docx"></i>
-            </button>
-        </div>
-    </li>
 {% endblock navbar %}
 {% block body %}
     <div class="px-3">
@@ -32,6 +14,57 @@
                 </div>
                 <div class="col-sm">
                     <canvas id="marks"></canvas>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="d-flex justify-content-between">
+                    <div class="m-3 my-1 h3">Taslamalar:</div>
+                    <div>
+                        <div class="btn-group" role="group">
+                            <button onclick="location.href='{% url 'projects_list' %}'"
+                                    class="btn button">
+                                <i class="bi bi-list"></i>
+                            </button>
+                            <button onclick="location.href='{% url 'export_to_xlsx' %}'"
+                                    class="btn button">
+                                <i class="bi bi-filetype-xlsx"></i>
+                            </button>
+                            <button onclick="location.href='{% url 'export_to_docx' %}'"
+                                    class="btn button">
+                                <i class="bi bi-filetype-docx"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="projects-list-spectator">
+                    <div class="m-3 fw-bolder" id="projects">
+                        {% for project in rated_projects %}
+                            <div class="my-card">
+                                <div class="d-flex align-items-center my-3">
+                                    <div style="margin-right: 1rem;">
+                                        <div class="d-flex justify-content-center align-items-center ico" style="">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 d-flex justify-content-between">
+                                        <div>
+                                            <div>
+                                                <div>{{ project.description|truncatechars:20 }}</div>
+                                            </div>
+                                            <div>{{ project.manager }}</div>
+                                            <div class="mb-2">{{ project.agency }}</div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn button mx-2"
+                                                    onclick='location.href="/project_result/{{ project.pk }}/"'>
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             <div class="row m-2">
@@ -63,7 +96,7 @@
             data: {
                 labels: [],
                 datasets: [{
-                    label: 'Taslamalaryň alan bahalary (prosesde)',
+                    label: 'Bügünki bahalandyrylan taslamalar',
                     data: [],
                     backgroundColor: 'rgba(70, 192, 192, 0.6)',
                     borderColor: 'rgba(150, 100, 255, 1)',
@@ -84,7 +117,7 @@
         let marksChart = new Chart(document.getElementById('marks').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: [{% for project in rated_projects %}"{{ project.name }}", {% endfor %}],
+                labels: [{% for project in rated_projects %}"{{ project.name|truncatechars:20 }}", {% endfor %}],
                 datasets: [{
                     label: 'Taslamalaryň alan bahalary',
                     data: [{% for project in rated_projects %}parseFloat("{{ project.percent }}"), {% endfor %}],

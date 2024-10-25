@@ -35,7 +35,6 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">№</th>
-                            <th scope="col">Kriteriýa</th>
                             <th scope="col">Emin agza</th>
                             <th scope="col">Bal</th>
                             <th scope="col">Düşündiriş</th>
@@ -46,7 +45,6 @@
                         {% for mark in marks %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ mark.criteria.expression }}</td>
                                 <td>{{ mark.jury.last_name }} {{ mark.jury.first_name }}</td>
                                 <td>{{ mark.mark }}</td>
                                 <td>

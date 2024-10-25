@@ -594,7 +594,7 @@ def edit_mark(request: HttpRequest, mark_pk: int):
             and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).month
             == today.month
             and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).year == today.year
-            and today.hour < 8
+            and today.hour < 20
         ):
             return render(
                 request,

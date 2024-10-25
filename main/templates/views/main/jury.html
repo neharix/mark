@@ -61,35 +61,33 @@
         </div>
         <div class="offcanvas-body" id="history">
             {% for mark in marks %}
-                <div class="my-3 my-card">
-                    <div class="d-flex align-items-center mb-3">
-                        <div style="margin-right: 1rem;">
-                            <div class="d-flex justify-content-center align-items-center ico" style="">
-                                <i class="bi bi-star"></i>
-                            </div>
-                        </div>
-                        <div class="w-100 d-flex justify-content-between">
-                            <div>
-                                <div>
-                                    <div class="fs-7">{{ mark.project.full_name_of_manager }}-yň taslamasy</div>
+                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year and today.hour < 20 %}
+                    <div class="my-3 my-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="margin-right: 1rem;">
+                                <div class="d-flex justify-content-center align-items-center ico" style="">
+                                    <i class="bi bi-star"></i>
                                 </div>
-                                <div class="fs-7">Baha: {{ mark.mark }}</div>
                             </div>
-                            <div class="d-flex align-items-center">
-                                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year and today.hour < 8 %}
-                                    <button class="btn button mx-2"
-                                            onclick='location.href="/mark/edit/{{ mark.pk }}/"'>
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                {% else %}
-                                    <button class="btn button mx-2 disabled">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                {% endif %}
+                            <div class="w-100 d-flex justify-content-between">
+                                <div>
+                                    <div>
+                                        <div class="fs-7">{{ mark.project.full_name_of_manager }}-yň taslamasy</div>
+                                    </div>
+                                    <div class="fs-7">Baha: {{ mark.mark }}</div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year and today.hour < 20 %}
+                                        <button class="btn button mx-2"
+                                                onclick='location.href="/mark/edit/{{ mark.pk }}/"'>
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             {% empty %}
                 <p class="text-center text-secondary">Siziň beren bahalaryňyz tapylmady</p>
             {% endfor %}

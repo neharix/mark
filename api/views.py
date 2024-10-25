@@ -55,8 +55,13 @@ def unrated_projects_status_api_view(request: HttpRequest):
         # .astimezone(pytz.timezone("Asia/Ashgabat"))
         projects = []
         for project in Project.objects.all():
-            if Mark.objects.filter(project=project).exists():
-                projects.append(UnratedProjectMarkContainer(project))
+            project_container = UnratedProjectMarkContainer(project)
+            if (
+                Mark.objects.filter(project=project).exists()
+                and project_container.date != None
+            ):
+                projects.append(project_container)
+
         serializer = UnratedProjectSerializer(projects, many=True)
         return Response(serializer.data)
     return Response({"detail": "you need to be a spectator"})
