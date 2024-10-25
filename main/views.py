@@ -123,6 +123,8 @@ def main(request: HttpRequest):
                 rated_projects.append(ProjectMarkContainer(project))
         rated_projects.sort(key=lambda e: e.percent)
         rated_projects.reverse()
+        ls_projects = [project for project in rated_projects]
+        ls_projects.sort(key=lambda e: e.mark_date)
         unrated_projects_count = Project.unrated_objects.all().count()
         directions = [
             DirectionContainer(direction) for direction in Direction.objects.all()
@@ -135,6 +137,7 @@ def main(request: HttpRequest):
                 "rated_projects": rated_projects[:10],
                 "unrated_projects_count": unrated_projects_count,
                 "directions": directions,
+                "ls_projects": ls_projects,
             },
         )
     return render(request, "views/main/default.html")

@@ -9,12 +9,10 @@
     <div class="px-3">
         <div class="block p-3">
             <div class="row m-2 my-5">
-                <div class="col-sm">
-                    <canvas id="onlineMonitoring"></canvas>
-                </div>
-                <div class="col-sm">
-                    <canvas id="marks"></canvas>
-                </div>
+                <canvas id="onlineMonitoring"></canvas>
+            </div>
+            <div class="row m-2 my-5">
+                <canvas id="marks"></canvas>
             </div>
             <div class="row m-2">
                 <div class="d-flex justify-content-between">
@@ -38,7 +36,7 @@
                 </div>
                 <div id="projects-list-spectator">
                     <div class="m-3 fw-bolder" id="projects">
-                        {% for project in rated_projects %}
+                        {% for project in ls_projects %}
                             <div class="my-card">
                                 <div class="d-flex align-items-center my-3">
                                     <div style="margin-right: 1rem;">
@@ -68,19 +66,7 @@
                 </div>
             </div>
             <div class="row m-2">
-                <div class="col-sm">
-                    <canvas id="aboutProjects"></canvas>
-                    <div class="my-3 w-100 d-flex justify-content-center">
-                        <div>
-                            <div class="fs-7 text-center">Baha berilen taslamalar: {{ rated_projects_count }}</div>
-                            <div class="fs-7 text-center">Baha berilmedik taslamalar: {{ unrated_projects_count }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-2 text-light">h</div>
-                <div class="col-sm d-flex align-items-center">
-                    <canvas id="projectByDirection"></canvas>
-                </div>
+                <canvas id="projectByDirection"></canvas>
             </div>
         </div>
     </div>
@@ -119,7 +105,7 @@
             data: {
                 labels: [{% for project in rated_projects %}"{{ project.name|truncatechars:20 }}", {% endfor %}],
                 datasets: [{
-                    label: 'Taslamalaryň alan bahalary',
+                    label: 'Taslamalaryň alan bahalary (Top-10)',
                     data: [{% for project in rated_projects %}parseFloat("{{ project.percent }}"), {% endfor %}],
                     backgroundColor: 'rgba(70, 192, 192, 0.6)',
                     borderColor: 'rgba(150, 100, 255, 1)',
@@ -137,30 +123,6 @@
             }
         });
 
-
-        new Chart(document.getElementById('aboutProjects').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ["Baha berilen taslamalar", "Baha berilmedik taslamalar"],
-                datasets: [{
-                    data: [{{ rated_projects_count }}, {{ unrated_projects_count }}],
-                    backgroundColor: ["#22f26c", "#7ac0c0"]
-                }]
-            },
-            
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Taslamalar barada şekilli hasabat',
-                    }
-                }
-            },
-        });
         new Chart(document.getElementById('projectByDirection').getContext('2d'), {
             type: 'line',
             data: {

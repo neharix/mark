@@ -4,6 +4,7 @@ import pytz
 from django.contrib.auth.models import User
 
 from .models import *
+from .utils import *
 
 
 class ScheduleContainer:
@@ -22,6 +23,7 @@ class DirectionContainer:
 
 class ProjectMarkContainer:
     def __init__(self, project: Project) -> None:
+        self.pk = project.pk
         self.name = project.description
         self.manager = project.full_name_of_manager
         self.direction = project.direction.name
@@ -32,6 +34,7 @@ class ProjectMarkContainer:
                 total = 0
                 for mark in Mark.objects.filter(project=project, jury=jury):
                     total += mark.mark
+                    self.mark_date = mark.date
                 if Mark.objects.filter(project=project, jury=jury).count() != 0:
                     marks_list.append(total)
         try:
