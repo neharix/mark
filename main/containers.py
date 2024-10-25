@@ -53,6 +53,13 @@ class MarkContainer:
         )
 
 
+class UnparticipatedJuryContainer:
+    def __init__(self, jury: User):
+        self.jury = jury
+
+    is_ujc = True
+
+
 class SecondaryMarkContainer:
     def __init__(self, mark: Mark) -> None:
         self.pk = mark.pk

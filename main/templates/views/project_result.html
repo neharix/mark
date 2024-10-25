@@ -21,11 +21,13 @@
                         <div>Üçünji agza: {{ project.full_name_of_third_participant }}</div>
                     {% endif %}
                     <div>Ugry: {{ project.direction.name }}</div>
+                    <div class="text-danger">
+                        {% if unparticipated_juries_count %}{{ unparticipated_juries_count }} emin agza baha bermedi{% endif %}
+                    </div>
                 </div>
                 <div class="col-sm">
                     <div>Edara: {{ project.agency }}</div>
                     <div>Taslamanyň beýany: {{ project.description }}</div>
-                    <div>Şahs: {{ project.personality_type }}</div>
                     <div>Umumy baly: {{ project_mark_container.percent }}%</div>
                 </div>
             </div>
@@ -43,15 +45,25 @@
                     </thead>
                     <tbody>
                         {% for mark in marks %}
-                            <tr>
-                                <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ mark.jury.last_name }} {{ mark.jury.first_name }}</td>
-                                <td>{{ mark.mark }}</td>
-                                <td>
-                                    {% if mark.description %}{{ mark.description }}{% endif %}
-                                </td>
-                                <td>{{ mark.date }}</td>
-                            </tr>
+                            {% if mark.is_ujc %}
+                                <tr>
+                                    <td class="text-center">{{ mark.number }}</td>
+                                    <td class="text-danger">{{ mark.jury.last_name }} {{ mark.jury.first_name }}</td>
+                                    <td class="text-danger"></td>
+                                    <td class="text-danger">Baha bermedi</td>
+                                    <td></td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="text-center">{{ mark.number }}</td>
+                                    <td>{{ mark.jury.last_name }} {{ mark.jury.first_name }}</td>
+                                    <td>{{ mark.mark }}</td>
+                                    <td>
+                                        {% if mark.description %}{{ mark.description }}{% endif %}
+                                    </td>
+                                    <td>{{ mark.date }}</td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>

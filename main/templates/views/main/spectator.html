@@ -103,7 +103,7 @@
         let marksChart = new Chart(document.getElementById('marks').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: [{% for project in rated_projects %}"{{ project.name|truncatechars:20 }}", {% endfor %}],
+                labels: [{% for project in rated_projects %}`{{ project.name|truncatechars:20 }}`, {% endfor %}],
                 datasets: [{
                     label: 'Taslamalaryň alan bahalary (Top-10)',
                     data: [{% for project in rated_projects %}parseFloat("{{ project.percent }}"), {% endfor %}],

@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-&u#o!!#6ld-)6-==7h10e!6$a&h%jy8+5ne(u^hb=(+kp2^1xg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -92,23 +92,23 @@ WSGI_APPLICATION = "server.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "basleshik",
-        "USER": "skill_root",
-        "PASSWORD": "asaf2928",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'basleshik',
+#         'USER': 'skill_root',
+#         'PASSWORD': 'asaf2928',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -129,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-RATELIMIT_IP_META_KEY = "HTTP_X_REAL_IP"
+# RATELIMIT_IP_META_KEY = "HTTP_X_REAL_IP"
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "sanlycozgutbaslesik@gmail.com"

@@ -20,9 +20,10 @@
                                     autocomplete="off"
                                     required
                                     placeholder=" ">
+                                <option value="all" {% if dir == "all" %}selected{% endif %}>Hemmesi</option>
                                 {% for direction in directions %}
                                     <option value="{{ direction.pk }}"
-                                            {% if forloop.counter == 0 %}selected{% endif %}>
+                                            {% if dir == direction.pk %}selected{% endif %}>
                                         {{ direction.name }}
                                     </option>
                                 {% endfor %}
@@ -37,11 +38,11 @@
                         </div>
                     </div>
                     <div class="btn-group" role="group">
-                        <button onclick="location.href='{% url 'export_to_xlsx' %}'"
+                        <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_xlsx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_xlsx/{% endif %}'"
                                 class="btn button">
                             <i class="bi bi-filetype-xlsx"></i>
                         </button>
-                        <button onclick="location.href='{% url 'export_to_docx' %}'"
+                        <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_docx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_docx/{% endif %}'"
                                 class="btn button">
                             <i class="bi bi-filetype-docx"></i>
                         </button>
@@ -91,4 +92,5 @@
         let projects = document.querySelectorAll("#projects .my-card");
         set_borders(projects);
     </script>
+    <script src="{% static 'js/projects_list.js' %}"></script>
 {% endblock scripts %}

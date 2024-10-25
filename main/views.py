@@ -346,13 +346,27 @@ def mark_form(request: HttpRequest):
 
 @ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
-def export_to_docx(request: HttpRequest):
+def export_to_docx(request: HttpRequest, direction: str = None):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        if direction != None:
+            if not direction.isdigit():
+                return redirect("projects_list")
+            elif Direction.objects.filter(pk=int(direction)).exists():
+                direction = int(direction)
+            else:
+                return redirect("projects_list")
         sort_by_marks = lambda e: e.percent
         rated_projects = []
-        for project in Project.objects.all():
-            if Mark.objects.filter(project=project).exists():
-                rated_projects.append(ProjectMarkContainer(project))
+        if direction != None:
+            for project in Project.objects.filter(
+                direction=Direction.objects.get(pk=direction)
+            ):
+                if Mark.objects.filter(project=project).exists():
+                    rated_projects.append(ProjectMarkContainer(project))
+        else:
+            for project in Project.objects.all():
+                if Mark.objects.filter(project=project).exists():
+                    rated_projects.append(ProjectMarkContainer(project))
         rated_projects.sort(key=sort_by_marks)
         rated_projects.reverse()
         document = Document()
@@ -428,12 +442,26 @@ def export_to_docx(request: HttpRequest):
 
 @ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
-def export_to_xlsx(request: HttpRequest):
+def export_to_xlsx(request: HttpRequest, direction: str = None):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        if direction != None:
+            if not direction.isdigit():
+                return redirect("projects_list")
+            elif Direction.objects.filter(pk=int(direction)).exists():
+                direction = int(direction)
+            else:
+                return redirect("projects_list")
         rated_projects = []
-        for project in Project.objects.all():
-            if Mark.objects.filter(project=project).exists():
-                rated_projects.append(ProjectMarkContainer(project))
+        if direction != None:
+            for project in Project.objects.filter(
+                direction=Direction.objects.get(pk=direction)
+            ):
+                if Mark.objects.filter(project=project).exists():
+                    rated_projects.append(ProjectMarkContainer(project))
+        else:
+            for project in Project.objects.all():
+                if Mark.objects.filter(project=project).exists():
+                    rated_projects.append(ProjectMarkContainer(project))
         rated_projects.sort(key=lambda e: e.percent)
         rated_projects.reverse()
         dataframe_dict = {
@@ -464,13 +492,40 @@ def export_to_xlsx(request: HttpRequest):
 
 @ratelimit(key="ip", rate="5/s")
 @login_required(login_url="/login/")
-def projects_list(request: HttpRequest):
+def projects_list(request: HttpRequest, direction="all"):
     if request.user.groups.contains(Group.objects.get(name="Spectator")):
         projects = []
+
+        if direction != "all":
+            if Direction.objects.filter(pk=int(direction)):
+                direction_obj = Direction.objects.get(pk=int(direction))
+                direction = int(direction)
+                for project in Project.objects.filter(direction=direction_obj):
+                    if Mark.objects.filter(project=project).exists():
+                        projects.append(project)
+                return render(
+                    request,
+                    "views/projects_list.html",
+                    {
+                        "projects": projects,
+                        "directions": Direction.objects.all(),
+                        "dir": direction,
+                    },
+                )
+            else:
+                return redirect("projects_list")
         for project in Project.objects.all():
             if Mark.objects.filter(project=project).exists():
                 projects.append(project)
-        return render(request, "views/projects_list.html", {"projects": projects})
+        return render(
+            request,
+            "views/projects_list.html",
+            {
+                "projects": projects,
+                "directions": Direction.objects.all(),
+                "dir": "all",
+            },
+        )
     return redirect("home")
 
 
@@ -483,13 +538,20 @@ def project_result(request: HttpRequest, project_pk: int):
             MarkContainer(mark)
             for mark in Mark.objects.filter(project=project).order_by("-date")
         ]
+        schedule = get_projects_schedule(project)
+        unparticipated_juries = [
+            UnparticipatedJuryContainer(jury)
+            for jury in get_unparticipated_juries(project, schedule)
+        ]
+        unparticipated_juries_count = len(unparticipated_juries)
         project_mark_container = ProjectMarkContainer(project)
         return render(
             request,
             "views/project_result.html",
             {
                 "project": project,
-                "marks": marks,
+                "unparticipated_juries_count": unparticipated_juries_count,
+                "marks": numerate_containers(unparticipated_juries + marks),
                 "project_mark_container": project_mark_container,
             },
         )
