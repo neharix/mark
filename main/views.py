@@ -252,7 +252,9 @@ def add_project_using_xlsx(request: HttpRequest):
 @login_required(login_url="/login/")
 def add_schedule(request: HttpRequest):
     if request.user.groups.contains(Group.objects.get(name="Moderator")):
-        return render(request, "views/add_schedule.html")
+        return render(
+            request, "views/add_schedule.html", {"directions": Direction.objects.all()}
+        )
     return redirect("home")
 
 
@@ -269,7 +271,12 @@ def edit_schedule(request: HttpRequest, schedule_pk: int):
         return render(
             request,
             "views/edit_schedule.html",
-            {"schedule": schedule, "projects": projects, "juries": juries},
+            {
+                "schedule": schedule,
+                "projects": projects,
+                "juries": juries,
+                "directions": Direction.objects.all(),
+            },
         )
     return redirect("home")
 

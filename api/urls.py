@@ -37,4 +37,6 @@ urlpatterns = [
         edit_schedule_api_view,
         name="edit_schedule_api_view",
     ),
+    path("project-search/", search_project_api_view, name="search_project"),
+    path("jury-search/", search_juries_api_view, name="search_jury"),
 ]

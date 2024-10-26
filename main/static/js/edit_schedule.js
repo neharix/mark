@@ -49,6 +49,7 @@ let projects = null;
 let juries = null;
 
 function success(data) {
+    console.log(data);
     let projects_list = document.querySelector("#projects-list");
     projects_list.innerHTML = "";
     let pks = [];
@@ -322,3 +323,24 @@ function save_schedule(){
 }
 
 accept_btn.onclick = save_schedule;
+
+
+
+projectSearchBtn = document.querySelector("#project-search-btn");
+projectSearchBtn.onclick = () => {
+    let search = document.querySelector("#search").value;
+    let direction = document.querySelector("#direction").value;
+    if (search == "") {
+        $.post("/api/v1/project-search/", {direction: direction}, success);
+    }
+    else {
+        $.post("/api/v1/project-search/", {search: search, direction: direction}, success);
+    }
+}
+
+
+jurySearchBtn = document.querySelector("#jury-search-btn");
+jurySearchBtn.onclick = () => {
+    let search = document.querySelector("#jury-search").value;
+    $.post("/api/v1/jury-search/", {search: search}, juries_success);
+}

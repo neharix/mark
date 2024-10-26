@@ -30,11 +30,11 @@
 }
 
 .modal-window .window {
-    width: 50%;
+    width: 75%;
     background-color: #ffffff;
 }
 
 .list {
-    height: 35vh;
+    height: 60vh;
     overflow-y: auto;
 }

@@ -176,6 +176,49 @@
     <div id="projects" class="modal-window">
         <div id="dialog" class="window p-4">
             <h4 class="fw-bolder my-2 text-align-start">Taslamany saýlaň:</h4>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="floating-label my-3">
+                        <input class="floating-label__input"
+                               type="text"
+                               id="search"
+                               name="search"
+                               autocomplete="off"
+                               placeholder=" " />
+                        <div class="floating-label__outline">
+                            <div class="floating-label__leading"></div>
+                            <div class="floating-label__notch">
+                                <label class="floating-label__label" for="search">Gözleg meýdançasy</label>
+                            </div>
+                            <div class="floating-label__trailing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="floating-label my-3">
+                        <select class="floating-label__input"
+                                type="text"
+                                id="direction"
+                                name="direction"
+                                autocomplete="off"
+                                required
+                                placeholder=" ">
+                            <option selected value="all">Hemmesi</option>
+                            {% for direction in directions %}<option value="{{ direction.pk }}">{{ direction.name }}</option>{% endfor %}
+                        </select>
+                        <div class="floating-label__outline">
+                            <div class="floating-label__leading"></div>
+                            <div class="floating-label__notch">
+                                <label class="floating-label__label" for="direction">Ugry</label>
+                            </div>
+                            <div class="floating-label__trailing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 d-flex align-items-center">
+                    <button class="btn button" id="project-search-btn">Gözle</button>
+                </div>
+            </div>
             <div id="projects-list" class="list"></div>
             <div class="d-flex mt-3 mb-1 justify-content-end align-items-center">
                 <a class="mx-4 txt-btn close-btn" href="#">AÝYR</a>
@@ -187,6 +230,28 @@
     <div id="juries" class="modal-window">
         <div id="jury-dialog" class="window p-4">
             <h4 class="fw-bolder my-2 text-align-start">Emin agzalary saýlaň:</h4>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="floating-label my-3">
+                        <input class="floating-label__input"
+                               type="text"
+                               id="jury-search"
+                               name="jury-search"
+                               autocomplete="off"
+                               placeholder=" " />
+                        <div class="floating-label__outline">
+                            <div class="floating-label__leading"></div>
+                            <div class="floating-label__notch">
+                                <label class="floating-label__label" for="jury-search">Gözleg meýdançasy</label>
+                            </div>
+                            <div class="floating-label__trailing"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 d-flex align-items-center">
+                    <button class="btn button" id="jury-search-btn">Gözle</button>
+                </div>
+            </div>
             <div id="juries-list" class="list"></div>
             <div class="d-flex mt-3 mb-1 justify-content-end align-items-center">
                 <a class="mx-4 txt-btn close-btn" href="#">AÝYR</a>

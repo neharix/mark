@@ -70,7 +70,7 @@ $(document).ready(function() {
         $('#back').fadeTo(300,0.8);
         var winH = $(window).height();
         var winW = $(window).width();
-        $("#dialog").css('top',  winH/2.5-$("#dialog").height()/2);
+        $("#dialog").css('top',  winH/2.2-$("#dialog").height()/2);
         $("#dialog").css('left', winW/2-$("#dialog").width()/2);
         $("#dialog").fadeIn(300);
         $("#dialog").show();
@@ -90,7 +90,7 @@ $(document).ready(function() {
         $('#back').fadeTo(300,0.8);
         var winH = $(window).height();
         var winW = $(window).width();
-        $("#jury-dialog").css('top',  winH/2.5-$("#dialog").height()/2);
+        $("#jury-dialog").css('top',  winH/2.2-$("#dialog").height()/2);
         $("#jury-dialog").css('left', winW/2-$("#dialog").width()/2);
         $("#jury-dialog").fadeIn(300);
         $("#jury-dialog").show();
@@ -263,3 +263,22 @@ function save_schedule(){
 }
 
 accept_btn.onclick = save_schedule;
+
+projectSearchBtn = document.querySelector("#project-search-btn");
+projectSearchBtn.onclick = () => {
+    let search = document.querySelector("#search").value;
+    let direction = document.querySelector("#direction").value;
+    if (search == "") {
+        $.post("/api/v1/project-search/", {direction: direction}, success);
+    }
+    else {
+        $.post("/api/v1/project-search/", {search: search, direction: direction}, success);
+    }
+}
+
+
+jurySearchBtn = document.querySelector("#jury-search-btn");
+jurySearchBtn.onclick = () => {
+    let search = document.querySelector("#jury-search").value;
+    $.post("/api/v1/jury-search/", {search: search}, juries_success);
+}

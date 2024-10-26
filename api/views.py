@@ -198,6 +198,88 @@ def delete_jury_from_schedule_api_view(request: HttpRequest):
     return Response({"detail": "you need to be a moderator"})
 
 
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
+@api_view(["POST"])
+def search_project_api_view(request: HttpRequest):
+    if request.data.get("search", False) and request.data.get("direction", False):
+        if request.data["direction"].isdigit():
+            projects = (
+                Project.unrated_objects.filter(
+                    description__contains=request.data["search"],
+                    direction=int(request.data["direction"]),
+                )
+                | Project.unrated_objects.filter(
+                    full_name_of_manager__contains=request.data["search"],
+                    direction=int(request.data["direction"]),
+                )
+                | Project.unrated_objects.filter(
+                    agency__contains=request.data["search"],
+                    direction=int(request.data["direction"]),
+                )
+            )
+        else:
+            projects = (
+                Project.unrated_objects.filter(
+                    description__contains=request.data["search"]
+                )
+                | Project.unrated_objects.filter(
+                    full_name_of_manager__contains=request.data["search"],
+                )
+                | Project.unrated_objects.filter(
+                    agency__contains=request.data["search"],
+                )
+            )
+        quenes = Schedule.objects.all()
+        scheduled_project_pks = []
+        projects_list = []
+        for quene in quenes:
+            scheduled_project_pks += json.loads(quene.quene_json)
+        for project in projects:
+            if project.pk not in scheduled_project_pks:
+                projects_list.append(project)
+        serializer = ProjectSerializer(projects_list, many=True)
+        return Response(serializer.data)
+    elif request.data.get("direction", False):
+        if request.data["direction"].isdigit():
+            projects = Project.unrated_objects.filter(
+                direction=int(request.data["direction"]),
+            )
+        else:
+            projects = Project.unrated_objects.all()
+        quenes = Schedule.objects.all()
+        scheduled_project_pks = []
+        projects_list = []
+        for quene in quenes:
+            scheduled_project_pks += json.loads(quene.quene_json)
+        for project in projects:
+            if project.pk not in scheduled_project_pks:
+                projects_list.append(project)
+        serializer = ProjectSerializer(projects_list, many=True)
+        return Response(serializer.data)
+    return Response({"detail": "invalid data"})
+
+
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
+@api_view(["POST"])
+def search_juries_api_view(request: HttpRequest):
+    if request.data.get("search", False):
+        if request.data["search"] != "":
+            users = User.objects.filter(
+                last_name__contains=request.data["search"]
+            ) | User.objects.filter(first_name__contains=request.data["search"])
+        else:
+            users = User.objects.all()
+        juries = []
+        for user in users:
+            if user.groups.contains(Group.objects.get(name="Jury")):
+                juries.append(user)
+        serializer = UserSerializer(juries, many=True)
+        return Response(serializer.data)
+    return Response({"detail": "invalid data"})
+
+
 # @ratelimit(key="ip", rate="5/s")
 # @api_view(["POST"])
 # def otp_api_view(request: HttpRequest):
