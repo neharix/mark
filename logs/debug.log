@@ -1514,3 +1514,358 @@ File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\rest_framework\loca
 File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\rest_framework\locale\zh_Hans\LC_MESSAGES\django.mo first seen with mtime 1727786003.9097633
 File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\rest_framework\locale\zh_Hant\LC_MESSAGES\django.mo first seen with mtime 1727786003.9107606
 File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\rest_framework\locale\zh_TW\LC_MESSAGES\django.mo first seen with mtime 1727786003.9117572
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\sessions\backends\db.py first seen with mtime 1727785992.2413943
+File D:\workshop\python\ongoing\mark\server\wsgi.py first seen with mtime 1729714088.2006621
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\db\models\sql\compiler.py first seen with mtime 1727785992.4046714
+"GET / HTTP/1.1" 302 0
+Exception while resolving variable 'message' in template 'views/login.html'.
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\context.py", line 85, in __getitem__
+    raise KeyError(key)
+KeyError: 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 889, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ^^^^^^^^
+AttributeError: type object 'RequestContext' has no attribute 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [message] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022D40997C40>>, 'request': <WSGIRequest: GET '/login/?next=/'>, 'user': <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x0000022D40A9DB20>>, 'perms': PermWrapper(<SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x0000022D40A9DB20>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/login/?next=/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}}, {}]
+"GET /login/?next=/ HTTP/1.1" 200 6555
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\messages\storage\session.py first seen with mtime 1727785992.1524787
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\messages\storage\cookie.py first seen with mtime 1727785992.1524787
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\messages\storage\fallback.py first seen with mtime 1727785992.1524787
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\sessions\serializers.py first seen with mtime 1727785992.2403977
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\staticfiles\storage.py first seen with mtime 1727785992.3513825
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\auth\context_processors.py first seen with mtime 1727785991.854103
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\context_processors.py first seen with mtime 1727785992.4305842
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\contrib\messages\context_processors.py first seen with mtime 1727785992.151482
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."username" = 'skill' LIMIT 21; args=('skill',); alias=default
+(0.000) SELECT 1 AS "a" FROM "django_session" WHERE "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk' LIMIT 1; args=(1, 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.047) INSERT INTO "django_session" ("session_key", "session_data", "expire_date") VALUES ('jln47szi1rxnrbc55ofxa1kldm52pwlk', 'e30:1t5R8z:pFcEze_QQWgg2Ner1MT4b1sYqSWMsR8lWd0WJtYeEak', '2024-11-11 14:54:57.006971'); args=('jln47szi1rxnrbc55ofxa1kldm52pwlk', 'e30:1t5R8z:pFcEze_QQWgg2Ner1MT4b1sYqSWMsR8lWd0WJtYeEak', '2024-11-11 14:54:57.006971'); alias=default
+(0.000) COMMIT; args=None; alias=default
+(0.000) UPDATE "auth_user" SET "last_login" = '2024-10-28 14:54:57.051591' WHERE "auth_user"."id" = 1; args=('2024-10-28 14:54:57.051591', 1); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) UPDATE "django_session" SET "session_data" = '.eJxVjMsOwiAQRf-FtSE8SgZcuvcbyAAzUjU0Ke3K-O9K0oVu7znnvkTEfatx77TGuYiz0OL0uyXMD2oDlDu22yLz0rZ1TnIo8qBdXpdCz8vh_h1U7HXU7GgKlIorDCoZJA2MBtCHhJjA2QxcrLIKcDLae_r6jBY4OMyWxfsDFsQ49g:1t5R8z:YPCjHd2YQ5oWBO1TziTTFBSpxRhoTjIfXg7Tuwwkjfg', "expire_date" = '2024-11-11 14:54:57.056718' WHERE "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk'; args=('.eJxVjMsOwiAQRf-FtSE8SgZcuvcbyAAzUjU0Ke3K-O9K0oVu7znnvkTEfatx77TGuYiz0OL0uyXMD2oDlDu22yLz0rZ1TnIo8qBdXpdCz8vh_h1U7HXU7GgKlIorDCoZJA2MBtCHhJjA2QxcrLIKcDLae_r6jBY4OMyWxfsDFsQ49g:1t5R8z:YPCjHd2YQ5oWBO1TziTTFBSpxRhoTjIfXg7Tuwwkjfg', '2024-11-11 14:54:57.056718', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.015) COMMIT; args=None; alias=default
+"POST /login/?next=/ HTTP/1.1" 302 0
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:54:57.067393' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:54:57.067393', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT "auth_group"."id", "auth_group"."name" FROM "auth_group" WHERE "auth_group"."name" = 'Moderator' LIMIT 21; args=('Moderator',); alias=default
+(0.000) SELECT 1 AS "a" FROM "auth_group" INNER JOIN "auth_user_groups" ON ("auth_group"."id" = "auth_user_groups"."group_id") WHERE ("auth_user_groups"."user_id" = 1 AND "auth_group"."id" = 1) LIMIT 1; args=(1, 1, 1); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "auth_user" INNER JOIN "auth_user_groups" ON ("auth_user"."id" = "auth_user_groups"."user_id") INNER JOIN "auth_group" ON ("auth_user_groups"."group_id" = "auth_group"."id") WHERE "auth_group"."name" = 'Moderator'; args=('Moderator',); alias=default
+(0.016) SELECT COUNT(*) AS "__count" FROM "auth_user" INNER JOIN "auth_user_groups" ON ("auth_user"."id" = "auth_user_groups"."user_id") INNER JOIN "auth_group" ON ("auth_user_groups"."group_id" = "auth_group"."id") WHERE "auth_group"."name" = 'Jury'; args=('Jury',); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "auth_user" INNER JOIN "auth_user_groups" ON ("auth_user"."id" = "auth_user_groups"."user_id") INNER JOIN "auth_group" ON ("auth_user_groups"."group_id" = "auth_group"."id") WHERE "auth_group"."name" = 'Spectator'; args=('Spectator',); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project" WHERE "main_project"."rated"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project" WHERE NOT "main_project"."rated"; args=(); alias=default
+(0.000) SELECT "main_schedule"."id", "main_schedule"."quene_json", "main_schedule"."date" FROM "main_schedule" WHERE "main_schedule"."date" >= '2024-10-28' ORDER BY "main_schedule"."date" DESC LIMIT 5; args=('2024-10-28',); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "auth_user" INNER JOIN "main_schedule_juries" ON ("auth_user"."id" = "main_schedule_juries"."user_id") WHERE "main_schedule_juries"."schedule_id" = 4; args=(4,); alias=default
+Exception while resolving variable 'message' in template 'views/main/moderator.html'.
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\context.py", line 85, in __getitem__
+    raise KeyError(key)
+KeyError: 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 889, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ^^^^^^^^
+AttributeError: type object 'RequestContext' has no attribute 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'message'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [message] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022D40B15BC0>>, 'request': <WSGIRequest: GET '/'>, 'user': <SimpleLazyObject: <User: skill>>, 'perms': PermWrapper(<SimpleLazyObject: <User: skill>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}}, {}, {'moderators_count': 1, 'juries_count': 3, 'spectators_count': 1, 'projects_count': 3, 'rated_projects_count': 0, 'unrated_projects_count': 3, 'schedules': [<main.containers.ScheduleContainer object at 0x0000022D404A7B30>]}]
+"GET / HTTP/1.1" 200 10716
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\conf\locale\tk\__init__.py first seen with mtime 1727785991.648838
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\conf\locale\tk\formats.py first seen with mtime 1727785991.648838
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:02.228149' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:02.228149', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT "django_admin_log"."id", "django_admin_log"."action_time", "django_admin_log"."user_id", "django_admin_log"."content_type_id", "django_admin_log"."object_id", "django_admin_log"."object_repr", "django_admin_log"."action_flag", "django_admin_log"."change_message", "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined", "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_admin_log" INNER JOIN "auth_user" ON ("django_admin_log"."user_id" = "auth_user"."id") LEFT OUTER JOIN "django_content_type" ON ("django_admin_log"."content_type_id" = "django_content_type"."id") WHERE "django_admin_log"."user_id" = 1 ORDER BY "django_admin_log"."action_time" DESC LIMIT 10; args=(1,); alias=default
+"GET /admin/ HTTP/1.1" 200 12608
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\urls\resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern '' [name='home']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/' [name='schedules']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'users/' [name='users']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/' [name='projects_list']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/export_to_docx/' [name='export_to_docx']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/export_to_xlsx/' [name='export_to_xlsx']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/export_to_docx/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/export_to_xlsx/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'project_result/<int:project_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'mark_form/' [name='mark_form']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/edit/<int:schedule_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'mark/edit/<int:mark_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/delete/<int:schedule_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'users/delete/<int:user_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'login/' [name='login']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'logout/' [name='logout']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_project/' [name='add_project']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_user/' [name='add_user']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_schedule/' [name='add_schedule']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_project_using_excel/' [name='add_project_using_excel']>], [<URLResolver <module 'api.urls' from 'D:\\workshop\\python\\ongoing\\mark\\api\\urls.py'> (None:None) 'api/v1/'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'favicon.ico'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\core\handlers\base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\urls\resolvers.py", line 705, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern '' [name='home']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/' [name='schedules']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'users/' [name='users']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/' [name='projects_list']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/export_to_docx/' [name='export_to_docx']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/export_to_xlsx/' [name='export_to_xlsx']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/export_to_docx/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'projects_list/by_direction/<str:direction>/export_to_xlsx/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'project_result/<int:project_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'mark_form/' [name='mark_form']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/edit/<int:schedule_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'mark/edit/<int:mark_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'schedules/delete/<int:schedule_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'users/delete/<int:user_pk>/'>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'login/' [name='login']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'logout/' [name='logout']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_project/' [name='add_project']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_user/' [name='add_user']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_schedule/' [name='add_schedule']>], [<URLResolver <module 'main.urls' from 'D:\\workshop\\python\\ongoing\\mark\\main\\urls.py'> (None:None) ''>, <URLPattern 'add_project_using_excel/' [name='add_project_using_excel']>], [<URLResolver <module 'api.urls' from 'D:\\workshop\\python\\ongoing\\mark\\api\\urls.py'> (None:None) 'api/v1/'>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'favicon.ico'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 883, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 893, in _resolve_lookup
+    current = getattr(current, bit)
+              ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 899, in _resolve_lookup
+    current = current[int(bit)]
+                      ^^^^^^^^
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\django\template\base.py", line 906, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <module 'api.urls' from 'D:\\workshop\\python\\ongoing\\mark\\api\\urls.py'> (None:None) 'api/v1/'>
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 8197
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\tzdata\__init__.py first seen with mtime 1727785989.2474227
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\tzdata\zoneinfo\Asia\__init__.py first seen with mtime 1727785989.3243175
+File D:\workshop\python\ongoing\mark\.venv\Lib\site-packages\tzdata\zoneinfo\__init__.py first seen with mtime 1727785989.2592874
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:06.678067' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:06.678067', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" ORDER BY "main_project"."id" DESC; args=(); alias=default
+"GET /admin/main/project/ HTTP/1.1" 200 11879
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:06.766403' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:06.766403', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:06.914143' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:06.914143', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+"GET /static/admin/js/filters.js HTTP/1.1" 200 978
+"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:09.560610' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:09.560610', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") ORDER BY "main_mark"."id" DESC; args=(); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 2 LIMIT 21; args=(2,); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 4 LIMIT 21; args=(4,); alias=default
+"GET /admin/main/mark/ HTTP/1.1" 200 11984
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:09.620885' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:09.620885', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:55:09.635231' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:55:09.635231', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:11.619623' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:11.619623', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") WHERE "main_mark"."id" IN (5, 4) ORDER BY "main_mark"."id" DESC LIMIT 1; args=(5, 4); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") WHERE "main_mark"."id" IN (5, 4) ORDER BY "main_mark"."id" DESC; args=(5, 4); alias=default
+"POST /admin/main/mark/ HTTP/1.1" 200 9753
+"GET /static/admin/js/cancel.js HTTP/1.1" 200 884
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:12.818278' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:12.818278', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") WHERE "main_mark"."id" IN (5, 4) ORDER BY "main_mark"."id" DESC LIMIT 1; args=(5, 4); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") WHERE "main_mark"."id" IN (5, 4) ORDER BY "main_mark"."id" DESC; args=(5, 4); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'main' AND "django_content_type"."model" = 'mark') LIMIT 21; args=('main', 'mark'); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.031) INSERT INTO "django_admin_log" ("action_time", "user_id", "content_type_id", "object_id", "object_repr", "action_flag", "change_message") VALUES ('2024-10-28 14:58:12.832291', 1, 10, '5', '2024-10-28 10:15:06.637971+00:00 ijokio iojiojiojm taslamasy', 3, ''), ('2024-10-28 14:58:12.832291', 1, 10, '4', '2024-10-28 10:05:58.976480+00:00 ijokio iojiojiojm taslamasy', 3, '') RETURNING "django_admin_log"."id"; args=('2024-10-28 14:58:12.832291', 1, 10, '5', '2024-10-28 10:15:06.637971+00:00 ijokio iojiojiojm taslamasy', 3, '', '2024-10-28 14:58:12.832291', 1, 10, '4', '2024-10-28 10:05:58.976480+00:00 ijokio iojiojiojm taslamasy', 3, ''); alias=default
+(0.016) COMMIT; args=None; alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) DELETE FROM "main_mark" WHERE "main_mark"."id" IN (5, 4); args=(5, 4); alias=default
+(0.000) COMMIT; args=None; alias=default
+"POST /admin/main/mark/ HTTP/1.1" 302 0
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:12.889911' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:12.889911', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_mark"; args=(); alias=default
+(0.000) SELECT "main_mark"."id", "main_mark"."jury_id", "main_mark"."project_id", "main_mark"."mark", "main_mark"."description", "main_mark"."date", "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated", "main_direction"."id", "main_direction"."name" FROM "main_mark" INNER JOIN "main_project" ON ("main_mark"."project_id" = "main_project"."id") INNER JOIN "main_direction" ON ("main_project"."direction_id" = "main_direction"."id") ORDER BY "main_mark"."id" DESC; args=(); alias=default
+"GET /admin/main/mark/ HTTP/1.1" 200 9577
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:12.937777' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:12.937777', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:14.175688' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:14.175688', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_direction"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_direction"; args=(); alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction" ORDER BY "main_direction"."id" DESC; args=(); alias=default
+"GET /admin/main/direction/ HTTP/1.1" 200 11189
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:14.218408' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:14.218408', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:17.654986' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:17.654986', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction" WHERE "main_direction"."id" = 2 LIMIT 21; args=(2,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'main' AND "django_content_type"."model" = 'direction') LIMIT 21; args=('main', 'direction'); alias=default
+(0.000) COMMIT; args=None; alias=default
+"GET /admin/main/direction/2/change/ HTTP/1.1" 200 10457
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:17.735777' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:17.735777', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.016) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:29.949335' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:29.949335', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" ORDER BY "main_project"."id" DESC; args=(); alias=default
+"GET /admin/main/project/ HTTP/1.1" 200 11879
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:29.997978' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:29.997978', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:31.862564' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:31.862564', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" WHERE "main_project"."id" = 2 LIMIT 21; args=(2,); alias=default
+(0.000) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'main' AND "django_content_type"."model" = 'project') LIMIT 21; args=('main', 'project'); alias=default
+(0.000) COMMIT; args=None; alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction"; args=(); alias=default
+"GET /admin/main/project/2/change/ HTTP/1.1" 200 15933
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:31.924891' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:31.924891', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+"GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:37.796498' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:37.796498', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" ORDER BY "main_project"."id" DESC; args=(); alias=default
+"GET /admin/main/project/ HTTP/1.1" 200 11879
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:37.849953' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:37.849953', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:39.656544' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:39.656544', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" WHERE "main_project"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) COMMIT; args=None; alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction"; args=(); alias=default
+"GET /admin/main/project/1/change/ HTTP/1.1" 200 15950
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:58:39.717818' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:58:39.717818', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:03.604808' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:03.604808', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.015) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" ORDER BY "main_project"."id" DESC; args=(); alias=default
+"GET /admin/main/project/ HTTP/1.1" 200 11879
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:03.651469' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:03.651469', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:05.763924' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:05.763924', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" WHERE "main_project"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) COMMIT; args=None; alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction"; args=(); alias=default
+"GET /admin/main/project/1/change/ HTTP/1.1" 200 15950
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:05.822735' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:05.822735', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:08.408724' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:08.408724', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT COUNT(*) AS "__count" FROM "main_project"; args=(); alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" ORDER BY "main_project"."id" DESC; args=(); alias=default
+"GET /admin/main/project/ HTTP/1.1" 200 11879
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:08.455741' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:08.455741', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:09.846938' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:09.846938', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.000) SELECT "main_project"."id", "main_project"."agency", "main_project"."full_name_of_manager", "main_project"."full_name_of_second_participant", "main_project"."full_name_of_third_participant", "main_project"."direction_id", "main_project"."description", "main_project"."rated" FROM "main_project" WHERE "main_project"."id" = 3 LIMIT 21; args=(3,); alias=default
+(0.000) COMMIT; args=None; alias=default
+(0.000) SELECT "main_direction"."id", "main_direction"."name" FROM "main_direction"; args=(); alias=default
+"GET /admin/main/project/3/change/ HTTP/1.1" 200 15941
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2024-10-28 14:59:09.921772' AND "django_session"."session_key" = 'jln47szi1rxnrbc55ofxa1kldm52pwlk') LIMIT 21; args=('2024-10-28 14:59:09.921772', 'jln47szi1rxnrbc55ofxa1kldm52pwlk'); alias=default
+(0.000) SELECT "auth_user"."id", "auth_user"."password", "auth_user"."last_login", "auth_user"."is_superuser", "auth_user"."username", "auth_user"."first_name", "auth_user"."last_name", "auth_user"."email", "auth_user"."is_staff", "auth_user"."is_active", "auth_user"."date_joined" FROM "auth_user" WHERE "auth_user"."id" = 1 LIMIT 21; args=(1,); alias=default
+"GET /admin/jsi18n/ HTTP/1.1" 200 3262
