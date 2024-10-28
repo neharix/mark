@@ -7,15 +7,13 @@ import pandas as pd
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
-from django.core.files.base import ContentFile
 from django.db import utils
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django_ratelimit.decorators import ratelimit
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Inches, Mm, Pt, RGBColor
-from encrypted_files.base import EncryptedFile
+from docx.shared import Mm
 
 from .containers import *
 from .models import *
@@ -125,6 +123,7 @@ def main(request: HttpRequest):
         rated_projects.reverse()
         ls_projects = [project for project in rated_projects]
         ls_projects.sort(key=lambda e: e.mark_date)
+        ls_projects.reverse()
         unrated_projects_count = Project.unrated_objects.all().count()
         directions = [
             DirectionContainer(direction) for direction in Direction.objects.all()
@@ -546,22 +545,31 @@ def project_result(request: HttpRequest, project_pk: int):
             for mark in Mark.objects.filter(project=project).order_by("-date")
         ]
         schedule = get_projects_schedule(project)
-        unparticipated_juries = [
-            UnparticipatedJuryContainer(jury)
-            for jury in get_unparticipated_juries(project, schedule)
-        ]
-        unparticipated_juries_count = len(unparticipated_juries)
-        project_mark_container = ProjectMarkContainer(project)
-        return render(
-            request,
-            "views/project_result.html",
-            {
-                "project": project,
-                "unparticipated_juries_count": unparticipated_juries_count,
-                "marks": numerate_containers(unparticipated_juries + marks),
-                "project_mark_container": project_mark_container,
-            },
-        )
+        if schedule != None:
+            unparticipated_juries = [
+                UnparticipatedJuryContainer(jury)
+                for jury in get_unparticipated_juries(project, schedule)
+            ]
+            unparticipated_juries_count = len(unparticipated_juries)
+            project_mark_container = ProjectMarkContainer(project)
+
+            return render(
+                request,
+                "views/project_result.html",
+                {
+                    "project": project,
+                    "unparticipated_juries_count": unparticipated_juries_count,
+                    "marks": numerate_containers(unparticipated_juries + marks),
+                    "project_mark_container": project_mark_container,
+                },
+            )
+        else:
+            project.rated = False
+            for jury in User.objects.filter(groups__name="Jury"):
+                for mark in Mark.objects.filter(project=project, jury=jury):
+                    mark.delete()
+            project.save()
+            return redirect("home")
 
 
 @ratelimit(key="ip", rate="5/s")
