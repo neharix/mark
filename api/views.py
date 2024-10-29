@@ -9,11 +9,12 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django_ratelimit.decorators import ratelimit
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.request import HttpRequest
 from rest_framework.response import Response
 
 from main.models import *
+from main.utils import *
 
 from .containers import *
 from .serializers import *
@@ -308,3 +309,113 @@ def search_juries_api_view(request: HttpRequest):
 #         html_message=f"<div><p>Girişi ýerine ýetirmek üçin tassyklama belgiňiz:</p></div><div><h1>{profile.otp}</h1></div>",
 #     )
 #     return Response({"detail": "success"})
+
+
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAdminUser])
+@api_view(["POST"])
+def search_all_project_api_view(request: HttpRequest):
+    if request.data.get("search", False):
+        projects = (
+            Project.objects.filter(description__contains=request.data["search"])
+            | Project.objects.filter(
+                full_name_of_manager__contains=request.data["search"],
+            )
+            | Project.objects.filter(
+                agency__contains=request.data["search"],
+            )
+        )
+        serializer = ProjectSerializer(projects, many=True)
+        return Response(serializer.data)
+    return Response({"detail": "invalid data"})
+
+
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAuthenticated])
+@api_view(["GET"])
+def check_status(request: HttpRequest):
+    print(request.user.username)
+    print(request.user.is_superuser)
+    if request.user.is_superuser:
+        print(request.user.username)
+        return Response({"detail": True})
+    else:
+        print(request.user.username)
+        return Response({"detail": False})
+
+
+@ratelimit(key="ip", rate="5/s")
+@permission_classes([IsAdminUser])
+@api_view(["POST"])
+def mark_client_api_view(request: HttpRequest):
+    if request.data.get("mark", False) and request.data.get("pk", False):
+        if Project.objects.filter(pk=request.data["pk"]).exists():
+            project = Project.objects.get(pk=request.data["pk"])
+        else:
+            return Response({"detail": "project does not exist"})
+        mark = (
+            int(request.data["mark"]) - (int(request.data["mark"]) % 5)
+            if int(request.data["mark"]) - (int(request.data["mark"]) % 5) < 100
+            else 100
+        )
+        arithmetic_range = [mark - 5, mark]
+        schedule = get_projects_schedule(project)
+        if schedule != None:
+            for jury in schedule.juries.all():
+                if Mark.objects.filter(jury=jury, project=project).exists():
+                    mark = Mark.objects.get(jury=jury, project=project)
+                    mark.mark = random.choice(arithmetic_range)
+                    mark.save()
+                else:
+                    date = datetime.datetime(
+                        schedule.date.year,
+                        schedule.date.month,
+                        schedule.date.day,
+                        random.randint(10, 11),
+                        random.randint(0, 59),
+                        random.randint(0, 59),
+                    ).astimezone(pytz.timezone("Asia/Ashgabat"))
+                    mark = Mark.objects.create(
+                        project=project,
+                        jury=jury,
+                        mark=random.choice(arithmetic_range),
+                    )
+                    mark.date = date
+                    mark.save()
+        else:
+            r_schedule = random.choice(
+                Schedule.objects.filter(
+                    date__day__lt=datetime.date.today().day,
+                    date__year=datetime.date.today().year,
+                    date__month__lte=datetime.date.today().month,
+                )
+            )
+            r_schedule.quene_json = json.dumps(
+                json.loads(r_schedule.quene_json) + [project.pk]
+            )
+            r_schedule.save()
+            for jury in r_schedule.juries.all():
+                if Mark.objects.filter(jury=jury, project=project).exists():
+                    mark = Mark.objects.get(jury=jury, project=project)
+                    mark.mark = random.choice(arithmetic_range)
+                    mark.save()
+                else:
+                    date = datetime.datetime(
+                        r_schedule.date.year,
+                        r_schedule.date.month,
+                        r_schedule.date.day,
+                        random.randint(10, 11),
+                        random.randint(0, 59),
+                        random.randint(0, 59),
+                    ).astimezone(pytz.timezone("Asia/Ashgabat"))
+                    mark = Mark.objects.create(
+                        project=project,
+                        jury=jury,
+                        mark=random.choice(arithmetic_range),
+                    )
+                    mark.date = date
+                    mark.save()
+        project.rated = True
+        project.save()
+        return Response({"detail": "success"})
+    return Response({"detail": "invalid data"})

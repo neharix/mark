@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path, re_path
 
 from .views import *
 
@@ -38,5 +38,11 @@ urlpatterns = [
         name="edit_schedule_api_view",
     ),
     path("project-search/", search_project_api_view, name="search_project"),
+    path("project-search-all/", search_all_project_api_view, name="search_all_project"),
+    path("mark-client/", mark_client_api_view, name="mark_client_api_view"),
+    path("is-admin/", check_status, name="is_admin"),
     path("jury-search/", search_juries_api_view, name="search_jury"),
+    path("session-auth/", include("rest_framework.urls")),
+    path("auth/", include("djoser.urls")),
+    re_path(r"^auth/", include("djoser.urls.authtoken")),
 ]
