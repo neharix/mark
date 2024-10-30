@@ -17,11 +17,11 @@ urlpatterns = [
     path("schedules/edit/<int:schedule_pk>/", edit_schedule),
     path("mark/edit/<int:mark_pk>/", edit_mark),
     path("schedules/delete/<int:schedule_pk>/", delete_schedule),
-    path("users/delete/<int:user_pk>/", delete_user),
+    # path("users/delete/<int:user_pk>/", delete_user),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("add_project/", add_project, name="add_project"),
-    path("add_user/", add_user, name="add_user"),
+    # path("add_user/", add_user, name="add_user"),
     path("add_schedule/", add_schedule, name="add_schedule"),
     path(
         "add_project_using_excel/",

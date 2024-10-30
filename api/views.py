@@ -359,6 +359,8 @@ def mark_client_api_view(request: HttpRequest):
             else 100
         )
         arithmetic_range = [mark - 5, mark]
+        if mark + 5 <= 100:
+            arithmetic_range.append(mark + 5)
         schedule = get_projects_schedule(project)
         if schedule != None:
             for jury in schedule.juries.all():
