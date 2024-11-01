@@ -1,6 +1,6 @@
 import json
 
-from .models import Mark, Project, Schedule
+from .models import *
 
 
 def get_projects_schedule(project: Project):
@@ -26,3 +26,12 @@ def numerate_containers(list_of_objects):
         temp_list.append(obj)
         index += 1
     return temp_list
+
+
+def get_juries_marks(jury: User, direction: Direction = None):
+    if direction != None:
+        return Mark.objects.filter(jury=jury, project__direction=direction).order_by(
+            "-date"
+        )
+    else:
+        return Mark.objects.filter(jury=jury).order_by("-date")

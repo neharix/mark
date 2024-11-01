@@ -682,3 +682,125 @@ def edit_mark(request: HttpRequest, mark_pk: int):
                 {"project": mark.project, "mark": mark},
             )
     return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def export_jury_marks_to_xlsx(request: HttpRequest, direction: str = None):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        if direction != None:
+            if not direction.isdigit():
+                return redirect("projects_list")
+            elif Direction.objects.filter(pk=int(direction)).exists():
+                direction = int(direction)
+            else:
+                return redirect("projects_list")
+        marks_list = []
+        if direction != None:
+            for jury in User.objects.filter(groups__name="Jury"):
+                marks_list.append(get_juries_marks(jury, direction))
+        else:
+            for jury in User.objects.filter(groups__name="Jury"):
+                marks_list.append(get_juries_marks(jury))
+
+        dataframe_dict = {
+            "Taslama": [],
+            "Bahasy": [],
+            "Baha düşündirişi": [],
+            "Ýolbaşçysy": [],
+            "Edarasy": [],
+            "Ugry": [],
+            "Senesi": [],
+            "Wagty": [],
+        }
+
+        for marks in marks_list:
+            if len(marks) != 0:
+                dataframe_dict["Taslama"].append(
+                    f"{marks[0].jury.last_name} {marks[0].jury.first_name}"
+                )
+                dataframe_dict["Bahasy"].append("")
+                dataframe_dict["Baha düşündirişi"].append("")
+                dataframe_dict["Ýolbaşçysy"].append("")
+                dataframe_dict["Edarasy"].append("")
+                dataframe_dict["Ugry"].append("")
+                dataframe_dict["Senesi"].append("")
+                dataframe_dict["Wagty"].append("")
+
+            for mark in marks:
+                dataframe_dict["Taslama"].append(mark.project.description)
+                dataframe_dict["Bahasy"].append(f"{mark.mark}")
+                dataframe_dict["Baha düşündirişi"].append(
+                    f"{mark.description}" if mark.description != None else ""
+                )
+                dataframe_dict["Ýolbaşçysy"].append(
+                    f"{mark.project.full_name_of_manager}"
+                )
+                dataframe_dict["Edarasy"].append(f"{mark.project.agency}")
+                dataframe_dict["Ugry"].append(f"{mark.project.direction}")
+                dataframe_dict["Senesi"].append(
+                    f"{mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime("%d.%m.%Y")}"
+                )
+                dataframe_dict["Wagty"].append(
+                    f"{mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime("%H:%M:%S")}"
+                )
+
+        dataframe = pd.DataFrame(dataframe_dict)
+        response = HttpResponse(
+            content_type="application/xlsx",
+        )
+        response["Content-Disposition"] = f'attachment; filename="jury_marks.xlsx"'
+        with pd.ExcelWriter(response) as writer:
+            dataframe.to_excel(writer, sheet_name="sheet1", index=False)
+        return response
+    return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def project_result_to_xlsx(request: HttpRequest, project_pk: int):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        project = Project.objects.get(pk=project_pk)
+        marks = Mark.objects.filter(project=project).order_by("-date")
+        schedule = get_projects_schedule(project)
+        if schedule != None:
+            dataframe_dict = {
+                "Emin agza": [],
+                "Bahasy": [],
+                "Baha düşündirişi": [],
+                "Senesi": [],
+                "Wagty": [],
+            }
+
+            for mark in marks:
+                dataframe_dict["Emin agza"].append(
+                    f"{mark.jury.last_name} {mark.jury.first_name}"
+                )
+                dataframe_dict["Bahasy"].append(f"{mark.mark}")
+                dataframe_dict["Baha düşündirişi"].append(
+                    f"{mark.description}" if mark.description != None else ""
+                )
+                dataframe_dict["Senesi"].append(
+                    f"{mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime("%d.%m.%Y")}"
+                )
+                dataframe_dict["Wagty"].append(
+                    f"{mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).strftime("%H:%M:%S")}"
+                )
+
+            dataframe = pd.DataFrame(dataframe_dict)
+            response = HttpResponse(
+                content_type="application/xlsx",
+            )
+            response["Content-Disposition"] = (
+                f'attachment; filename="{project.full_name_of_manager}-{project.description}.xlsx"'
+            )
+            with pd.ExcelWriter(response) as writer:
+                dataframe.to_excel(writer, sheet_name="sheet1")
+            return response
+        else:
+            project.rated = False
+            for jury in User.objects.filter(groups__name="Jury"):
+                for mark in Mark.objects.filter(project=project, jury=jury):
+                    mark.delete()
+            project.save()
+            return redirect("home")

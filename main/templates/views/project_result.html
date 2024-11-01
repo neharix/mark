@@ -31,7 +31,14 @@
                     <div>Umumy baly: {{ project_mark_container.percent }}%</div>
                 </div>
             </div>
-            <div class="m-2 h3">Taslama berlen bahalar:</div>
+            <div class="d-flex justify-content-between">
+                <div class="m-2 h3">Taslama berlen bahalar:</div>
+                <div>
+                    <button onclick="location.href='export_to_xlsx/'" class="btn button mx-3">
+                        <i class="bi bi-filetype-xlsx"></i>
+                    </button>
+                </div>
+            </div>
             <div>
                 <table class="table">
                     <thead>
