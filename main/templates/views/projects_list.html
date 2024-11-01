@@ -38,20 +38,33 @@
                         </div>
                     </div>
                     <div>
-                        <button onclick="location.href='{% if dir == "all" %}{% url 'export_jury_marks_to_xlsx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_jury_marks_to_xlsx/{% endif %}'"
-                                class="btn button mx-3">
-                            <i class="bi bi-filetype-xlsx"></i>
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_xlsx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_xlsx/{% endif %}'"
-                                class="btn button">
-                            <i class="bi bi-filetype-xlsx"></i>
-                        </button>
-                        <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_docx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_docx/{% endif %}'"
-                                class="btn button">
-                            <i class="bi bi-filetype-docx"></i>
-                        </button>
+                        <div class="dropdown">
+                            <button class="btn button"
+                                    type="button"
+                                    id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">Eksportirlemek</button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li>
+                                    <button onclick="location.href='{% if dir == "all" %}{% url 'export_jury_marks_to_xlsx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_jury_marks_to_xlsx/{% endif %}'"
+                                            class="dropdown-item">
+                                        Emin agzalaryň bahalaryny <i class="bi bi-filetype-xlsx"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_xlsx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_xlsx/{% endif %}'"
+                                            class="dropdown-item">
+                                        Ýaryşyň netijelerini <i class="bi bi-filetype-xlsx"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="location.href='{% if dir == "all" %}{% url 'export_to_docx' %}{% else %}/projects_list/by_direction/{{ dir }}/export_to_docx/{% endif %}'"
+                                            class="dropdown-item">
+                                        Ýaryşyň netijelerini <i class="bi bi-filetype-docx"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

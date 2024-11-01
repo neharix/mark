@@ -704,6 +704,7 @@ def export_jury_marks_to_xlsx(request: HttpRequest, direction: str = None):
                 marks_list.append(get_juries_marks(jury))
 
         dataframe_dict = {
+            "Emin agza": [],
             "Taslama": [],
             "Bahasy": [],
             "Baha düşündirişi": [],
@@ -716,9 +717,10 @@ def export_jury_marks_to_xlsx(request: HttpRequest, direction: str = None):
 
         for marks in marks_list:
             if len(marks) != 0:
-                dataframe_dict["Taslama"].append(
+                dataframe_dict["Emin agza"].append(
                     f"{marks[0].jury.last_name} {marks[0].jury.first_name}"
                 )
+                dataframe_dict["Taslama"].append("")
                 dataframe_dict["Bahasy"].append("")
                 dataframe_dict["Baha düşündirişi"].append("")
                 dataframe_dict["Ýolbaşçysy"].append("")
@@ -728,6 +730,7 @@ def export_jury_marks_to_xlsx(request: HttpRequest, direction: str = None):
                 dataframe_dict["Wagty"].append("")
 
             for mark in marks:
+                dataframe_dict["Emin agza"].append("")
                 dataframe_dict["Taslama"].append(mark.project.description)
                 dataframe_dict["Bahasy"].append(f"{mark.mark}")
                 dataframe_dict["Baha düşündirişi"].append(
