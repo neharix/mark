@@ -4,7 +4,6 @@ import pytz
 from django.contrib.auth.models import User
 
 from .models import *
-from .utils import *
 
 
 class ScheduleContainer:
@@ -28,17 +27,20 @@ class ProjectMarkContainer:
         self.manager = project.full_name_of_manager
         self.direction = project.direction.name
         self.agency = project.agency
-        marks_list = []
+        self.marks_list = []
+        self.mark_objects_list = []
         for jury in User.objects.filter(groups__name="Jury"):
             if Profile.objects.get(user=jury).active_jury:
                 total = 0
                 for mark in Mark.objects.filter(project=project, jury=jury):
                     total += mark.mark
+                    self.mark_objects_list.append(mark)
                     self.mark_date = mark.date
                 if Mark.objects.filter(project=project, jury=jury).count() != 0:
-                    marks_list.append(total)
+                    self.marks_list.append(total)
+
         try:
-            self.percent = round(sum(marks_list) / len(marks_list), 3)
+            self.percent = round(sum(self.marks_list) / len(self.marks_list), 3)
         except ZeroDivisionError:
             self.percent = 0
 

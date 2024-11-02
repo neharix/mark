@@ -39,4 +39,9 @@ urlpatterns = [
         add_project_using_xlsx,
         name="add_project_using_excel",
     ),
+    path(
+        "export_to_xlsx_all_results/",
+        results_to_xlsx,
+        name="export_to_xlsx_all_results",
+    ),
 ]

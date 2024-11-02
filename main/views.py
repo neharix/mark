@@ -1,4 +1,5 @@
 import datetime
+import io
 import random
 from io import BytesIO
 
@@ -14,9 +15,12 @@ from django_ratelimit.decorators import ratelimit
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Mm
+from openpyxl import Workbook
+from openpyxl.worksheet.worksheet import Worksheet
 
 from .containers import *
 from .models import *
+from .utils import *
 
 
 @ratelimit(key="ip", rate="5/s")
@@ -807,3 +811,29 @@ def project_result_to_xlsx(request: HttpRequest, project_pk: int):
                     mark.delete()
             project.save()
             return redirect("home")
+
+
+@ratelimit(key="ip", rate="5/s")
+@login_required(login_url="/login/")
+def results_to_xlsx(request: HttpRequest):
+    if request.user.groups.contains(Group.objects.get(name="Spectator")):
+        workbook = Workbook()
+        workbook = create_worksheet(workbook)
+        for direction in Direction.objects.all():
+            workbook = create_worksheet(workbook, direction)
+
+        try:
+            del workbook["Sheet"]
+        except:
+            pass
+
+        with io.BytesIO() as buffer:
+            workbook.save(buffer)
+            content = buffer.getvalue()
+
+        response = HttpResponse(
+            content=content,
+            content_type="application/xlsx",
+        )
+        response["Content-Disposition"] = f'attachment; filename="a.xlsx"'
+        return response
