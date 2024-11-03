@@ -348,7 +348,6 @@ def create_worksheet(workbook, direction: Direction = None):
                         cell.fill = PatternFill(
                             start_color="e0e745", end_color="e0e745", fill_type="solid"
                         )
-                        print(i)
                     case 2 | 3:
                         worksheet.cell(row_index + i, 3, "2-nji orun")
                         cell.fill = PatternFill(
@@ -439,7 +438,6 @@ def create_worksheet(workbook, direction: Direction = None):
                     cell.fill = PatternFill(
                         start_color="e0e745", end_color="e0e745", fill_type="solid"
                     )
-                    print(i)
                 case 2 | 3:
                     worksheet.cell(row_index + i, 3, "2-nji orun")
                     cell.fill = PatternFill(
