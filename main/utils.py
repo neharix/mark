@@ -273,4 +273,192 @@ def create_worksheet(workbook, direction: Direction = None):
         row_index += 1
         project_index += 1
 
+    row_index += 5
+    if direction == None:
+        cell = worksheet.cell(row_index, 2, "Dalaşgärler")
+        cell.alignment = Alignment("center")
+        cell.font = font
+        cell.border = border
+        worksheet.merge_cells(
+            start_row=row_index, start_column=3, end_row=row_index, end_column=4
+        )
+        cell = worksheet.cell(row_index, 3, "Orunlar")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        worksheet.cell(row_index, 4).border = border
+        worksheet.merge_cells(
+            start_row=row_index, start_column=5, end_row=row_index, end_column=7
+        )
+        cell = worksheet.cell(row_index, 5, "Taslamalar")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        worksheet.cell(row_index, 6).border = border
+        worksheet.cell(row_index, 7).border = border
+        cell = worksheet.cell(row_index, 8, "Jemi")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        for direction in Direction.objects.all():
+            row_index += 1
+            worksheet.merge_cells(
+                start_row=row_index, start_column=2, end_row=row_index, end_column=8
+            )
+            for i in range(2, 9):
+                worksheet.cell(row_index, i).border = border
+            cell = worksheet.cell(row_index, 2, direction.name)
+            cell.font = font
+            cell.alignment = Alignment("center")
+            for i in range(1, 7):
+                cell = worksheet.cell(row_index + i, 2)
+                cell.alignment = Alignment("center")
+                cell.font = font
+                cell.border = border
+                worksheet.merge_cells(
+                    start_row=row_index + i,
+                    start_column=3,
+                    end_row=row_index + i,
+                    end_column=4,
+                )
+                cell = worksheet.cell(row_index + i, 3)
+                cell.border = border
+                cell.font = font
+                cell.alignment = Alignment("center")
+                worksheet.cell(row_index + i, 4).border = border
+                worksheet.merge_cells(
+                    start_row=row_index + i,
+                    start_column=5,
+                    end_row=row_index + i,
+                    end_column=7,
+                )
+                cell = worksheet.cell(row_index + i, 5)
+                cell.border = border
+                cell.font = font
+                cell.alignment = Alignment("center")
+                worksheet.cell(row_index + i, 6).border = border
+                worksheet.cell(row_index + i, 7).border = border
+                cell = worksheet.cell(row_index + i, 8)
+                cell.border = border
+                cell.font = font
+                cell.alignment = Alignment("center")
+                match i:
+                    case 1:
+                        worksheet.cell(row_index + i, 3, "1-nji orun")
+                        cell.fill = PatternFill(
+                            start_color="e0e745", end_color="e0e745", fill_type="solid"
+                        )
+                        print(i)
+                    case 2 | 3:
+                        worksheet.cell(row_index + i, 3, "2-nji orun")
+                        cell.fill = PatternFill(
+                            start_color="c3c3c3", end_color="c3c3c3", fill_type="solid"
+                        )
+                    case 4 | 5 | 6:
+                        worksheet.cell(row_index + i, 3, "3-nji orun")
+                        cell.fill = PatternFill(
+                            start_color="e98c38", end_color="e98c38", fill_type="solid"
+                        )
+
+            r_projects = []
+            for project in Project.objects.filter(direction=direction):
+                if Mark.objects.filter(project=project).exists():
+                    r_projects.append(ProjectMarkContainer(project))
+            r_projects.sort(key=lambda e: e.percent)
+            r_projects.reverse()
+            r_projects = r_projects[:6]
+            for i in range(1, 7):
+                try:
+                    worksheet.cell(row_index + i, 2, r_projects[i - 1].manager)
+                    worksheet.cell(row_index + i, 5, r_projects[i - 1].name)
+                    worksheet.cell(row_index + i, 8, r_projects[i - 1].percent)
+                except:
+                    pass
+            row_index += 6
+    else:
+        cell = worksheet.cell(row_index, 2, "Dalaşgärler")
+        cell.alignment = Alignment("center")
+        cell.font = font
+        cell.border = border
+        worksheet.merge_cells(
+            start_row=row_index, start_column=3, end_row=row_index, end_column=4
+        )
+        cell = worksheet.cell(row_index, 3, "Orunlar")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        worksheet.cell(row_index, 4).border = border
+        worksheet.merge_cells(
+            start_row=row_index, start_column=5, end_row=row_index, end_column=7
+        )
+        cell = worksheet.cell(row_index, 5, "Taslamalar")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        worksheet.cell(row_index, 6).border = border
+        worksheet.cell(row_index, 7).border = border
+        cell = worksheet.cell(row_index, 8, "Jemi")
+        cell.border = border
+        cell.font = font
+        cell.alignment = Alignment("center")
+        for i in range(1, 7):
+            cell = worksheet.cell(row_index + i, 2)
+            cell.alignment = Alignment("center")
+            cell.font = font
+            cell.border = border
+            worksheet.merge_cells(
+                start_row=row_index + i,
+                start_column=3,
+                end_row=row_index + i,
+                end_column=4,
+            )
+            cell = worksheet.cell(row_index + i, 3)
+            cell.border = border
+            cell.font = font
+            cell.alignment = Alignment("center")
+            worksheet.cell(row_index + i, 4).border = border
+            worksheet.merge_cells(
+                start_row=row_index + i,
+                start_column=5,
+                end_row=row_index + i,
+                end_column=7,
+            )
+            cell = worksheet.cell(row_index + i, 5)
+            cell.border = border
+            cell.font = font
+            cell.alignment = Alignment("center")
+            worksheet.cell(row_index + i, 6).border = border
+            worksheet.cell(row_index + i, 7).border = border
+            cell = worksheet.cell(row_index + i, 8)
+            cell.border = border
+            cell.font = font
+            cell.alignment = Alignment("center")
+            match i:
+                case 1:
+                    worksheet.cell(row_index + i, 3, "1-nji orun")
+                    cell.fill = PatternFill(
+                        start_color="e0e745", end_color="e0e745", fill_type="solid"
+                    )
+                    print(i)
+                case 2 | 3:
+                    worksheet.cell(row_index + i, 3, "2-nji orun")
+                    cell.fill = PatternFill(
+                        start_color="c3c3c3", end_color="c3c3c3", fill_type="solid"
+                    )
+                case 4 | 5 | 6:
+                    worksheet.cell(row_index + i, 3, "3-nji orun")
+                    cell.fill = PatternFill(
+                        start_color="e98c38", end_color="e98c38", fill_type="solid"
+                    )
+
+        r_projects = rated_projects[:6]
+        for i in range(1, 7):
+            try:
+                worksheet.cell(row_index + i, 2, r_projects[i - 1].manager)
+                worksheet.cell(row_index + i, 5, r_projects[i - 1].name)
+                worksheet.cell(row_index + i, 8, r_projects[i - 1].percent)
+            except:
+                pass
+        row_index += 6
+
     return workbook

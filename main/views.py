@@ -835,5 +835,5 @@ def results_to_xlsx(request: HttpRequest):
             content=content,
             content_type="application/xlsx",
         )
-        response["Content-Disposition"] = f'attachment; filename="a.xlsx"'
+        response["Content-Disposition"] = f'attachment; filename="netijeler.xlsx"'
         return response
