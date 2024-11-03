@@ -452,8 +452,12 @@ def create_worksheet(workbook, direction: Direction = None):
         r_projects = rated_projects[:6]
         for i in range(1, 7):
             try:
-                worksheet.cell(row_index + i, 2, r_projects[i - 1].manager)
-                worksheet.cell(row_index + i, 5, r_projects[i - 1].name)
+                worksheet.cell(
+                    row_index + i, 2, r_projects[i - 1].manager
+                ).alignment = Alignment("center", wrapText=True)
+                worksheet.cell(row_index + i, 5, r_projects[i - 1].name).alignment = (
+                    Alignment("center", wrapText=True)
+                )
                 worksheet.cell(row_index + i, 8, r_projects[i - 1].percent)
             except:
                 pass
