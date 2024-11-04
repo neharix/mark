@@ -369,7 +369,9 @@ def create_worksheet(workbook, direction: Direction = None):
             for i in range(1, 7):
                 try:
                     worksheet.cell(
-                        row_index + i, 2, r_projects[i - 1].manager
+                        row_index + i,
+                        2,
+                        f"{r_projects[i - 1].manager}\nEdara: {r_projects[i - 1].agency}",
                     ).alignment = Alignment("center", wrapText=True, wrap_text=True)
                     worksheet.cell(
                         row_index + i, 5, r_projects[i - 1].name
@@ -457,7 +459,9 @@ def create_worksheet(workbook, direction: Direction = None):
         for i in range(1, 7):
             try:
                 worksheet.cell(
-                    row_index + i, 2, r_projects[i - 1].manager
+                    row_index + i,
+                    2,
+                    f"{r_projects[i - 1].manager}\nEdara: {r_projects[i - 1].agency}",
                 ).alignment = Alignment("center", wrapText=True, wrap_text=True)
                 worksheet.cell(row_index + i, 5, r_projects[i - 1].name).alignment = (
                     Alignment("center", wrapText=True, wrap_text=True)
