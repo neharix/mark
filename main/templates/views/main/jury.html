@@ -61,7 +61,7 @@
         </div>
         <div class="offcanvas-body" id="history">
             {% for mark in marks %}
-                {% if today.day == mark.date.day and today.month == mark.date.month and today.year == mark.date.year and today.hour < 20 %}
+                {% if today.day == schedule_date.day and today.month == schedule_date.month and today.year == schedule_date.year and today.hour < 20 %}
                     <div class="my-3 my-card">
                         <div class="d-flex align-items-center mb-3">
                             <div style="margin-right: 1rem;">

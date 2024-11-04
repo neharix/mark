@@ -106,6 +106,7 @@ def main(request: HttpRequest):
 
             context["projects_count"] = len(json.loads(schedule.quene_json))
             context["juries_count"] = schedule.juries.all().count()
+            context["schedule_date"] = schedule.date
             context["projects"] = projects
             context["juries"] = schedule.juries.all()
         except:
@@ -674,10 +675,18 @@ def edit_mark(request: HttpRequest, mark_pk: int):
 
         today = datetime.datetime.now().astimezone(pytz.timezone("Asia/Ashgabat"))
         if (
-            mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).day == today.day
-            and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).month
+            get_projects_schedule(mark.project)
+            .date.astimezone(pytz.timezone("Asia/Ashgabat"))
+            .day
+            == today.day
+            and get_projects_schedule(mark.project)
+            .date.astimezone(pytz.timezone("Asia/Ashgabat"))
+            .month
             == today.month
-            and mark.date.astimezone(pytz.timezone("Asia/Ashgabat")).year == today.year
+            and get_projects_schedule(mark.project)
+            .date.astimezone(pytz.timezone("Asia/Ashgabat"))
+            .year
+            == today.year
             and today.hour < 20
         ):
             return render(

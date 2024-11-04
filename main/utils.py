@@ -345,16 +345,25 @@ def create_worksheet(workbook, direction: Direction = None):
                 match i:
                     case 1:
                         worksheet.cell(row_index + i, 3, "1-nji orun")
+                        worksheet.cell(row_index + i, 3).alignment = Alignment(
+                            "center", "center"
+                        )
                         cell.fill = PatternFill(
                             start_color="e0e745", end_color="e0e745", fill_type="solid"
                         )
                     case 2 | 3:
                         worksheet.cell(row_index + i, 3, "2-nji orun")
+                        worksheet.cell(row_index + i, 3).alignment = Alignment(
+                            "center", "center"
+                        )
                         cell.fill = PatternFill(
                             start_color="c3c3c3", end_color="c3c3c3", fill_type="solid"
                         )
                     case 4 | 5 | 6:
                         worksheet.cell(row_index + i, 3, "3-nji orun")
+                        worksheet.cell(row_index + i, 3).alignment = Alignment(
+                            "center", "center"
+                        )
                         cell.fill = PatternFill(
                             start_color="e98c38", end_color="e98c38", fill_type="solid"
                         )
@@ -372,11 +381,17 @@ def create_worksheet(workbook, direction: Direction = None):
                         row_index + i,
                         2,
                         f"{r_projects[i - 1].manager}\nEdara: {r_projects[i - 1].agency}",
-                    ).alignment = Alignment("center", wrapText=True, wrap_text=True)
+                    ).alignment = Alignment(
+                        "center", "center", wrapText=True, wrap_text=True
+                    )
                     worksheet.cell(
                         row_index + i, 5, r_projects[i - 1].name
-                    ).alignment = Alignment("center", wrapText=True, wrap_text=True)
-                    worksheet.cell(row_index + i, 8, r_projects[i - 1].percent)
+                    ).alignment = Alignment(
+                        "center", "center", wrapText=True, wrap_text=True
+                    )
+                    worksheet.cell(
+                        row_index + i, 8, r_projects[i - 1].percent
+                    ).alignment = Alignment("center", "center")
                 except:
                     pass
             row_index += 6
@@ -441,16 +456,25 @@ def create_worksheet(workbook, direction: Direction = None):
             match i:
                 case 1:
                     worksheet.cell(row_index + i, 3, "1-nji orun")
+                    worksheet.cell(row_index + i, 3).alignment = Alignment(
+                        "center", "center"
+                    )
                     cell.fill = PatternFill(
                         start_color="e0e745", end_color="e0e745", fill_type="solid"
                     )
                 case 2 | 3:
                     worksheet.cell(row_index + i, 3, "2-nji orun")
+                    worksheet.cell(row_index + i, 3).alignment = Alignment(
+                        "center", "center"
+                    )
                     cell.fill = PatternFill(
                         start_color="c3c3c3", end_color="c3c3c3", fill_type="solid"
                     )
                 case 4 | 5 | 6:
                     worksheet.cell(row_index + i, 3, "3-nji orun")
+                    worksheet.cell(row_index + i, 3).alignment = Alignment(
+                        "center", "center"
+                    )
                     cell.fill = PatternFill(
                         start_color="e98c38", end_color="e98c38", fill_type="solid"
                     )
@@ -462,11 +486,15 @@ def create_worksheet(workbook, direction: Direction = None):
                     row_index + i,
                     2,
                     f"{r_projects[i - 1].manager}\nEdara: {r_projects[i - 1].agency}",
-                ).alignment = Alignment("center", wrapText=True, wrap_text=True)
-                worksheet.cell(row_index + i, 5, r_projects[i - 1].name).alignment = (
-                    Alignment("center", wrapText=True, wrap_text=True)
+                ).alignment = Alignment(
+                    "center", "center", wrapText=True, wrap_text=True
                 )
-                worksheet.cell(row_index + i, 8, r_projects[i - 1].percent)
+                worksheet.cell(row_index + i, 5, r_projects[i - 1].name).alignment = (
+                    Alignment("center", "center", wrapText=True, wrap_text=True)
+                )
+                worksheet.cell(
+                    row_index + i, 8, r_projects[i - 1].percent
+                ).alignment = Alignment("center", "center")
             except:
                 pass
         row_index += 6

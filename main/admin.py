@@ -1,6 +1,9 @@
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 
 from .models import *
+
+admin.site.register(LogEntry)
 
 
 @admin.register(Schedule)
